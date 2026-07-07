@@ -1,0 +1,73 @@
+{
+  "tracker_id": "phase5-bc509e",
+  "role_title": "Security Intern",
+  "focus_area": "siem_threat",
+  "job_url": "https://example.com/security-intern",
+  "generated_at": "2026-07-07T17:43:867787Z",
+  "ats_keywords": ["SIEM", "Splunk", "Threat Analysis", "Detection Engineering"],
+  "security_keywords": ["SIEM", "SOC", "Threat Hunting"],
+  "tooling_requirements": ["Splunk", "KQL"],
+  "resume_overrides": {
+    "tailored_bullets": [
+      "Tuned Splunk ES correlation searches reducing false-positive alert volume by 35% across 12,000 endpoints.",
+      "Built SOC dashboards mapping detections to MITRE ATT&CK techniques for executive reporting.",
+      "Partnered with incident response to automate triage playbooks using SPL and risk-based alerting."
+    ],
+    "reframing_strategy": "SIEM emphasis — prioritized Splunk detection metrics and SOC workflow outcomes.",
+    "short_essays": {
+      "why_this_role": "This role aligns with my Splunk SOC work and passion for detection engineering.",
+      "relevant_experience": "I have hands-on experience tuning SPL searches and reducing analyst MTTR."
+    },
+    "achievement_mappings": [
+      {
+        "requirement": "SIEM detection tuning",
+        "evidence": "35% false-positive reduction via Splunk ES content development",
+        "source": "SOC Detection Tuning Lab"
+      }
+    ]
+  },
+  "sandbox_project": {
+    "title": "FinServ SOC Detection Tuning Lab",
+    "slug": "finserv-soc-lab",
+    "problem_statement": "A financial services SOC is drowning in brute-force and impossible-travel alerts with noisy thresholds.",
+    "technical_case_study": "Tune SPL correlation searches, layer risk scoring, and automate triage playbooks to reduce analyst fatigue while maintaining detection coverage.",
+    "target_company_context": "Financial services security operations center",
+    "focus_area": "siem_threat",
+    "sandbox_assets": [
+      {
+        "type": "spl",
+        "title": "Brute Force Detection",
+        "description": "SPL search identifying failed login spikes by source IP",
+        "content": "index=winevent sourcetype=WinEventLog:Security EventCode=4625\n| stats count as failures by src_ip, user\n| where failures > 10\n| sort - failures",
+        "runnable": true
+      },
+      {
+        "type": "kql",
+        "title": "Impossible Travel",
+        "description": "KQL query correlating sign-in geography anomalies",
+        "content": "SigninLogs\n| where ResultType == 0\n| summarize Locations = make_set(Location) by UserPrincipalName, bin(TimeGenerated, 1h)\n| where array_length(Locations) > 1",
+        "runnable": true
+      },
+      {
+        "type": "powershell",
+        "title": "Incident Response Script",
+        "description": "Read-only host triage collection script",
+        "content": "# Hermes IR Triage — read-only\n$host = $env:COMPUTERNAME\nGet-Process | Sort-Object CPU -Descending | Select-Object -First 15\nGet-WinEvent -LogName Security -MaxEvents 20 | Format-Table TimeCreated, Id, Message -AutoSize",
+        "runnable": true
+      },
+      {
+        "type": "rbac_schema",
+        "title": "IAM Rules",
+        "description": "Sample RBAC schema for SOC analyst least-privilege",
+        "content": "{\n  \"role\": \"SOC_Analyst\",\n  \"permissions\": [\n    \"splunk.search.read\",\n    \"azuread.signinlogs.read\",\n    \"intune.device.read\"\n  ],\n  \"deny\": [\n    \"azuread.role.assign\",\n    \"intune.policy.write\"\n  ]\n}",
+        "runnable": true
+      }
+    ],
+    "capstone_mappings": [
+      {
+        "achievement": "Hermes autonomous application engine with hardened SQLite state",
+        "role_requirement": "Automation and workflow orchestration"
+      }
+    ]
+  }
+}

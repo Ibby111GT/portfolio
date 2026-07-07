@@ -1,0 +1,46 @@
+{
+  "full_name": "Rayyan Zakibaig",
+  "headline": "Information Security & Cloud Infrastructure Engineer",
+  "location": "Dallas, TX",
+  "email": "contact@example.com",
+  "skills": {
+    "splunk": "Built SPL dashboards and correlation searches reducing SOC triage MTTR by 35%. Tuned detections for brute-force, impossible travel, and privilege escalation patterns.",
+    "azure_ad": "Deployed conditional access, MFA enforcement, and RBAC role assignments across hybrid identity environments. Managed Intune compliance baselines for endpoint posture.",
+    "windows_laps": "Implemented Windows LAPS for local administrator password rotation and audited privileged access across enterprise workstations."
+  },
+  "education": {
+    "school": "The University of Texas at Dallas",
+    "degree": "B.S. in Computer Science",
+    "graduation": "Expected 2026",
+    "details": "Focus: Information Security, Cloud Systems, and Applied Cryptography"
+  },
+  "certifications": [
+    "CompTIA Security+",
+    "Microsoft SC-900",
+    "Splunk Core Certified User"
+  ],
+  "projects": [
+    {
+      "title": "Hermes Autonomous Application Engine",
+      "summary": "Hardened local daemon orchestrating job applications with WAL-backed SQLite state, Playwright workers, and Grok cognitive tailoring."
+    },
+    {
+      "title": "SOC Detection Tuning Lab",
+      "summary": "Splunk ES content development pipeline with false-positive reduction metrics and MITRE ATT&CK mapping."
+    }
+  ],
+  "bullets": [
+    "Engineered Splunk SPL detections that reduced false-positive alert volume by 35% across a 12,000-endpoint estate.",
+    "Deployed Azure AD Conditional Access and Intune compliance policies securing 2,400+ hybrid-joined devices.",
+    "Automated Windows LAPS rollout via PowerShell, eliminating static local admin credentials on managed endpoints."
+  ],
+  "ats_keywords": [
+    "Information Security",
+    "Splunk",
+    "Azure AD",
+    "SIEM",
+    "Cloud Security",
+    "Windows LAPS",
+    "Intune"
+  ]
+}
