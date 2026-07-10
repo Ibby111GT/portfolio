@@ -1,8 +1,8 @@
 {
-  "full_name": "Rayyan Zakibaig",
+  "full_name": "Ibrahim Hussain",
   "headline": "Information Security & Cloud Infrastructure Engineer",
   "location": "Dallas, TX",
-  "email": "contact@example.com",
+  "email": "ibrahim.hussain@student.utdallas.edu",
   "skills": {
     "splunk": "Built SPL dashboards and correlation searches reducing SOC triage MTTR by 35%. Tuned detections for brute-force, impossible travel, and privilege escalation patterns.",
     "azure_ad": "Deployed conditional access, MFA enforcement, and RBAC role assignments across hybrid identity environments. Managed Intune compliance baselines for endpoint posture.",
