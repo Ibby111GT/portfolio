@@ -86,7 +86,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "As an Information Security Intern at the UT System, I build the visibility and controls a large enterprise relies on — SPL detection dashboards, Windows LAPS enforcement, and Intune security policy across managed assets.",
     stats: [
       { value: 500, suffix: "+", label: "Endpoints hardened with LAPS" },
-      { value: 2025, label: "June 2025 – Present" },
+      { value: 4, label: "Security functions delivered" },
     ],
     glow: "blue",
     problem: {
@@ -132,7 +132,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "As a Cloud Engineer Intern in Houston, I worked across client Azure and Citrix environments — securing traffic flows, keeping systems available, and supporting the move to modern cloud tooling.",
     stats: [
       { value: 200, suffix: "+", label: "Incidents resolved" },
-      { value: 2024, label: "Summer 2024" },
+      { value: 2, label: "Platforms monitored (Azure, Citrix)" },
     ],
     glow: "green",
     problem: {
