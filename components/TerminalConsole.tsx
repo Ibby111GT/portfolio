@@ -107,35 +107,45 @@ export default function TerminalConsole({
   );
 
   return (
-    <section className="animate-fade-in mt-12 space-y-6">
+    <section className="animate-fade-in space-y-6">
       <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.18em] text-muted">
-          interactive_case_study
+        <p className="text-xs font-medium tracking-widest uppercase text-fg-muted">
+          Interactive Case Study
         </p>
-        <h2 className="text-xl text-white">{projectTitle}</h2>
-        <p className="max-w-3xl text-sm leading-relaxed text-ink-dim">
+        <h2 className="text-2xl md:text-3xl font-bold text-fg tracking-tight">
+          {projectTitle}
+        </h2>
+        <p className="max-w-3xl text-sm leading-relaxed text-fg-muted">
           {problemStatement}
         </p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
-        <aside className="space-y-3 rounded border border-border bg-surface p-4">
-          <p className="text-xs uppercase tracking-[0.16em] text-muted">
-            sandbox_actions
+        <aside className="space-y-3 rounded-2xl border border-border bg-surface p-5">
+          <p className="text-xs font-medium tracking-widest uppercase text-fg-muted">
+            Sandbox Actions
           </p>
 
-          <div className="space-y-2 text-xs leading-relaxed text-ink-dim">
+          <div className="space-y-2 text-xs leading-relaxed text-fg-muted">
             <p>
-              <span className="text-accent">context&gt;</span> {companyContext}
+              <span className="text-green-500 dark:text-green-400">
+                context&gt;
+              </span>{" "}
+              {companyContext}
             </p>
             <p>
-              <span className="text-accent">study&gt;</span> {caseStudy}
+              <span className="text-green-500 dark:text-green-400">
+                study&gt;
+              </span>{" "}
+              {caseStudy}
             </p>
           </div>
 
           <div className="space-y-2 pt-2">
             {assets.length === 0 ? (
-              <p className="text-xs text-muted">No runnable assets in payload.</p>
+              <p className="text-xs text-fg-muted">
+                No runnable assets in payload.
+              </p>
             ) : (
               assets.map((asset) => {
                 const label = actionLabelForAsset(asset.type, asset.title);
@@ -145,10 +155,10 @@ export default function TerminalConsole({
                     key={`${asset.type}-${asset.title}`}
                     type="button"
                     onClick={() => runAsset(asset)}
-                    className={`w-full rounded border px-3 py-2 text-left text-xs transition-soft ${
+                    className={`w-full rounded-lg border px-3 py-2 text-left text-xs transition-colors duration-200 ${
                       isActive
-                        ? "border-accent/50 bg-accent/10 text-accent"
-                        : "border-border text-ink-dim hover:border-accent/30 hover:text-accent"
+                        ? "border-green-500/50 bg-green-500/10 text-green-500 dark:text-green-400"
+                        : "border-border text-fg-muted hover:border-green-500/30 hover:text-fg"
                     }`}
                   >
                     {label}
@@ -159,32 +169,35 @@ export default function TerminalConsole({
           </div>
         </aside>
 
-        <div className="overflow-hidden rounded border border-border bg-[#050505]">
-          <div className="flex items-center gap-2 border-b border-border px-4 py-2 text-xs text-muted">
-            <span className="h-2.5 w-2.5 rounded-full bg-[#333]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#333]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-[#333]" />
+        <div className="overflow-hidden rounded-2xl bg-[#050505] shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+          <div className="flex items-center gap-2 border-b border-white/10 px-4 py-2.5 font-mono text-xs text-white/40">
+            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
             <span className="ml-2">terminal.sandbox</span>
           </div>
 
           <div
             ref={terminalRef}
-            className="h-[360px] overflow-y-auto p-4 text-xs leading-6 text-ink-dim"
+            className="h-[360px] overflow-y-auto p-4 font-mono text-xs leading-6 text-white/70"
           >
             {lines.length === 0 ? (
-              <p className="text-muted">
+              <p className="text-white/40">
                 {PROMPT} awaiting task selection...
-                <span className="ml-1 inline-block h-4 w-2 animate-blink bg-accent/80 align-middle" />
+                <span className="ml-1 inline-block h-4 w-2 animate-blink bg-green-400/80 align-middle" />
               </p>
             ) : (
               lines.map((line, index) => (
-                <div key={`${index}-${line.slice(0, 12)}`} className="whitespace-pre-wrap">
+                <div
+                  key={`${index}-${line.slice(0, 12)}`}
+                  className="whitespace-pre-wrap"
+                >
                   {line}
                 </div>
               ))
             )}
             {phase === "streaming" ? (
-              <span className="mt-1 inline-block h-4 w-2 animate-blink bg-accent/80 align-middle" />
+              <span className="mt-1 inline-block h-4 w-2 animate-blink bg-green-400/80 align-middle" />
             ) : null}
           </div>
         </div>

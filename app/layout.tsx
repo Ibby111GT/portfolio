@@ -1,6 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Geist, JetBrains_Mono } from "next/font/google";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import "./globals.css";
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  display: "swap",
+});
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
@@ -9,9 +17,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Security Engineering Portfolio",
+  title: "Ibrahim Hussain — Information Security & Cloud",
   description:
-    "Enterprise security portfolio — Splunk, Azure AD, Windows LAPS, and interactive case studies.",
+    "Information security intern and CIST student at UT Dallas — Splunk detection engineering, Azure identity, and endpoint hardening.",
 };
 
 export const viewport: Viewport = {
@@ -20,14 +28,27 @@ export const viewport: Viewport = {
   themeColor: "#0a0a0a",
 };
 
+const themeInit = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':true;document.documentElement.classList.toggle('dark',d);}catch(e){document.documentElement.classList.add('dark');}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={jetbrains.variable}>
-      <body className="bg-canvas font-mono text-ink antialiased">{children}</body>
+    <html
+      lang="en"
+      className={`${geist.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+      </head>
+      <body className="bg-bg font-sans text-fg antialiased">
+        <Nav />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

@@ -1,38 +1,38 @@
 {
   "full_name": "Ibrahim Hussain",
-  "headline": "Information Security & Cloud Infrastructure Engineer",
+  "headline": "Information Security Intern | Cloud & Identity Security",
   "location": "Dallas, TX",
-  "email": "ibrahim.hussain@student.utdallas.edu",
+  "email": "Ibrahim.Hussain@UTDallas.edu",
   "skills": {
-    "splunk": "Built SPL dashboards and correlation searches reducing SOC triage MTTR by 35%. Tuned detections for brute-force, impossible travel, and privilege escalation patterns.",
-    "azure_ad": "Deployed conditional access, MFA enforcement, and RBAC role assignments across hybrid identity environments. Managed Intune compliance baselines for endpoint posture.",
-    "windows_laps": "Implemented Windows LAPS for local administrator password rotation and audited privileged access across enterprise workstations."
+    "splunk": "Designed and deployed SPL-based detection dashboards monitoring login trends, IP anomalies, and event volume across enterprise systems, improving threat visibility and accelerating incident triage.",
+    "azure_ad": "Managed identity and access controls for 200+ employees via Azure Active Directory, enforcing RBAC policies and least-privilege principles. Contributed to Microsoft Intune security policy deployment for endpoint compliance and device management.",
+    "windows_laps": "Developed and enforced Windows LAPS policies across Active Directory and hybrid environments, automating local admin password rotation and reducing credential exposure risk across 500+ endpoints."
   },
   "education": {
     "school": "The University of Texas at Dallas",
-    "degree": "B.S. in Computer Science",
-    "graduation": "Expected 2026",
-    "details": "Focus: Information Security, Cloud Systems, and Applied Cryptography"
+    "degree": "B.S. in Computer Information Systems & Technology",
+    "graduation": "Expected May 2026",
+    "details": "In progress: Johns Hopkins University Professional Certificate in Cybersecurity — IT and Data Security in the Age of AI; UT Dallas Global Career Accelerator Professional Certificate Program"
   },
   "certifications": [
-    "CompTIA Security+",
-    "Microsoft SC-900",
-    "Splunk Core Certified User"
+    "Microsoft Azure Fundamentals (AZ-900)",
+    "Johns Hopkins Cybersecurity Professional Certificate (in progress)",
+    "UT Dallas Global Career Accelerator Certificate (in progress)"
   ],
   "projects": [
     {
-      "title": "Hermes Autonomous Application Engine",
-      "summary": "Hardened local daemon orchestrating job applications with WAL-backed SQLite state, Playwright workers, and Grok cognitive tailoring."
+      "title": "Private AI Infrastructure Feasibility Study — DFW Technology",
+      "summary": "Led a 5-person UT Dallas senior capstone consulting team advising DFW Technology, in partnership with the City of Richardson, on the feasibility of private AI data warehouses. Selected as a Top 15 capstone project out of 6,000+ students at the UTDsolv Capstone Expo."
     },
     {
-      "title": "SOC Detection Tuning Lab",
-      "summary": "Splunk ES content development pipeline with false-positive reduction metrics and MITRE ATT&CK mapping."
+      "title": "SPL Detection Dashboards — UT System Internship",
+      "summary": "Designed and deployed Splunk dashboards monitoring login trends, IP anomalies, and event volume across enterprise systems, improving threat visibility and accelerating incident triage."
     }
   ],
   "bullets": [
-    "Engineered Splunk SPL detections that reduced false-positive alert volume by 35% across a 12,000-endpoint estate.",
-    "Deployed Azure AD Conditional Access and Intune compliance policies securing 2,400+ hybrid-joined devices.",
-    "Automated Windows LAPS rollout via PowerShell, eliminating static local admin credentials on managed endpoints."
+    "Designed and deployed SPL-based detection dashboards across enterprise systems, improving threat visibility and accelerating incident triage.",
+    "Developed and enforced Windows LAPS policies across Active Directory and hybrid environments, reducing credential exposure risk across 500+ endpoints.",
+    "Monitored Azure and Citrix environments, resolving 200+ technical incidents while maintaining system performance and availability for enterprise clients."
   ],
   "ats_keywords": [
     "Information Security",

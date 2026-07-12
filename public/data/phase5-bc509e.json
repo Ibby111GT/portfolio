@@ -9,20 +9,20 @@
   "tooling_requirements": ["Splunk", "KQL"],
   "resume_overrides": {
     "tailored_bullets": [
-      "Tuned Splunk ES correlation searches reducing false-positive alert volume by 35% across 12,000 endpoints.",
-      "Built SOC dashboards mapping detections to MITRE ATT&CK techniques for executive reporting.",
-      "Partnered with incident response to automate triage playbooks using SPL and risk-based alerting."
+      "Designed and deployed SPL-based detection dashboards monitoring login trends, IP anomalies, and event volume across enterprise systems.",
+      "Assisted in security monitoring and log analysis to identify abnormal authentication behavior and potential indicators of compromise.",
+      "Developed and enforced Windows LAPS policies across Active Directory and hybrid environments, reducing credential exposure risk across 500+ endpoints."
     ],
     "reframing_strategy": "SIEM emphasis — prioritized Splunk detection metrics and SOC workflow outcomes.",
     "short_essays": {
       "why_this_role": "This role aligns with my Splunk SOC work and passion for detection engineering.",
-      "relevant_experience": "I have hands-on experience tuning SPL searches and reducing analyst MTTR."
+      "relevant_experience": "I have hands-on experience building SPL detection dashboards and analyzing logs for abnormal authentication behavior."
     },
     "achievement_mappings": [
       {
         "requirement": "SIEM detection tuning",
-        "evidence": "35% false-positive reduction via Splunk ES content development",
-        "source": "SOC Detection Tuning Lab"
+        "evidence": "SPL-based detection dashboards improving threat visibility and accelerating incident triage",
+        "source": "UT System Information Security Internship"
       }
     ]
   },
