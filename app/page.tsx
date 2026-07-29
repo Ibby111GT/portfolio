@@ -6,7 +6,9 @@ import HeroCanvas from "@/components/HeroCanvas";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import TailoredView from "@/components/TailoredView";
+import LabCard from "@/components/LabCard";
 import { CASE_STUDIES } from "@/lib/caseStudies";
+import { LABS } from "@/lib/labs";
 import { mergeTailoredIntoView } from "@/lib/profile";
 import type { BaseProfile, TailoredPayload } from "@/lib/types";
 
@@ -223,6 +225,38 @@ function HomeView({
                 card={{ ...study, href: `/work/${study.slug}` }}
                 delay={index * 80}
               />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative border-t border-border px-6 py-28 md:px-8 md:py-36">
+        <div className="mx-auto max-w-7xl">
+          <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.22em] text-fg-muted">
+                Things I have built
+              </p>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight text-fg md:text-5xl">
+                Projects
+              </h2>
+              <p className="mt-3 max-w-xl text-base leading-7 text-fg-muted">
+                Simulations you can run in this browser and security tools you
+                can download — each one with a plain-English walkthrough.
+              </p>
+            </div>
+            <a
+              href="/projects"
+              className="text-sm font-medium text-fg-muted transition-colors hover:text-fg"
+            >
+              See all projects -&gt;
+            </a>
+          </Reveal>
+          <div className="grid gap-6 lg:grid-cols-3">
+            {LABS.map((lab, index) => (
+              <Reveal key={lab.slug} delay={index * 80}>
+                <LabCard lab={lab} />
+              </Reveal>
             ))}
           </div>
         </div>

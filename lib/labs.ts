@@ -1,0 +1,54 @@
+export type LabAccent = "cyan" | "lime" | "red" | "amber";
+
+export interface LabDefinition {
+  slug: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  skills: string[];
+  accent: LabAccent;
+  signal: string;
+}
+
+export const LABS: LabDefinition[] = [
+  {
+    slug: "threat-hunt",
+    eyebrow: "Detection engineering",
+    title: "SignalTrace",
+    description:
+      "Investigate a realistic identity attack, pivot through telemetry, and build an evidence-backed incident timeline before the attacker escapes.",
+    skills: ["Threat hunting", "MITRE ATT&CK", "Telemetry analysis"],
+    accent: "cyan",
+    signal: "12 correlated events",
+  },
+  {
+    slug: "data-systems/cybersecurity",
+    eyebrow: "Cybersecurity data engineering",
+    title: "SentinelStream",
+    description:
+      "Normalize identity, endpoint, and cloud telemetry into a governed lakehouse that powers detections, risk scoring, and SOC dashboards.",
+    skills: ["Streaming", "Detection data", "NIST controls"],
+    accent: "lime",
+    signal: "1.28M events / run",
+  },
+  {
+    slug: "data-systems/finance",
+    eyebrow: "Finance data engineering",
+    title: "LedgerPulse",
+    description:
+      "Unify ledger, billing, and forecast data into reconciled financial models with anomaly detection and SOX-aware governance.",
+    skills: ["Data contracts", "Reconciliation", "SOX controls"],
+    accent: "amber",
+    signal: "486K records / run",
+  },
+  {
+    slug: "data-systems/healthcare",
+    eyebrow: "Healthcare data engineering",
+    title: "CareFlow",
+    description:
+      "Transform FHIR, claims, and lab streams into protected clinical data products with quality gates, lineage, and HIPAA controls.",
+    skills: ["FHIR", "Data quality", "HIPAA governance"],
+    accent: "red",
+    signal: "742K records / run",
+  },
+];

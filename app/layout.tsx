@@ -8,7 +8,28 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Ibrahim Hussain — Information Security & Cloud",
   description:
-    "Information security intern and CIST student at UT Dallas — Splunk detection engineering, Azure identity, and endpoint hardening.",
+    "Working cybersecurity and data engineering labs across security, finance, and healthcare, plus production-minded Python security tools.",
+  openGraph: {
+    title: "Ibrahim Hussain — Security & Data Engineering",
+    description:
+      "Run interactive threat hunting and governed data pipeline labs, then explore the engineering case studies behind them.",
+    type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Connected cybersecurity and data engineering systems",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ibrahim Hussain — Security & Data Engineering",
+    description:
+      "Interactive labs and engineering case studies across cybersecurity, finance, and healthcare.",
+    images: ["/og.png"],
+  },
 };
 
 export const viewport: Viewport = {
