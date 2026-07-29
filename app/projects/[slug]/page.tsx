@@ -49,6 +49,14 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
             {doc.intro}
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+            {doc.liveHref ? (
+              <Link
+                href={doc.liveHref}
+                className="rounded-lg bg-fg px-4 py-2 text-sm font-medium text-bg transition-opacity hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
+              >
+                {doc.liveLabel ?? "Open live demo"}
+              </Link>
+            ) : null}
             <a
               href={doc.repo}
               target="_blank"

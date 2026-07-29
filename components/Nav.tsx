@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const LINKS = [
-  { href: "/", label: "Work" },
+  { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
   { href: "/creative", label: "Creative" },
   { href: "/about", label: "About" },
@@ -38,10 +38,11 @@ export default function Nav() {
             {LINKS.map((link) => {
               const active =
                 link.href === "/"
-                  ? pathname === "/" || pathname.startsWith("/work")
+                  ? pathname === "/"
                   : link.href === "/projects"
                     ? pathname.startsWith("/projects") ||
-                      pathname.startsWith("/labs")
+                      pathname.startsWith("/labs") ||
+                      pathname.startsWith("/work")
                     : pathname.startsWith(link.href);
               return (
                 <Link

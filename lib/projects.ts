@@ -1,5 +1,5 @@
 export type ProjectKind = "lab" | "tool" | "case";
-export type ProjectFilter = "labs" | "security" | "data" | "work";
+export type ProjectFilter = "security" | "data" | "work";
 export type ProjectAccent = "cyan" | "lime" | "amber" | "red" | "violet";
 
 export interface CatalogProject {
@@ -19,10 +19,9 @@ export interface CatalogProject {
 
 export const FILTERS: Array<{ id: ProjectFilter | "all"; label: string }> = [
   { id: "all", label: "Everything" },
-  { id: "labs", label: "Run in browser" },
-  { id: "security", label: "Security tools" },
-  { id: "data", label: "Data engineering" },
-  { id: "work", label: "Professional work" },
+  { id: "security", label: "Cybersecurity" },
+  { id: "data", label: "Data & healthcare" },
+  { id: "work", label: "Professional case studies" },
 ];
 
 export const PROJECTS: CatalogProject[] = [
@@ -31,7 +30,7 @@ export const PROJECTS: CatalogProject[] = [
     name: "SignalTrace",
     kind: "lab",
     category: "Detection engineering",
-    filter: "labs",
+    filter: "security",
     tagline: "Investigate a simulated account takeover and prove the attack chain.",
     plain:
       "A hands-on security investigation. Twelve log entries, some of them an attacker, most of them ordinary staff. Pick the evidence that proves the break-in and get scored on accuracy.",
@@ -109,7 +108,7 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/netrecon",
     repo: "https://github.com/Ibby111GT/netrecon",
     stack: ["Python", "Concurrency", "Sockets"],
-    signal: "Localhost demo included",
+    signal: "44 tests passing · safe demo",
     accent: "cyan",
   },
   {
@@ -124,7 +123,7 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/logsentry",
     repo: "https://github.com/Ibby111GT/logsentry",
     stack: ["Python", "Detection rules", "MITRE ATT&CK"],
-    signal: "Sample logs included",
+    signal: "54 tests passing · 12 rules",
     accent: "amber",
   },
   {
@@ -139,7 +138,7 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/passaudit",
     repo: "https://github.com/Ibby111GT/passaudit",
     stack: ["Python", "NIST SP 800-63B-4", "Entropy analysis"],
-    signal: "Offline - nothing is transmitted",
+    signal: "58 tests passing · fully offline",
     accent: "lime",
   },
   {
@@ -154,8 +153,23 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/webrecon",
     repo: "https://github.com/Ibby111GT/webrecon",
     stack: ["Python", "TLS", "HTTP security headers"],
-    signal: "Read-only checks",
+    signal: "30 tests passing · read-only",
     accent: "violet",
+  },
+  {
+    slug: "peptides",
+    name: "Peptide Evidence Explorer",
+    kind: "tool",
+    category: "Healthcare data operations",
+    filter: "data",
+    tagline: "Make synthetic research records searchable, traceable, and ready to review.",
+    plain:
+      "A working healthcare data application that turns scattered fictional study records into one governed registry. Filter the data, inspect its source history, compare programs, and export the exact view on screen.",
+    href: "/projects/peptides",
+    repo: "https://github.com/Ibby111GT/Peptides",
+    stack: ["JavaScript", "Data quality", "Provenance"],
+    signal: "Live demo · 11 integrity tests",
+    accent: "red",
   },
 ];
 

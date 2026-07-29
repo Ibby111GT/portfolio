@@ -21,6 +21,9 @@ export interface CaseStudy {
   glow: "blue" | "purple" | "green" | "amber";
   featured?: boolean;
   deliverables?: string[];
+  plainLanguage: string;
+  whatToLookFor: string[];
+  practicalUse: string;
   problem: CaseSection;
   goals: string[];
   actions: CaseSection[];
@@ -46,6 +49,15 @@ export const CASE_STUDIES: CaseStudy[] = [
     glow: "purple",
     featured: true,
     deliverables: ["Feasibility Report", "Risk Assessment", "Data Flow Diagrams"],
+    plainLanguage:
+      "The client wanted the benefits of AI without sending sensitive municipal information to a public service. My job was to turn that broad question into something leaders could actually decide: what hardware and controls would be required, which risks would remain, and whether the organization had the people and policies to operate it responsibly.",
+    whatToLookFor: [
+      "The problem section explains the business decision, not just the technology.",
+      "The action cards show how requirements became architecture, governance, risk analysis, and client-ready deliverables.",
+      "The outcomes describe delivery and external recognition; they do not pretend a feasibility study was a production deployment.",
+    ],
+    practicalUse:
+      "A city partner or regulated organization can use this kind of study before committing budget. It reveals hidden costs, privacy obligations, operational gaps, and decision points while changing direction is still inexpensive.",
     problem: {
       title: "AI ambitions, private data.",
       body: "Organizations working with municipal stakeholders want AI capabilities without pushing sensitive data into public cloud services. DFW Technology needed a grounded answer: is a private AI data warehouse feasible, and what would it take in infrastructure, governance, and policy compliance?",
@@ -89,6 +101,15 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: 4, label: "Security functions delivered" },
     ],
     glow: "blue",
+    plainLanguage:
+      "A large university system produces more login activity than a person can read. I built views that turn that flood into patterns an analyst can recognize, then helped remove a separate credential risk by making every managed computer rotate its local administrator password automatically.",
+    whatToLookFor: [
+      "The dashboard work is about making unusual login behavior visible among normal university activity.",
+      "The LAPS work is preventive: one stolen local password should not unlock hundreds of computers.",
+      "The endpoint count shows operational scale, while the action cards explain the security controls behind the number.",
+    ],
+    practicalUse:
+      "Security teams use this combination to find suspicious access faster and limit how far an attacker can move if one device is compromised. Detection shows where to look; credential rotation reduces the damage available there.",
     problem: {
       title: "Visibility first, then control.",
       body: "Enterprise systems generate a flood of authentication events. Without dashboards tuned to login trends, IP anomalies, and event volume, threats hide in the noise — and static local admin passwords leave every endpoint carrying the same credential risk.",
@@ -135,6 +156,15 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: 2, label: "Platforms monitored (Azure, Citrix)" },
     ],
     glow: "green",
+    plainLanguage:
+      "Client cloud systems must let legitimate work through without leaving unnecessary paths open to attackers. I helped tighten those network and identity rules, kept Azure and Citrix services healthy, and supported the move from older infrastructure practices into a more repeatable DevOps workflow.",
+    whatToLookFor: [
+      "Firewall hardening controls which traffic may enter or leave a client environment.",
+      "Least-privilege identity work limits each account to the access its role actually needs.",
+      "The incident count represents day-to-day reliability work alongside longer-term security improvement.",
+    ],
+    practicalUse:
+      "Organizations use these controls to reduce the number of ways an attacker can reach a system without interrupting the services employees and customers rely on.",
     problem: {
       title: "Client clouds, real stakes.",
       body: "Enterprise clients depend on Azure environments that must stay both open enough to run the business and closed enough to shrink the attack surface — while legacy infrastructure ages out underneath them.",
@@ -181,6 +211,15 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: 3, suffix: "+", label: "Years in role" },
     ],
     glow: "amber",
+    plainLanguage:
+      "Identity management is the process of making sure the right person has the right access for the right amount of time. I handled that lifecycle for a growing organization: creating accounts, changing access when roles changed, and removing it promptly when people left.",
+    whatToLookFor: [
+      "Provisioning is the controlled setup of a new employee's accounts and permissions.",
+      "RBAC assigns access by job role instead of granting one-off permissions that are hard to track.",
+      "De-provisioning closes accounts and removes access so former employees do not leave behind an open door.",
+    ],
+    practicalUse:
+      "Every organization needs this discipline. It reduces accidental data exposure, makes audits easier, and prevents old or overpowered accounts from becoming a quiet security risk.",
     problem: {
       title: "Access is the first control.",
       body: "In a growing company, every hire, role change, and departure is an access event. Without disciplined identity management, permissions accumulate and departed accounts linger — each one an open door.",

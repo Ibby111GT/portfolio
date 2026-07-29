@@ -166,10 +166,10 @@ function HomeView({
             <Reveal delay={420}>
               <div className="flex items-center gap-3">
                 <a
-                  href="#work"
+                  href="/projects"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-fg text-bg text-sm font-medium shadow-[0_0_0_0.5px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] hover:bg-fg/70 transition-all duration-200"
                 >
-                  View Case Studies
+                  View All Projects
                 </a>
                 <a
                   href="/resume.pdf"
@@ -183,9 +183,9 @@ function HomeView({
             </Reveal>
             <Reveal delay={600}>
               <a
-                href="#work"
+                href="#projects"
                 className="mt-10 flex flex-col items-center text-fg-muted/70 hover:text-fg-muted transition-colors duration-200"
-                aria-label="Scroll to case studies"
+                aria-label="Scroll to featured projects"
               >
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                   <path
@@ -203,18 +203,18 @@ function HomeView({
       </section>
 
       <section
-        id="work"
+        id="projects"
         className="relative px-6 md:px-8 pt-28 pb-32 md:pt-36 md:pb-40"
       >
         <div className="max-w-7xl mx-auto">
           <Reveal className="flex items-end justify-between mb-12 gap-6 flex-wrap">
             <div>
               <h2 className="text-3xl md:text-5xl font-bold text-fg tracking-tight">
-                Case Studies
+                Selected Projects
               </h2>
               <p className="mt-3 text-base text-fg-muted max-w-md">
-                Here is my work across information security, cloud, and
-                identity.
+                Professional work, security engineering, and data systems —
+                all part of the same project catalog.
               </p>
             </div>
           </Reveal>
@@ -235,10 +235,10 @@ function HomeView({
           <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.22em] text-fg-muted">
-                Things I have built
+                Working demonstrations
               </p>
               <h2 className="mt-3 text-3xl font-bold tracking-tight text-fg md:text-5xl">
-                Projects
+                Browser Labs
               </h2>
               <p className="mt-3 max-w-xl text-base leading-7 text-fg-muted">
                 Simulations you can run in this browser and security tools you

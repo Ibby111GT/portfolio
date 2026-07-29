@@ -55,10 +55,10 @@ export default async function WorkPage({ params }: WorkPageProps) {
     <main className="min-h-screen bg-bg">
       <div className="fixed top-24 left-6 md:left-10 z-50 hidden md:block">
         <Link
-          href="/"
+          href="/projects"
           className="text-sm text-fg-muted hover:text-fg transition-colors duration-200 flex items-center gap-1.5"
         >
-          ← Work
+          ← All projects
         </Link>
       </div>
 
@@ -111,6 +111,45 @@ export default async function WorkPage({ params }: WorkPageProps) {
           </div>
           <Reveal delay={200}>
             <HeroVisual label={`${study.slug}.overview`} />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="border-y border-border bg-surface/25 py-20 md:py-24">
+        <div className="mx-auto grid max-w-5xl gap-10 px-6 md:grid-cols-[0.8fr_1.2fr] md:px-8">
+          <Reveal>
+            <p className="text-sm font-semibold tracking-widest uppercase text-fg-muted mb-4">
+              Plain-English walkthrough
+            </p>
+            <h2 className="max-w-sm text-3xl font-bold tracking-tight text-fg md:text-4xl">
+              What this work means in practice.
+            </h2>
+          </Reveal>
+          <Reveal delay={100}>
+            <p className="text-base leading-8 text-fg-muted">
+              {study.plainLanguage}
+            </p>
+            <div className="mt-8 grid gap-4">
+              {study.whatToLookFor.map((item, index) => (
+                <div
+                  key={item}
+                  className="flex gap-4 rounded-xl border border-border bg-bg/70 p-4"
+                >
+                  <span className="font-mono text-xs text-fg-muted">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <p className="text-sm leading-6 text-fg-muted">{item}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 rounded-xl border border-border bg-bg/70 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-fg">
+                Practical use
+              </p>
+              <p className="mt-3 text-sm leading-7 text-fg-muted">
+                {study.practicalUse}
+              </p>
+            </div>
           </Reveal>
         </div>
       </section>

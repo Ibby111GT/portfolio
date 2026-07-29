@@ -4,7 +4,7 @@ import Reveal from "@/components/Reveal";
 export const metadata = {
   title: "Projects — Ibrahim Hussain",
   description:
-    "Security and data engineering projects: browser-based labs you can run and command-line tools you can download, each with a plain-English walkthrough.",
+    "One catalog of working security tools, browser labs, data applications, and professional case studies, each with a plain-English walkthrough.",
 };
 
 export default function ProjectsPage() {
@@ -19,10 +19,10 @@ export default function ProjectsPage() {
             Everything I have built, in one place.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-fg-muted">
-            Some of these run right here in your browser. The rest are
-            command-line tools you can download and run yourself. Every one has
-            a walkthrough that explains what it does and how to read the output
-            — no security background needed.
+            This is the single catalog: working browser labs, downloadable
+            tools, data applications, and professional case studies. Every
+            entry explains what to do, what you are looking at, how it works,
+            and where someone would use it — no specialist background needed.
           </p>
         </Reveal>
 

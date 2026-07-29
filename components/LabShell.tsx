@@ -15,10 +15,10 @@ export default function LabShell({
     <main className="min-h-screen px-4 pb-28 pt-28 sm:px-6 md:pt-32">
       <div className="mx-auto max-w-7xl">
         <Link
-          href="/labs"
+          href="/projects"
           className="font-mono text-xs uppercase tracking-[0.18em] text-fg-muted transition-colors hover:text-fg"
         >
-          &lt;- All labs
+          &lt;- All projects
         </Link>
         <div className="mb-8 mt-8 max-w-3xl">
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-fg-muted">

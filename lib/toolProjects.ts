@@ -7,6 +7,8 @@ export interface ToolDoc {
   eyebrow: string;
   intro: string;
   repo: string;
+  liveHref?: string;
+  liveLabel?: string;
   language: string;
   /** Layman's explanation, one paragraph per entry. */
   plain: string[];
@@ -544,6 +546,114 @@ g***************(16)             VERY STRONG   88/100  PASS`,
       "--severity filtering and --json export verified by reading the report back",
     ],
     stack: ["Python 3", "Detection rules", "MITRE ATT&CK", "JSON export"],
+  },
+  peptides: {
+    slug: "peptides",
+    name: "Peptide Evidence Explorer",
+    eyebrow: "Healthcare data operations",
+    intro:
+      "Turn scattered synthetic research records into one searchable, quality-checked registry with provenance, comparison, and export.",
+    repo: "https://github.com/Ibby111GT/Peptides",
+    liveHref: "/projects/peptides/demo",
+    liveLabel: "Open the live explorer",
+    language: "HTML, CSS, JavaScript + Python tests",
+    plain: [
+      "Research teams rarely receive clean, consistent information. One group sends a spreadsheet, another sends an API export, and a third attaches documents. Before anybody compares the records, a data team has to make sure the IDs match, required fields are present, and every number can be traced back to its source.",
+      "Peptide Evidence Explorer demonstrates that workflow with fictional healthcare research data. It puts every record into one shared shape, calculates data completeness, flags anything that cannot be traced, and gives a reviewer a focused interface for searching, comparing, and exporting the governed result.",
+    ],
+    problem:
+      "Healthcare research records arrive from disconnected systems, and a polished dashboard is unsafe if nobody can tell which source produced a value or whether required fields are missing.",
+    quickstart: [
+      {
+        command: "git clone https://github.com/Ibby111GT/Peptides && cd Peptides",
+        comment: "The application has no package install or third-party dependencies",
+      },
+      {
+        command: "python3 -m http.server 8080",
+        comment: "Serve the local files through Python's built-in web server",
+      },
+      {
+        command: "open http://localhost:8080",
+        comment: "Or paste this address into your browser",
+      },
+      {
+        command: "python3 -m unittest discover -s tests -v",
+        comment: "Validate the schema, disclosures, lineage, controls, and local assets",
+      },
+    ],
+    sampleLabel: "Example registry view",
+    sample: `8 synthetic records
+3 active studies
+93% average completeness
+88% source coverage
+
+PXR-104  Northstar-104  Active     Validated  100%
+PXR-307  Meridian-307   Paused     Review      92%
+PXR-526  Harbor-526     Completed  Validated  100%
+
+Active filters are applied to metrics and exports.`,
+    reading: [
+      {
+        label: "Study status",
+        body: "Where the fictional work is operationally: active, completed, or paused. It says nothing about whether a treatment works.",
+      },
+      {
+        label: "Data quality",
+        body: "Whether the record has every required field and a traceable source identifier. A paused record can still have valid data, and an active one can still need review.",
+      },
+      {
+        label: "Completeness",
+        body: "The percentage of required fields populated. It measures data hygiene, not scientific success or medical effectiveness.",
+      },
+      {
+        label: "Source coverage",
+        body: "The share of visible records that can be traced to an upstream source. Provenance lets a reviewer answer 'where did this value come from?'",
+      },
+      {
+        label: "Lineage",
+        body: "A short history of how a record moved from its source through validation and normalization into the registry.",
+      },
+    ],
+    howItWorks: [
+      {
+        title: "Ingest a normalized registry",
+        body: "The demo loads a local JSON file containing eight explicitly fictional records. In production, approved APIs, files, or database extracts would replace this source.",
+      },
+      {
+        title: "Validate required fields",
+        body: "Each record is checked for stable identity, dates, ownership, source information, and other fields needed by the interface and exports.",
+      },
+      {
+        title: "Separate workflow from quality",
+        body: "Study status and data quality are independent. This prevents a reviewer from mistaking 'completed' for 'trustworthy' or 'paused' for 'bad data'.",
+      },
+      {
+        title: "Serve a review workflow",
+        body: "Filters recalculate the metrics, record details expose evidence and lineage, and comparison puts like-for-like fields beside each other.",
+      },
+      {
+        title: "Export exactly what is visible",
+        body: "JSON retains nested evidence for another application; CSV flattens the current filtered view for a spreadsheet or BI tool.",
+      },
+    ],
+    practical: [
+      "A research coordinator spots incomplete records before a reporting deadline and routes them back to the source owner.",
+      "A data steward traces a disputed value through its lineage instead of searching through email attachments.",
+      "An analyst exports an approved subset for a dashboard without receiving unrestricted access to the raw operational system.",
+    ],
+    safety:
+      "Every program, result, organization, and identifier is fictional. The application is a data-engineering demonstration, not a drug database, treatment guide, or medical decision tool. It makes no external requests after loading.",
+    verified: [
+      "python3 -m unittest discover -s tests -v → 11 tests, all passing",
+      "Search, status filter, quality filter, comparison, detail lineage, and export run in-browser",
+      "Synthetic-data disclosure and dependency-free local assets enforced by tests",
+    ],
+    stack: [
+      "Vanilla JavaScript",
+      "Responsive CSS",
+      "Data provenance",
+      "JSON / CSV export",
+    ],
   },
 };
 
