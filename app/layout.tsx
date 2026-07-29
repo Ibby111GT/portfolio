@@ -6,7 +6,10 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ibrahim Hussain — Information Security & Cloud",
+  metadataBase: new URL(
+    "https://ibrahim-hussain-labs.ibby111gt.chatgpt.site",
+  ),
+  title: "Ibrahim Hussain — Security & Data Engineering",
   description:
     "Working cybersecurity and data engineering labs across security, finance, and healthcare, plus production-minded Python security tools.",
   openGraph: {
