@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CountUp from "@/components/CountUp";
 import Reveal from "@/components/Reveal";
+import PrivateAiLab from "@/components/labs/PrivateAiLab";
+import TenantControlPlane from "@/components/labs/TenantControlPlane";
 import { CASE_STUDIES, getCaseStudy } from "@/lib/caseStudies";
 
 interface WorkPageProps {
@@ -153,6 +155,64 @@ export default async function WorkPage({ params }: WorkPageProps) {
           </Reveal>
         </div>
       </section>
+
+      {study.slug === "private-ai-feasibility" ? (
+        <section className="py-20 md:py-24 max-w-6xl mx-auto px-6 md:px-8">
+          <Reveal>
+            <p className="text-sm font-semibold tracking-widest uppercase text-fg-muted mb-4">
+              Explore the analysis
+            </p>
+            <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-fg md:text-4xl">
+              The constraint we designed inside.
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-fg-muted">
+              Move the facility size and switch the power sources on and off. The
+              two things the whole recommendation rested on — staying under the
+              legal threshold, and taking nothing from the public grid — either
+              hold or break in front of you.
+            </p>
+          </Reveal>
+          <Reveal delay={100} className="mt-10">
+            <PrivateAiLab />
+          </Reveal>
+          <Reveal delay={150}>
+            <p className="mt-4 text-xs leading-6 text-fg-muted">
+              Simplified model built from the team&apos;s final deliverables. Component
+              specifications, the 75 MW threshold, and the scoring criteria are the
+              study&apos;s own; the arithmetic is illustrative rather than an
+              engineering sizing tool.
+            </p>
+          </Reveal>
+
+          <Reveal className="mt-24">
+            <p className="text-sm font-semibold tracking-widest uppercase text-fg-muted mb-4">
+              Beyond the study
+            </p>
+            <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-fg md:text-4xl">
+              The layer that decides whether it sells.
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-fg-muted">
+              The study proves the facility can be built. It stops before the
+              operational question: which tenants actually go in it. For regulated
+              customers those are not two decisions — a megawatt and a compliance
+              obligation arrive together, and an operator has to hold both at once.
+              This is the control plane I would build for that, and the piece of the
+              engagement closest to my own work in identity and access.
+            </p>
+          </Reveal>
+          <Reveal delay={100} className="mt-10">
+            <TenantControlPlane />
+          </Reveal>
+          <Reveal delay={150}>
+            <p className="mt-4 text-xs leading-6 text-fg-muted">
+              Tenants are synthetic. The control mappings — isolation, audit
+              logging, data-handling agreements, residency, and access review —
+              are representative operating assumptions, not an exhaustive legal
+              or compliance checklist.
+            </p>
+          </Reveal>
+        </section>
+      ) : null}
 
       <section className="py-24 md:py-32 max-w-5xl mx-auto px-6 md:px-8">
         <Reveal>

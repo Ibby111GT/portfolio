@@ -37,54 +37,68 @@ export const CASE_STUDIES: CaseStudy[] = [
     tags: ["Capstone", "Consulting", "2026"],
     title: "Private AI Infrastructure Feasibility Study",
     subtitle:
-      "Led a 5-person UT Dallas capstone team advising DFW Technology, in partnership with the City of Richardson, on private AI data warehouse feasibility.",
-    tagline: "Advising on private AI infrastructure for the public sector.",
+      "Led a 5-person UT Dallas capstone team advising DFW Technology, in partnership with the City of Richardson, on private AI data-centre feasibility.",
+    tagline: "Siting AI compute under a hard regulatory ceiling.",
     description:
-      "ITSS 4395 Senior Capstone at UT Dallas. As Project Lead & Systems Analyst, I ran a 5-person consulting team and served as primary client point of contact for DFW Technology, advising on the feasibility of deploying private AI data warehouses in partnership with the City of Richardson.",
+      "ITSS 4395 Senior Capstone at UT Dallas. As Group Lead I ran a 5-person consulting team and served as primary client point of contact for DFW Technology, evaluating whether a private AI data centre could be built in Richardson without adding load to an already strained Texas grid.",
     stats: [
       { value: 15, prefix: "Top ", label: "Of 6,000+ students at UTDsolv" },
+      { value: 75, suffix: " MW", label: "Regulatory ceiling designed under" },
       { value: 5, label: "Person team led" },
-      { value: 4, label: "Client deliverables" },
     ],
     glow: "purple",
     featured: true,
-    deliverables: ["Feasibility Report", "Risk Assessment", "Data Flow Diagrams"],
+    deliverables: [
+      "Feasibility Study",
+      "Joint Policy Framework",
+      "5-Year Financial Model",
+      "90-Day Implementation Plan",
+    ],
     plainLanguage:
-      "The client wanted the benefits of AI without sending sensitive municipal information to a public service. My job was to turn that broad question into something leaders could actually decide: what hardware and controls would be required, which risks would remain, and whether the organization had the people and policies to operate it responsibly.",
+      "AI runs on electricity, and Texas is running short of it. A new state law adds large-load review and operating requirements at 75 megawatts or greater, and residents are increasingly hostile to projects that raise their power bills. Our client wanted to build AI infrastructure in Richardson anyway. My team's job was to work out whether there was a version of that project that was actually buildable — and we found one: keep the facility deliberately under the legal threshold, generate its power on site so it takes nothing from the public grid, and sell to the customers the giant cloud providers ignore.",
     whatToLookFor: [
-      "The problem section explains the business decision, not just the technology.",
-      "The action cards show how requirements became architecture, governance, risk analysis, and client-ready deliverables.",
-      "The outcomes describe delivery and external recognition; they do not pretend a feasibility study was a production deployment.",
+      "The explorer below is the real constraint we worked inside: move the slider to 75 MW or higher and the project enters the large-load review process.",
+      "Switching off the on-site generators shows the whole argument collapsing — the moment the facility pulls from the public grid, the political case for it disappears.",
+      "The three alternatives were scored against seven criteria. The one we recommended failed exactly one of them, and most of our deliverables existed to fix that one.",
     ],
     practicalUse:
-      "A city partner or regulated organization can use this kind of study before committing budget. It reveals hidden costs, privacy obligations, operational gaps, and decision points while changing direction is still inexpensive.",
+      "This is what feasibility work actually looks like: not asking whether something is technically possible, but finding the version of it that survives contact with regulation, economics, and public opinion. Any organization facing an infrastructure decision with a hard legal limit runs some form of this analysis before spending money.",
     problem: {
-      title: "AI ambitions, private data.",
-      body: "Organizations working with municipal stakeholders want AI capabilities without pushing sensitive data into public cloud services. DFW Technology needed a grounded answer: is a private AI data warehouse feasible, and what would it take in infrastructure, governance, and policy compliance?",
+      title: "The grid says no.",
+      body: "Three pressures converged on Richardson at once. Texas grid operators expect large-load demand to grow from 87 to 138 gigawatts by 2030, heavily concentrated in the territory serving the city. Senate Bill 6 and its implementing processes add extensive study and operating requirements for loads of 75 megawatts or more. And a whole segment of customers — healthcare, finance, legal, and public-sector organizations — need AI compute they can keep control of, but cannot use shared public cloud and cannot justify building at hyperscale. The client already ran a 1–2 MW AI lab in Richardson. The question was whether it could grow into something meaningful without triggering the very constraints strangling everyone else.",
     },
-    goals: ["AI infrastructure", "Data governance", "Policy compliance"],
+    goals: ["Stay under SB 6", "Add zero grid load", "Serve regulated SMEs"],
     actions: [
       {
-        title: "Led the consulting engagement",
-        body: "Ran a 5-person team as primary client point of contact — scoping the study, coordinating workstreams, and presenting to DFW Technology and municipal stakeholders.",
+        title: "Led the engagement and set the constraint",
+        body: "Ran a 5-person team as primary client contact across market, policy, financial, and risk workstreams. The decision that shaped everything else was treating the 75 MW threshold not as a limit to negotiate but as a design constraint to build under deliberately.",
       },
       {
-        title: "Translated requirements into recommendations",
-        body: "Turned client and City of Richardson stakeholder requirements into structured system recommendations covering AI infrastructure, data governance, and policy compliance frameworks.",
+        title: "Scored three strategies against seven criteria",
+        body: "Chasing a hyperscale campus, expanding the existing colocation business, or building a sub-threshold Edge Tier hub — judged on capital intensity, speed to market, SB 6 exposure, asset alignment, differentiation, political feasibility, and replicability. The Edge Tier option met every criterion except political feasibility.",
       },
       {
-        title: "Produced the deliverables",
-        body: "Authored a feasibility report, data flow diagrams, and risk assessments, and delivered a final client-facing presentation.",
+        title: "Designed power that bypasses the grid",
+        body: "A behind-the-meter hybrid for the 20 MW pilot: 30–40 MW of single-axis tracking solar across roughly 125 acres, ten Caterpillar G3520K gas generators at 2.5 MW each with N+2 redundancy, and a 20 MW / 80 MWh battery built from Texas-made Tesla Megapacks. Because it generates its own power, the facility adds nothing to the public grid — which is what turns a politically toxic project into a defensible one.",
+      },
+      {
+        title: "Anchored every component to something already running",
+        body: "A student proposal is easy to dismiss, so nothing rested on a vendor promise. Behind-the-meter gas at scale was already live in Texas — 210 generators powering Stargate. Solar-plus-battery hybrids for data centres had Google's $20B energy parks landing in 2026. Tenant economics came from a published Lenovo benchmark: under four months to breakeven, 80%+ savings over five years.",
+      },
+      {
+        title: "Wrote the framework that fixes the weak criterion",
+        body: "Political feasibility was the one failing score, so the deliverables targeted it: a joint framework splitting eight workstreams between client and city, and a 90-day plan — council moves the zoning overlay and Chapter 312 tax framework to first reading, then EPC selection and the air-permit pre-application, then anchor-tenant letters of intent and groundbreaking readiness.",
       },
     ],
     outcomes: [
       { value: 15, prefix: "Top ", label: "Capstone ranking at UTDsolv Expo" },
-      { value: 6000, suffix: "+", label: "Students in the field" },
-      { value: 4, label: "Deliverables shipped" },
+      { value: 200, prefix: "$", suffix: "M+", label: "Capital investment modeled" },
+      { value: 0, label: "Megawatts added to the public grid" },
     ],
     learnings: [
-      "Consulting is translation — stakeholders describe outcomes, and the team needs systems.",
-      "Governance and compliance shape AI architecture as much as the technology does.",
+      "The best answer to a hard constraint is often to design under it on purpose rather than argue with it.",
+      "A recommendation that fails one criterion is not a dead recommendation — it tells you exactly what the rest of the work has to be.",
+      "Solar is energy, not capacity. Learning why that distinction decides the whole architecture was the most useful engineering lesson of the project.",
     ],
   },
   {

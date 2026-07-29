@@ -117,7 +117,7 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
     safety:
       "Everything runs locally by default and no data leaves your machine. The only outbound connection possible is the optional VirusTotal lookup, which happens solely when you pass your own API key.",
     verified: [
-      "python3 -m unittest discover -s tests → 10 tests, all passing",
+      "python3 -m unittest discover → 10 tests, all passing",
       "python3 threat_intel.py --demo → scores the full bundled indicator set",
       "python3 threat_intel.py --ioc 8.8.8.8 --json → valid single-line JSON",
     ],
@@ -150,6 +150,10 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
       {
         command: "python3 scanner.py -t 127.0.0.1 --ports 22,80,443",
         comment: "Scan specific ports on a host you are authorized to test",
+      },
+      {
+        command: "python3 scanner.py -t 127.0.0.1 --timeout 5",
+        comment: "Give each port longer to answer over a slow link",
       },
       {
         command: "python3 scanner.py --demo --output report.json",
@@ -208,6 +212,10 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
         body: "A thread pool attempts a TCP connection to each port. A completed handshake means open, a refusal means closed, and a timeout means a firewall is dropping traffic silently — reported as filtered.",
       },
       {
+        title: "Wait long enough for the answer to arrive",
+        body: "This one caused a real bug. Telling 'closed' from 'filtered' depends entirely on how long you wait, and the two operating systems disagree about how quickly they will admit a port is closed. Linux says so immediately; Windows retries first and takes about two seconds. The original one-second limit gave up before Windows answered, so on Windows every closed port was mislabelled as firewalled — the exact opposite of what the tool advertises. The wait is now set per operating system from measured timings, and --timeout overrides it.",
+      },
+      {
         title: "Grab the banner",
         body: "For each open port it reads whatever the service announces, and sends a minimal HTTP request first on web ports so they have something to reply to.",
       },
@@ -224,9 +232,9 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
     safety:
       "The demo only ever touches your own machine's loopback address and refuses to run against anything else. Port scanning systems you do not own or have written permission to test may be illegal — the tool ships with that warning and the README repeats it.",
     verified: [
-      "python3 -m unittest discover → 44 tests, all passing",
+      "python3 -m unittest discover → 56 tests, all passing on Linux and Windows",
       "python3 scanner.py --demo → finds both self-started listeners with banners",
-      "Invalid target, oversized range, and bad thread count all exit cleanly with an explanation",
+      "Invalid target, oversized range, bad thread count, and bad timeout all exit cleanly with an explanation",
     ],
     stack: ["Python 3", "Threading", "Raw sockets", "JSON export"],
   },
@@ -330,7 +338,7 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
     safety:
       "It performs no injection testing, sends no attack payloads, and does not attempt to exploit anything. The README previously advertised XSS and SQL injection detection that the code never performed; those claims were removed rather than faked. Only inspect sites you own or are explicitly authorized to test.",
     verified: [
-      "python3 -m unittest discover -s tests → 30 tests, all passing, fully offline",
+      "python3 -m unittest discover → 30 tests, all passing, fully offline",
       "python3 web_scanner.py --demo → 12 findings across headers, cookies, and TLS",
       "--checks filtering, --output JSON, and unknown-check errors all verified",
     ],
@@ -573,11 +581,11 @@ g***************(16)             VERY STRONG   88/100  PASS`,
         comment: "Serve the local files through Python's built-in web server",
       },
       {
-        command: "open http://localhost:8080",
-        comment: "Or paste this address into your browser",
+        command: "http://localhost:8080",
+        comment: "Paste this address into your browser",
       },
       {
-        command: "python3 -m unittest discover -s tests -v",
+        command: "python3 -m unittest discover",
         comment: "Validate the schema, disclosures, lineage, controls, and local assets",
       },
     ],
@@ -644,7 +652,7 @@ Active filters are applied to metrics and exports.`,
     safety:
       "Every program, result, organization, and identifier is fictional. The application is a data-engineering demonstration, not a drug database, treatment guide, or medical decision tool. It makes no external requests after loading.",
     verified: [
-      "python3 -m unittest discover -s tests -v → 11 tests, all passing",
+      "python3 -m unittest discover → 11 tests, all passing",
       "Search, status filter, quality filter, comparison, detail lineage, and export run in-browser",
       "Synthetic-data disclosure and dependency-free local assets enforced by tests",
     ],

@@ -108,7 +108,7 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/netrecon",
     repo: "https://github.com/Ibby111GT/netrecon",
     stack: ["Python", "Concurrency", "Sockets"],
-    signal: "44 tests passing · safe demo",
+    signal: "56 tests passing · safe demo",
     accent: "cyan",
   },
   {
