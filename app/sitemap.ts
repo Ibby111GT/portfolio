@@ -4,7 +4,7 @@ import { CREATIVE_PROJECTS } from "@/lib/creativeProjects";
 import { TOOL_SLUGS } from "@/lib/toolProjects";
 import { SITE_URL } from "@/lib/siteUrl";
 
-const STATIC_ROUTES = [
+export const STATIC_ROUTES = [
   "/",
   "/about",
   "/creative",
