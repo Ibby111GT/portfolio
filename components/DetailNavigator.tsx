@@ -5,7 +5,7 @@ export interface DetailNavigatorItem {
 
 interface DetailNavigatorProps {
   items: DetailNavigatorItem[];
-  readingTime: number | string;
+  readingTime: string;
   label?: string;
   accent?: "blue" | "red";
   tone?: "default" | "dark";
@@ -25,9 +25,7 @@ const ACCENT_STYLES = {
 
 /**
  * A compact on-page table of contents for long-form project detail pages.
- *
- * Pass section fragment links in reading order. A numeric reading time is
- * formatted automatically; a string can be used for custom copy.
+ * Pass section fragment links in reading order.
  */
 export default function DetailNavigator({
   items,
@@ -38,8 +36,6 @@ export default function DetailNavigator({
   className = "",
 }: DetailNavigatorProps) {
   const styles = ACCENT_STYLES[accent];
-  const readingTimeLabel =
-    typeof readingTime === "number" ? `${readingTime} min read` : readingTime;
 
   return (
     <nav
@@ -69,12 +65,14 @@ export default function DetailNavigator({
                 tone === "dark" ? "text-white/45" : "text-fg-muted"
               }`}
             >
-              {readingTimeLabel}
+              {readingTime}
             </p>
           </div>
         </div>
 
-        <ol className="flex max-w-full gap-2 overflow-x-auto scrollbar-none">
+        {/* The right-edge fade signals that the row scrolls; without it the
+            suppressed scrollbar makes off-screen items read as missing. */}
+        <ol className="flex max-w-full gap-2 overflow-x-auto scrollbar-none [mask-image:linear-gradient(to_right,black_88%,transparent)] lg:[mask-image:none]">
           {items.map((item, index) => (
             <li key={item.href} className="shrink-0">
               <a

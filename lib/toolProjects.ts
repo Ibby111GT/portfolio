@@ -671,4 +671,14 @@ Active filters are applied to metrics and exports.`,
   },
 };
 
-export const TOOL_SLUGS = Object.keys(TOOL_DOCS);
+// Presentation order — matches TOOL_PROJECTS in lib/projects.ts so the
+// catalog, sitemap, and detail pages walk one sequence
+// (tests/ordering.test.ts enforces both directions).
+export const TOOL_SLUGS = [
+  "threatlens",
+  "netrecon",
+  "logsentry",
+  "passaudit",
+  "webrecon",
+  "peptides",
+];

@@ -34,7 +34,9 @@ const ACCENT_STYLES = {
  * A registry-driven footer rail for project detail pages.
  *
  * The next item is selected from the current item's evidence type (lab, tool,
- * or case study) and wraps at the end of that collection.
+ * or case study) and stops at the end of that collection — the last entry
+ * shows a full-width "collection complete" card, matching the creative
+ * shell's contract, instead of silently wrapping to the first item.
  */
 export default function DetailFooterNavigation({
   currentSlug,
@@ -52,8 +54,8 @@ export default function DetailFooterNavigation({
     (project) => project.slug === currentSlug,
   );
   const next =
-    currentIndex >= 0 && siblings.length > 1
-      ? siblings[(currentIndex + 1) % siblings.length]
+    currentIndex >= 0 && currentIndex < siblings.length - 1
+      ? siblings[currentIndex + 1]
       : undefined;
   const nextStyles = next ? ACCENT_STYLES[next.accent] : undefined;
 
@@ -70,7 +72,7 @@ export default function DetailFooterNavigation({
       >
         <span>
           <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-fg-muted">
-            Collection
+            {next ? "Collection" : "Collection complete"}
           </span>
           <span className="mt-1 block text-base font-semibold text-fg">
             {collectionLabel}

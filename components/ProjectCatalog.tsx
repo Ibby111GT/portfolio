@@ -70,6 +70,7 @@ export default function ProjectCatalog() {
     return ALL_CATALOG_ENTRIES.filter((project) =>
       [
         project.name,
+        project.slug,
         project.category,
         project.plain,
         project.tagline,
@@ -89,9 +90,12 @@ export default function ProjectCatalog() {
         className="grid gap-3 md:grid-cols-3"
       >
         {GROUPS.map((group) => {
-          const count = ALL_CATALOG_ENTRIES.filter(
+          // Counts track the active search so a filtered-out section never
+          // leaves behind a card advertising entries its anchor can't reach.
+          const count = visible.filter(
             (project) => project.kind === group.kind,
           ).length;
+          if (!count) return null;
           return (
             <a
               key={group.kind}
@@ -103,7 +107,7 @@ export default function ProjectCatalog() {
                   Path {group.number}
                 </span>
                 <span className="font-mono text-[10px] text-fg-muted">
-                  {count} entries
+                  {count} {count === 1 ? "entry" : "entries"}
                 </span>
               </div>
               <p className="mt-7 text-xl font-semibold tracking-tight text-fg">
@@ -129,7 +133,7 @@ export default function ProjectCatalog() {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search all 16 entries by project, skill, or outcome"
+            placeholder={`Search all ${ALL_CATALOG_ENTRIES.length} entries by project, skill, or outcome`}
             className="h-12 w-full rounded-xl border border-border bg-bg pl-10 pr-10 text-sm text-fg outline-none transition-colors placeholder:text-fg-muted/70 focus:border-fg/40"
           />
           {query ? (

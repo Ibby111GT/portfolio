@@ -4,17 +4,18 @@ import Link from "next/link";
 import { useState } from "react";
 import Reveal from "@/components/Reveal";
 
+// Reverse-chronological — the timeline renders in array order.
 const EXPERIENCE = [
-  {
-    org: "University of Texas System",
-    role: "Information Security Intern",
-    period: "2025",
-    track: "SECURITY",
-  },
   {
     org: "DFW Technology — UT Dallas Capstone",
     role: "Project Lead & Systems Analyst",
     period: "2026",
+    track: "SECURITY",
+  },
+  {
+    org: "University of Texas System",
+    role: "Information Security Intern",
+    period: "2025",
     track: "SECURITY",
   },
   {
@@ -51,7 +52,7 @@ const EDUCATION = [
   {
     org: "Microsoft",
     detail: "Azure Fundamentals (AZ-900)",
-    period: "",
+    period: "Certified",
   },
 ];
 
@@ -288,12 +289,17 @@ export default function AboutPage() {
             <p className="text-xs font-medium tracking-widest uppercase text-fg-muted">
               Experience
             </p>
-            <div className="flex items-center gap-1 p-1 rounded-full border border-border">
+            <div
+              role="group"
+              aria-label="Filter experience by track"
+              className="flex items-center gap-1 p-1 rounded-full border border-border"
+            >
               {TRACKS.map((item) => (
                 <button
                   key={item}
                   type="button"
                   onClick={() => setTrack(item)}
+                  aria-pressed={track === item}
                   className={`px-3 py-1 rounded-full text-[10px] font-medium tracking-widest uppercase transition-colors duration-200 ${
                     track === item
                       ? "bg-fg text-bg"

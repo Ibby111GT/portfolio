@@ -5,6 +5,7 @@ import DetailFooterNavigation from "@/components/DetailFooterNavigation";
 import DetailNavigator from "@/components/DetailNavigator";
 import { CommandList, OutputBlock } from "@/components/TerminalBlock";
 import { TOOL_DOCS, TOOL_SLUGS } from "@/lib/toolProjects";
+import { TOOL_PROJECTS } from "@/lib/projects";
 
 interface ToolPageProps {
   params: Promise<{ slug: string }>;
@@ -50,7 +51,7 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
     <main className="min-h-screen px-4 pb-28 pt-28 sm:px-6 md:pt-32">
       <div className="mx-auto max-w-5xl">
         <Link
-          href="/projects"
+          href="/projects#open-source"
           className="font-mono text-xs uppercase tracking-[0.18em] text-fg-muted transition-colors hover:text-fg"
         >
           &lt;- All projects
@@ -110,12 +111,13 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
         <DetailNavigator
           readingTime="3 min overview · 10 min deep dive"
           label="Choose your depth"
+          accent={TOOL_PROJECTS.find((p) => p.slug === slug)?.accent}
           items={[
             { href: "#overview", label: "Plain-English overview" },
             { href: "#run-it", label: "Run it" },
             { href: "#read-output", label: "Read the output" },
             { href: "#technical-details", label: "Technical details" },
-            { href: "#verification", label: "Verification" },
+            { href: "#verification", label: "Where this is used" },
           ]}
           className="mb-14"
         />
@@ -255,7 +257,12 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
             </div>
           </div>
         </section>
-        <DetailFooterNavigation currentSlug={slug} className="mt-24" />
+        <DetailFooterNavigation
+          currentSlug={slug}
+          collectionHref="/projects#open-source"
+          collectionLabel="All open-source projects"
+          className="mt-24"
+        />
       </div>
     </main>
   );

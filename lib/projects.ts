@@ -20,13 +20,6 @@ export interface CatalogProject {
   accent: ProjectAccent;
 }
 
-export const FILTERS: Array<{ id: ProjectFilter | "all"; label: string }> = [
-  { id: "all", label: "Everything" },
-  { id: "security", label: "Cybersecurity" },
-  { id: "data", label: "Data engineering" },
-  { id: "work", label: "Professional case studies" },
-];
-
 export const PROJECTS: CatalogProject[] = [
   {
     slug: "soc-command-deck",
@@ -223,22 +216,10 @@ export const PROJECTS: CatalogProject[] = [
 // Professional engagements. These are jobs and client work rather than things
 // built from scratch, so they keep their own case-study pages and simply
 // appear in the catalog alongside everything else.
+// Ordered to match CASE_STUDIES in lib/caseStudies.ts — the homepage grid,
+// the catalog, and the next-case-study rail must walk the same sequence
+// (tests/ordering.test.ts enforces this).
 export const WORK_PROJECTS: CatalogProject[] = [
-  {
-    slug: "ut-system-security",
-    name: "University of Texas System",
-    kind: "case",
-    category: "Information security internship",
-    filter: "work",
-    tagline:
-      "Built login-detection dashboards and rotated local administrator passwords across 500+ endpoints.",
-    plain:
-      "Built dashboards that watch for unusual logins across university systems, and rolled out automatic local-administrator password rotation to more than 500 computers.",
-    href: "/work/ut-system-security",
-    stack: ["SPL dashboards", "Windows LAPS", "Intune"],
-    signal: "500+ endpoints hardened",
-    accent: "red",
-  },
   {
     slug: "private-ai-feasibility",
     name: "Private AI Feasibility Study",
@@ -253,6 +234,21 @@ export const WORK_PROJECTS: CatalogProject[] = [
     stack: ["Infrastructure strategy", "Capacity modeling", "Client delivery"],
     signal: "20 MW modeled pilot · below 75 MW threshold",
     accent: "blue",
+  },
+  {
+    slug: "ut-system-security",
+    name: "University of Texas System",
+    kind: "case",
+    category: "Information security internship",
+    filter: "work",
+    tagline:
+      "Built login-detection dashboards and rotated local administrator passwords across 500+ endpoints.",
+    plain:
+      "Built dashboards that watch for unusual logins across university systems, and rolled out automatic local-administrator password rotation to more than 500 computers.",
+    href: "/work/ut-system-security",
+    stack: ["SPL dashboards", "Windows LAPS", "Intune"],
+    signal: "500+ endpoints hardened",
+    accent: "red",
   },
   {
     slug: "chief-technology-group",
@@ -290,10 +286,6 @@ export const ALL_CATALOG_ENTRIES: CatalogProject[] = [
   ...PROJECTS,
   ...WORK_PROJECTS,
 ];
-
-export function getProject(slug: string): CatalogProject | undefined {
-  return PROJECTS.find((project) => project.slug === slug);
-}
 
 export const TOOL_PROJECTS = PROJECTS.filter((project) => project.kind === "tool");
 export const LAB_PROJECTS = PROJECTS.filter((project) => project.kind === "lab");

@@ -59,7 +59,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     evidenceBoundary:
       "This is a student capstone feasibility model, not a completed facility or committed investment. Rankings come from the UTDsolv Expo; planning figures come from the team's final model and cited public sources. Client deliverables remain private.",
     stats: [
-      { value: 15, prefix: "Top ", label: "Of 6,000+ students at UTDsolv" },
+      { value: 15, prefix: "Top ", label: "Capstone project at UTDsolv Expo" },
       { value: 75, suffix: " MW", label: "Regulatory ceiling designed under" },
       { value: 5, label: "Person team led" },
     ],

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import DetailFooterNavigation from "@/components/DetailFooterNavigation";
 import DetailNavigator from "@/components/DetailNavigator";
+import { LAB_PROJECTS } from "@/lib/projects";
 
 export default function LabShell({
   eyebrow,
@@ -15,11 +16,15 @@ export default function LabShell({
   slug: string;
   children: React.ReactNode;
 }) {
+  // Accent comes from the catalog entry so the navigator matches the lab's
+  // own color language (the data labs are blue, the security labs red).
+  const accent = LAB_PROJECTS.find((p) => p.slug === slug)?.accent;
+
   return (
     <main className="min-h-screen px-4 pb-28 pt-28 sm:px-6 md:pt-32">
       <div className="mx-auto max-w-7xl">
         <Link
-          href="/projects"
+          href="/projects#interactive-labs"
           className="font-mono text-xs uppercase tracking-[0.18em] text-fg-muted transition-colors hover:text-fg"
         >
           &lt;- All projects
@@ -36,7 +41,7 @@ export default function LabShell({
           </p>
         </div>
         <DetailNavigator
-          accent="red"
+          accent={accent}
           readingTime="Use it first · 8 min deep dive"
           label="Choose your depth"
           items={[
@@ -49,7 +54,12 @@ export default function LabShell({
         <div id="experience" className="scroll-mt-32">
           {children}
         </div>
-        <DetailFooterNavigation currentSlug={slug} className="mt-24" />
+        <DetailFooterNavigation
+          currentSlug={slug}
+          collectionHref="/projects#interactive-labs"
+          collectionLabel="All interactive labs"
+          className="mt-24"
+        />
       </div>
     </main>
   );

@@ -116,7 +116,15 @@ export default async function WorkPage({ params }: WorkPageProps) {
               </p>
             </Reveal>
             <Reveal delay={360} className="w-full max-w-2xl">
-              <div className="grid grid-cols-2 md:grid-cols-3 divide-x divide-border rounded-2xl overflow-hidden border border-border bg-surface/60">
+              <div
+                className={`grid divide-x divide-border rounded-2xl overflow-hidden border border-border bg-surface/60 ${
+                  {
+                    1: "grid-cols-1",
+                    2: "grid-cols-2",
+                    3: "grid-cols-2 md:grid-cols-3",
+                  }[Math.min(study.stats.length, 3)] ?? "grid-cols-2"
+                }`}
+              >
                 {study.stats.slice(0, 3).map((stat) => (
                   <div key={stat.label} className="px-4 py-5 text-center">
                     <p className="text-xl md:text-2xl font-semibold text-fg">
@@ -144,6 +152,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
         <DetailNavigator
           readingTime="3 min summary · 10 min full case"
           label="Choose your depth"
+          accent={study.glow}
           items={[
             { href: "#plain-english", label: "Plain-English summary" },
             ...(study.slug === "private-ai-feasibility"
@@ -378,7 +387,16 @@ export default async function WorkPage({ params }: WorkPageProps) {
               </p>
             ) : null}
           </Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+          <div
+            className={`grid gap-4 max-w-3xl mx-auto ${
+              {
+                1: "grid-cols-1",
+                2: "grid-cols-2",
+                3: "grid-cols-2 md:grid-cols-3",
+                4: "grid-cols-2 md:grid-cols-4",
+              }[Math.min(study.outcomes.length, 4)] ?? "grid-cols-2"
+            }`}
+          >
             {study.outcomes.map((stat) => (
               <Reveal key={stat.label}>
                 <div className="p-5 rounded-2xl border border-border bg-bg text-center h-full">
@@ -473,6 +491,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
       <div className="mx-auto max-w-5xl px-6 pb-24 pt-8 md:px-8">
         <DetailFooterNavigation
           currentSlug={study.slug}
+          collectionHref="/projects#professional-work"
           collectionLabel="Back to professional work"
         />
       </div>

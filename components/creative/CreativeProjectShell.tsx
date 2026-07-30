@@ -285,7 +285,9 @@ export default function CreativeProjectShell({
             className="group rounded-2xl border border-white/10 bg-white/[0.025] p-5 text-left transition-colors hover:bg-white/[0.06] sm:text-right"
           >
             <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
-              {next ? "Next in this collection" : "Collection complete"}
+              {next
+                ? `Next in this collection · ${projectIndex + 2} of ${collection.length}`
+                : "Collection complete"}
             </span>
             <span className="mt-2 block text-lg font-medium text-white/80 group-hover:text-white">
               {next ? `${next.title} →` : "Explore all creative projects →"}

@@ -1,6 +1,7 @@
 import ProjectCatalog from "@/components/ProjectCatalog";
 import Reveal from "@/components/Reveal";
 import Link from "next/link";
+import { CREATIVE_PROJECTS } from "@/lib/creativeProjects";
 
 export const metadata = {
   title: "Projects — Ibrahim Hussain",
@@ -38,8 +39,8 @@ export default function ProjectsPage() {
             href="/creative"
             className="mt-7 inline-flex min-h-11 items-center border-b border-border text-sm font-medium text-fg-muted transition-colors hover:border-fg hover:text-fg"
           >
-            Looking for spatial design and interactive art? Explore 10 creative
-            prototypes →
+            Looking for spatial design and interactive art? Explore{" "}
+            {CREATIVE_PROJECTS.length} creative prototypes →
           </Link>
         </Reveal>
 

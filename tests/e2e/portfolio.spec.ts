@@ -121,13 +121,15 @@ test("Projects are grouped into three paths and remain searchable", async ({
   ).toHaveCount(6);
 
   await page
-    .getByPlaceholder("Search all 16 entries by project, skill, or outcome")
+    .getByPlaceholder(/Search all \d+ entries by project, skill, or outcome/)
     .fill("Python");
   await expect(
     page.locator("#open-source").locator('a[href^="/projects/"]'),
   ).toHaveCount(5);
   await expect(page.locator("#professional-work")).toHaveCount(0);
   await expect(page.locator("#interactive-labs")).toHaveCount(0);
+  // Path cards follow the filter: only the surviving group keeps its card.
+  await expect(paths.getByRole("link")).toHaveCount(1);
 });
 
 test("Creative details separate the quick guide from technical depth", async ({

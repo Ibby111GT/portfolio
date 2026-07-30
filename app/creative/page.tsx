@@ -88,7 +88,7 @@ export default function CreativePage() {
       <section className="relative mx-auto max-w-7xl px-6 pb-16 pt-36 md:px-8 md:pb-24 md:pt-44">
         <Reveal blur>
           <p className="font-mono text-xs uppercase tracking-[0.24em] text-fg-muted">
-            10 interactive prototypes
+            {CREATIVE_PROJECTS.length} interactive prototypes
           </p>
           <h1 className="mt-4 max-w-5xl text-5xl font-semibold leading-[0.96] tracking-[-0.045em] text-fg md:text-8xl">
             Three collections.
