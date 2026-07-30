@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -13,18 +12,9 @@ const LINKS = [
 
 export default function Nav() {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
-    <header
-      className={`fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] min-[414px]:bottom-auto min-[414px]:top-[calc(1.5rem+env(safe-area-inset-top))] left-1/2 z-50 -translate-x-1/2 transition-opacity duration-700 ${
-        mounted ? "opacity-100" : "opacity-0"
-      }`}
-    >
+    <header className="nav-enter fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] min-[414px]:bottom-auto min-[414px]:top-[calc(1.5rem+env(safe-area-inset-top))] left-1/2 z-50 -translate-x-1/2">
       <div className="relative h-12 w-max max-w-[calc(100vw-1rem)] rounded-full bg-white/80 px-2.5 backdrop-blur-xl backdrop-saturate-[180%] shadow-[0_0_0_0.5px_rgba(0,0,0,0.1),0_4px_28px_rgba(0,0,0,0.09),inset_0_1px_0_rgba(255,255,255,1)] dark:bg-[#111]/75 dark:shadow-[0_0_0_0.5px_rgba(255,255,255,0.12),0_4px_28px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.12)]">
         <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent dark:via-white/30 rounded-full" />
         <div className="relative flex h-full items-center gap-2 min-[360px]:gap-3">

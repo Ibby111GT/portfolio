@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const EMAIL = "Ibrahim.Hussain@UTDallas.edu";
 const LINKEDIN = "https://linkedin.com/in/ibrahimhn";
@@ -8,17 +8,32 @@ const GITHUB = "https://github.com/Ibby111GT";
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
-  const [dark, setDark] = useState(true);
+  // The pre-hydration head script has already stamped the theme class by the
+  // time this initializer runs on the client, so the label is right on the
+  // first paint; the SSR default (dark) is reconciled via suppressHydrationWarning.
+  const [dark, setDark] = useState(() =>
+    typeof document === "undefined"
+      ? true
+      : document.documentElement.classList.contains("dark"),
+  );
+  const copiedTimer = useRef<number | null>(null);
 
   useEffect(() => {
-    setDark(document.documentElement.classList.contains("dark"));
+    return () => {
+      if (copiedTimer.current !== null) {
+        window.clearTimeout(copiedTimer.current);
+      }
+    };
   }, []);
 
   const copyEmail = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(EMAIL);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
+      if (copiedTimer.current !== null) {
+        window.clearTimeout(copiedTimer.current);
+      }
+      copiedTimer.current = window.setTimeout(() => setCopied(false), 1800);
     } catch {
       window.location.href = `mailto:${EMAIL}`;
     }
@@ -81,13 +96,14 @@ export default function Footer() {
       </div>
       <div className="border-t border-border">
         <div className="max-w-5xl mx-auto px-6 md:px-8 py-5 flex items-center justify-between">
-          <p className="text-xs text-fg-muted">
+          <p className="text-xs text-fg-muted" suppressHydrationWarning>
             © {new Date().getFullYear()} Ibrahim Hussain
           </p>
           <button
             type="button"
             onClick={toggleTheme}
             className="flex items-center gap-1.5 text-xs text-fg-muted hover:text-fg transition-colors"
+            suppressHydrationWarning
           >
             {dark ? (
               <>

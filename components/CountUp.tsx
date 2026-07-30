@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 interface CountUpProps {
   value: number;
@@ -18,8 +18,22 @@ export default function CountUp({
   className,
 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
-  const [display, setDisplay] = useState(0);
+  // Server HTML carries the real number so crawlers, reader modes, and
+  // pre-hydration paints never show a misleading 0; the count-up is a
+  // client-side enhancement layered on top.
+  const [display, setDisplay] = useState(value);
+  const [prevValue, setPrevValue] = useState(value);
+  if (prevValue !== value) {
+    setPrevValue(value);
+    setDisplay(value);
+  }
+
+  // Fixed locale: toLocaleString() varies by environment, which would let the
+  // server and client disagree on digit grouping.
+  const formatted = useMemo(
+    () => new Intl.NumberFormat("en-US").format(display),
+    [display],
+  );
 
   useEffect(() => {
     const el = ref.current;
@@ -27,16 +41,16 @@ export default function CountUp({
       return;
     }
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDisplay(value);
       return;
     }
     let animationFrame = 0;
+    let started = false;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting || started.current) {
+        if (!entry.isIntersecting || started) {
           return;
         }
-        started.current = true;
+        started = true;
         observer.disconnect();
         const start = performance.now();
         const tick = (now: number) => {
@@ -61,7 +75,7 @@ export default function CountUp({
   return (
     <span ref={ref} className={className}>
       {prefix}
-      {display.toLocaleString()}
+      {formatted}
       {suffix}
     </span>
   );
