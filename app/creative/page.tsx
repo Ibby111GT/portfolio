@@ -12,26 +12,27 @@ import {
 } from "@/components/creative/GenerativePosters";
 import {
   CREATIVE_PROJECTS,
-  type CreativeCategory,
+  type CreativeGroup,
   type CreativeProject,
 } from "@/lib/creativeProjects";
 
 const FILTERS = [
   "All",
-  "Security",
-  "Simulation",
-  "Generative",
-  "Living systems",
+  "Spatial & fabrication",
   "Automotive",
-  "Cabinetry",
-  "Wall systems",
-  "Wardrobes",
-  "Product design",
+  "Simulation & data",
+  "Generative art",
 ] as const;
 
 type Filter = (typeof FILTERS)[number];
 
-function CreativePreview({ project }: { project: CreativeProject }) {
+function CreativePreview({
+  project,
+  priority = false,
+}: {
+  project: CreativeProject;
+  priority?: boolean;
+}) {
   if (project.image === null) {
     switch (project.slug) {
       case "sentinel-observatory":
@@ -49,6 +50,7 @@ function CreativePreview({ project }: { project: CreativeProject }) {
       src={project.image}
       alt=""
       fill
+      priority={priority}
       sizes="(min-width: 1024px) 50vw, 100vw"
       className="object-cover transition-transform duration-700 group-hover:scale-[1.035]"
     />
@@ -62,7 +64,7 @@ export default function CreativePage() {
     filter === "All"
       ? CREATIVE_PROJECTS
       : CREATIVE_PROJECTS.filter(
-          (project) => project.category === (filter as CreativeCategory),
+          (project) => project.group === (filter as CreativeGroup),
         );
 
   return (
@@ -124,13 +126,17 @@ export default function CreativePage() {
           >
             <Link
               href={`/creative/${project.slug}`}
+              prefetch={false}
               className={`group relative block overflow-hidden rounded-3xl border border-border bg-[#080808] ${
                 index === 0 && filter === "All"
                   ? "min-h-[580px] md:min-h-[680px]"
                   : "min-h-[520px]"
               }`}
             >
-              <CreativePreview project={project} />
+              <CreativePreview
+                project={project}
+                priority={index === 0 && filter === "All"}
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/15 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-9">
                 <div className="flex items-center gap-3">
@@ -140,7 +146,7 @@ export default function CreativePage() {
                     }`}
                   />
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
-                    {project.number} · {project.category}
+                    {project.number} · {project.category} · Live prototype
                   </span>
                 </div>
                 <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-5xl">
@@ -149,6 +155,16 @@ export default function CreativePage() {
                 <p className="mt-3 max-w-xl text-sm leading-6 text-white/65 md:text-base">
                   {project.description}
                 </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.capabilities.slice(0, 3).map((capability) => (
+                    <span
+                      key={capability}
+                      className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-white/55"
+                    >
+                      {capability}
+                    </span>
+                  ))}
+                </div>
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">
                   <p className="text-xs text-white/50">{project.interaction}</p>
                   <span className="text-sm font-medium text-white transition-transform group-hover:translate-x-1">

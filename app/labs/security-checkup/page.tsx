@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import LabCaseStudy from "@/components/LabCaseStudy";
 import LabShell from "@/components/LabShell";
+import ProjectWalkthrough from "@/components/ProjectWalkthrough";
 import SecurityCheckup from "@/components/labs/SecurityCheckup";
+import { WALKTHROUGHS } from "@/lib/walkthroughs";
+
+const walkthrough = WALKTHROUGHS["security-checkup"];
 
 export const metadata: Metadata = {
   title: "Security Checkup — Ibrahim Hussain",
@@ -17,6 +21,12 @@ export default function SecurityCheckupPage() {
       description="A password strength checker you can actually trust with a password, because it never sends one. Entropy estimation, breach block-list matching, and pattern detection all run in your browser — the same NIST-informed heuristics behind the PassAudit tool, made useful to anyone."
     >
       <SecurityCheckup />
+      <ProjectWalkthrough
+        plain={walkthrough.plain}
+        steps={walkthrough.steps}
+        reading={walkthrough.reading}
+        practical={walkthrough.practical}
+      />
       <LabCaseStudy
         challenge="Most online 'password checkers' ask you to type a secret into someone else's server — the exact thing you should never do. And the advice they give is often outdated: piling on symbols instead of the thing that actually matters, length."
         solution="Security Checkup does the analysis where the password already is — the browser. It estimates entropy from the real character pool, checks the value and its leetspeak-normalized base against a breached-password block-list, flags sequences, keyboard walks, repeats, and years, then translates it all into a crack-time figure and plain-English guidance grounded in NIST SP 800-63B-4."

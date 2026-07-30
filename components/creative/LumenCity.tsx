@@ -295,6 +295,7 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
             <div className="relative min-h-[760px] overflow-hidden">
               <canvas
                 ref={canvasRef}
+                role="img"
                 className="absolute inset-0 h-full w-full"
                 aria-label="A city skyline that brightens or dims as the power grid moves between surplus and deficit"
               />

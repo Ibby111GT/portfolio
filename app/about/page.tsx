@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import Reveal from "@/components/Reveal";
 
@@ -7,7 +8,7 @@ const EXPERIENCE = [
   {
     org: "University of Texas System",
     role: "Information Security Intern",
-    period: "2025–Present",
+    period: "2025",
     track: "SECURITY",
   },
   {
@@ -57,21 +58,63 @@ const EDUCATION = [
 const TRACKS = ["ALL", "SECURITY", "CLOUD & IT"] as const;
 type Track = (typeof TRACKS)[number];
 
-function StoryImage({ aspect, label }: { aspect: string; label: string }) {
+function EvidencePanel({
+  code,
+  title,
+  metric,
+  detail,
+  steps,
+  tone = "blue",
+}: {
+  code: string;
+  title: string;
+  metric: string;
+  detail: string;
+  steps: string[];
+  tone?: "blue" | "red";
+}) {
+  const red = tone === "red";
+
   return (
-    <div
-      className={`rounded-3xl w-full ${aspect} overflow-hidden relative border border-border bg-surface`}
-    >
+    <div className="relative min-h-[390px] overflow-hidden rounded-3xl border border-border bg-[#080808] p-7 text-white md:p-9">
       <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 30% 20%, rgba(60,100,255,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(200,30,30,0.10) 0%, transparent 60%)",
-        }}
+        className={`pointer-events-none absolute inset-0 ${
+          red
+            ? "bg-[radial-gradient(circle_at_18%_8%,rgba(220,38,38,0.24),transparent_45%)]"
+            : "bg-[radial-gradient(circle_at_18%_8%,rgba(37,99,235,0.24),transparent_45%)]"
+        }`}
       />
-      <span className="absolute bottom-4 left-4 font-mono text-[10px] uppercase tracking-widest text-fg-muted">
-        {label}
-      </span>
+      <div className="relative flex h-full flex-col">
+        <div className="flex items-center justify-between gap-4">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+            Evidence record · {code}
+          </span>
+          <span
+            className={`h-2 w-2 rounded-full ${
+              red ? "bg-alert" : "bg-accent"
+            }`}
+          />
+        </div>
+        <p className="mt-8 text-sm font-medium text-white/60">{title}</p>
+        <p className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">
+          {metric}
+        </p>
+        <p className="mt-2 text-sm text-white/45">{detail}</p>
+
+        <ol className="mt-10 space-y-3">
+          {steps.map((step, index) => (
+            <li
+              key={step}
+              className="flex items-center gap-4 rounded-xl border border-white/[0.08] bg-white/[0.025] px-4 py-3"
+            >
+              <span className="font-mono text-[9px] text-white/30">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="text-sm text-white/65">{step}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 }
@@ -108,19 +151,28 @@ export default function AboutPage() {
       <div className="max-w-5xl mx-auto px-6 md:px-8 pb-24 space-y-28">
         <section className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
           <Reveal>
-            <StoryImage aspect="aspect-[3/4]" label="dallas.tx" />
+            <EvidencePanel
+              code="EDU-01"
+              title="Systems, security, and data"
+              metric="B.S. · CIS&T"
+              detail="The University of Texas at Dallas · May 2026"
+              steps={[
+                "Information security",
+                "Cloud and identity",
+                "Systems analysis",
+              ]}
+            />
           </Reveal>
           <Reveal delay={120} className="flex flex-col justify-center gap-5">
             <h2 className="text-2xl md:text-3xl font-bold text-fg">
               This is my story.
             </h2>
             <p className="text-base text-fg-muted leading-relaxed max-w-prose">
-              I&apos;m Ibrahim — an information security intern and Computer
-              Information Systems &amp; Technology student at UT Dallas. Over
-              the last few years I&apos;ve learned what it takes to keep
-              systems standing: careful identity management, sharp detection
-              engineering, and a willingness to dig into the logs when
-              something looks off.
+              I&apos;m Ibrahim — a security, cloud, and systems engineer shaped
+              by operational work rather than theory alone. My work spans
+              identity administration, detection engineering, cloud
+              hardening, data systems, and the client-facing analysis needed
+              to turn a technical recommendation into a decision.
             </p>
           </Reveal>
         </section>
@@ -140,15 +192,34 @@ export default function AboutPage() {
               provisioning processes taught me that access control is where
               security begins.
             </p>
+            <Link
+              href="/work/roomi-group"
+              className="text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted"
+            >
+              Read the identity lifecycle case study →
+            </Link>
           </Reveal>
           <Reveal className="order-1 md:order-2">
-            <StoryImage aspect="aspect-square" label="houston.tx" />
+            <EvidencePanel
+              code="IAM-01"
+              title="Identity lifecycle ownership"
+              metric="200+ identities"
+              detail="Roomi Group Corp · 2020–2023"
+              steps={["Provision access", "Adjust by role", "Revoke on exit"]}
+              tone="red"
+            />
           </Reveal>
         </section>
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
           <Reveal>
-            <StoryImage aspect="aspect-[4/3]" label="azure.cloud" />
+            <EvidencePanel
+              code="CLD-02"
+              title="Client cloud operations"
+              metric="200+ incidents"
+              detail="Azure and Citrix environments · 2024"
+              steps={["Harden traffic", "Right-size access", "Restore service"]}
+            />
           </Reveal>
           <Reveal delay={120} className="flex flex-col justify-center gap-5">
             <h2 className="text-2xl md:text-3xl font-bold text-fg">
@@ -161,6 +232,12 @@ export default function AboutPage() {
               privilege in real client environments showed me how cloud
               security holds up under pressure.
             </p>
+            <Link
+              href="/work/chief-technology-group"
+              className="text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted"
+            >
+              Read the cloud engineering case study →
+            </Link>
           </Reveal>
         </section>
 
@@ -170,19 +247,39 @@ export default function AboutPage() {
             className="flex flex-col justify-center gap-5 order-2 md:order-1"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-fg">
-              Now I work in security.
+              Security brought the work together.
             </h2>
             <p className="text-base text-fg-muted leading-relaxed max-w-prose">
-              Today I&apos;m an Information Security Intern at the University
-              of Texas System — building SPL detection dashboards, enforcing
-              Windows LAPS across 500+ endpoints, and hunting abnormal
-              authentication behavior. I also led a 5-person capstone team
-              advising DFW Technology on private AI infrastructure, selected
-              Top 15 of 6,000+ students at the UTDsolv Expo.
+              At the University of Texas System, I built SPL detection
+              dashboards, enforced Windows LAPS across 500+ endpoints, and
+              investigated abnormal authentication behavior. I also led a
+              five-person capstone team evaluating a sub-threshold private AI
+              facility for DFW Technology.
             </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/work/ut-system-security"
+                className="text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted"
+              >
+                Security work →
+              </Link>
+              <Link
+                href="/work/private-ai-feasibility"
+                className="text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted"
+              >
+                Feasibility study →
+              </Link>
+            </div>
           </Reveal>
           <Reveal className="order-1 md:order-2">
-            <StoryImage aspect="aspect-[4/3]" label="ut.system" />
+            <EvidencePanel
+              code="SEC-03"
+              title="Detection and credential hardening"
+              metric="500+ endpoints"
+              detail="University of Texas System · 2025"
+              steps={["Detect anomalies", "Triage evidence", "Rotate credentials"]}
+              tone="red"
+            />
           </Reveal>
         </section>
 
@@ -251,8 +348,8 @@ export default function AboutPage() {
                 Open to opportunities
               </p>
               <p className="text-sm text-fg-muted">
-                Available for internships and full-time roles in information
-                security and cloud.
+                Available for security, cloud, identity, and IT engineering
+                opportunities.
               </p>
             </div>
             <a

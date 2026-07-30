@@ -20,7 +20,7 @@ export interface CatalogProject {
 export const FILTERS: Array<{ id: ProjectFilter | "all"; label: string }> = [
   { id: "all", label: "Everything" },
   { id: "security", label: "Cybersecurity" },
-  { id: "data", label: "Data & healthcare" },
+  { id: "data", label: "Data engineering" },
   { id: "work", label: "Professional case studies" },
 ];
 
@@ -225,12 +225,12 @@ export const WORK_PROJECTS: CatalogProject[] = [
     kind: "case",
     category: "Senior capstone consulting",
     filter: "work",
-    tagline: "Led a five-person team advising on private AI infrastructure.",
+    tagline: "Led a five-person team evaluating private AI infrastructure under a hard power constraint.",
     plain:
-      "Ran the consulting engagement that answered whether an organization working with a city government could run AI on its own hardware instead of sending sensitive data to a public cloud.",
+      "Led a feasibility engagement assessing whether a sub-75 MW, behind-the-meter AI facility could be sited in Richardson without adding load to the public grid.",
     href: "/work/private-ai-feasibility",
-    stack: ["Feasibility analysis", "Data governance", "Client delivery"],
-    signal: "Top 15 of 6,000+ students",
+    stack: ["Infrastructure strategy", "Capacity modeling", "Client delivery"],
+    signal: "20 MW pilot · designed below 75 MW",
     accent: "blue",
   },
   {

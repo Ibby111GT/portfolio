@@ -467,6 +467,7 @@ export default function SentinelObservatory({
             <div className="relative min-h-[760px] overflow-hidden">
               <canvas
                 ref={canvasRef}
+                role="img"
                 className="absolute inset-0 h-full w-full touch-none"
                 aria-label="Rotating wireframe globe showing simulated intrusion attempts converging on a home node"
               />

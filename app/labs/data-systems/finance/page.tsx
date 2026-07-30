@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import LabCaseStudy from "@/components/LabCaseStudy";
 import LabShell from "@/components/LabShell";
 import ProjectWalkthrough from "@/components/ProjectWalkthrough";
@@ -7,6 +8,12 @@ import { WALKTHROUGHS } from "@/lib/walkthroughs";
 
 const scenario = DATA_SCENARIOS.finance;
 const walkthrough = WALKTHROUGHS["data-systems/finance"];
+
+export const metadata: Metadata = {
+  title: "LedgerPulse Finance Data Lab — Ibrahim Hussain",
+  description:
+    "Operate a reconciled finance pipeline, quarantine bad invoices, and replay them after a data-contract repair.",
+};
 
 export default function FinanceDataSystemsPage() {
   return (

@@ -33,6 +33,9 @@ interface LeafletExpeditionMapProps {
 }
 
 type LeafletModule = typeof import("leaflet");
+type BasemapState = "loading" | "ready" | "degraded";
+
+const BASEMAP_TIMEOUT_MS = 6500;
 
 function nearestRoutePoint(
   coordinate: Coordinate,
@@ -72,9 +75,12 @@ export default function LeafletExpeditionMap({
   const habitatLayerRef = useRef<Circle | null>(null);
   const selectedLineRef = useRef<Polyline | null>(null);
   const [mapReady, setMapReady] = useState(false);
+  const [basemapState, setBasemapState] =
+    useState<BasemapState>("loading");
 
   useEffect(() => {
     let cancelled = false;
+    let basemapTimer = 0;
 
     async function initialize() {
       const L = await import("leaflet");
@@ -88,7 +94,7 @@ export default function LeafletExpeditionMap({
         maxZoom: 17,
       }).setView(park.center, park.zoom);
 
-      L.tileLayer(
+      const basemap = L.tileLayer(
         "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
         {
           attribution:
@@ -96,7 +102,32 @@ export default function LeafletExpeditionMap({
           subdomains: "abcd",
           maxZoom: 20,
         },
-      ).addTo(map);
+      );
+      let tileCycleFailed = false;
+      let basemapSettled = false;
+
+      basemap.on("loading", () => {
+        tileCycleFailed = false;
+        if (!cancelled) setBasemapState("loading");
+      });
+      basemap.on("tileerror", () => {
+        tileCycleFailed = true;
+        if (!cancelled) setBasemapState("degraded");
+      });
+      basemap.on("load", () => {
+        basemapSettled = true;
+        if (!cancelled) {
+          setBasemapState(tileCycleFailed ? "degraded" : "ready");
+        }
+      });
+      basemap.addTo(map);
+
+      basemapTimer = window.setTimeout(() => {
+        if (cancelled || basemapSettled) return;
+        basemap.remove();
+        setBasemapState("degraded");
+      }, BASEMAP_TIMEOUT_MS);
+
       L.control.zoom({ position: "bottomright" }).addTo(map);
 
       mapRef.current = map;
@@ -106,6 +137,7 @@ export default function LeafletExpeditionMap({
     void initialize();
     return () => {
       cancelled = true;
+      window.clearTimeout(basemapTimer);
       mapRef.current?.remove();
       mapRef.current = null;
       leafletRef.current = null;
@@ -264,7 +296,14 @@ export default function LeafletExpeditionMap({
   }, [buildMode, layers, mapReady, onWaypointAdd, park]);
 
   return (
-    <div className="relative h-full min-h-[560px] overflow-hidden bg-[#101722]">
+    <div
+      className="relative h-full min-h-[560px] overflow-hidden bg-[#101722]"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle at 28% 32%, rgba(96,165,250,0.12), transparent 30%), linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
+        backgroundSize: "auto, 48px 48px, 48px 48px",
+      }}
+    >
       <div ref={containerRef} className="h-full min-h-[560px] w-full" />
       {!mapReady ? (
         <div className="absolute inset-0 grid place-items-center bg-[#101722]">
@@ -274,6 +313,36 @@ export default function LeafletExpeditionMap({
               Loading spatial layers
             </p>
           </div>
+        </div>
+      ) : null}
+      {mapReady ? (
+        <div
+          className={`pointer-events-none absolute bottom-20 right-4 z-[500] max-w-[240px] rounded-lg border px-3 py-2 backdrop-blur ${
+            basemapState === "degraded"
+              ? "border-red-400/35 bg-[#180b0d]/90"
+              : "border-white/10 bg-[#071019]/85"
+          }`}
+          role="status"
+          aria-live="polite"
+        >
+          <p
+            className={`font-mono text-[9px] uppercase tracking-[0.16em] ${
+              basemapState === "degraded"
+                ? "text-red-200"
+                : "text-white/45"
+            }`}
+          >
+            {basemapState === "loading"
+              ? "Connecting basemap"
+              : basemapState === "ready"
+                ? "Basemap online"
+                : "Basemap unavailable"}
+          </p>
+          {basemapState === "degraded" ? (
+            <p className="mt-1 text-[10px] leading-4 text-white/60">
+              Route, habitat, and waypoint overlays remain active.
+            </p>
+          ) : null}
         </div>
       ) : null}
       <div className="pointer-events-none absolute bottom-4 left-4 z-[500] max-w-[220px] rounded-lg border border-white/10 bg-[#071019]/85 px-3 py-2 backdrop-blur">

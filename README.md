@@ -2,7 +2,9 @@
 
 [![CI](https://github.com/Ibby111GT/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Ibby111GT/portfolio/actions/workflows/ci.yml)
 
-A portfolio built as an **interactive engineering workbench** rather than a résumé page. Every project is something you can operate in the browser — a live security operations desk, a client-side password auditor, a WebGL construction-review viewer, a GIS route planner, runnable data pipelines, and a set of generative simulations. All of it is static, self-contained, and runs with no backend and no network calls.
+A portfolio built as an **interactive engineering workbench** rather than a résumé page. Its browser labs and creative studies are directly operable — a live security operations desk, a client-side password auditor, a WebGL construction-review viewer, a GIS route planner, runnable data pipelines, and a set of generative simulations. The documented Python tools include reproducible local demos and source on GitHub.
+
+No backend, account, secret, or paid API key is required. Core simulations run client-side; the expedition map loads CARTO/OpenStreetMap basemap tiles, and its Google Maps and Apple Maps export links require internet access.
 
 **Live:** https://portfolio-six-dusky-10.vercel.app
 

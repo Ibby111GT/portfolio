@@ -26,6 +26,11 @@ export default function CountUp({
     if (!el) {
       return;
     }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplay(value);
+      return;
+    }
+    let animationFrame = 0;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting || started.current) {
@@ -39,15 +44,18 @@ export default function CountUp({
           const eased = 1 - Math.pow(1 - progress, 3);
           setDisplay(Math.round(eased * value));
           if (progress < 1) {
-            requestAnimationFrame(tick);
+            animationFrame = requestAnimationFrame(tick);
           }
         };
-        requestAnimationFrame(tick);
+        animationFrame = requestAnimationFrame(tick);
       },
       { threshold: 0.4 },
     );
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(animationFrame);
+    };
   }, [value, duration]);
 
   return (

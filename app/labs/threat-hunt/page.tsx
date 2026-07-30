@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import LabCaseStudy from "@/components/LabCaseStudy";
 import LabShell from "@/components/LabShell";
 import ProjectWalkthrough from "@/components/ProjectWalkthrough";
@@ -5,6 +6,12 @@ import ThreatHuntLab from "@/components/labs/ThreatHuntLab";
 import { WALKTHROUGHS } from "@/lib/walkthroughs";
 
 const walkthrough = WALKTHROUGHS["threat-hunt"];
+
+export const metadata: Metadata = {
+  title: "SignalTrace Threat Hunt — Ibrahim Hussain",
+  description:
+    "Investigate a synthetic identity-led intrusion across authentication, endpoint, and cloud telemetry, then submit an evidence-scored finding.",
+};
 
 export default function ThreatHuntPage() {
   return (

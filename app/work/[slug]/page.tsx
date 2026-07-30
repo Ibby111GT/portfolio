@@ -8,6 +8,29 @@ import PrivateAiLab from "@/components/labs/PrivateAiLab";
 import TenantControlPlane from "@/components/labs/TenantControlPlane";
 import { CASE_STUDIES, getCaseStudy } from "@/lib/caseStudies";
 
+const PRIVATE_AI_SOURCES = [
+  {
+    label: "Texas Senate Bill 6 — enrolled text",
+    detail: "Large-load interconnection and demand-management framework.",
+    href: "https://capitol.texas.gov/tlodocs/89R/billtext/html/SB00006F.htm",
+  },
+  {
+    label: "ERCOT long-term load forecast",
+    detail: "2025–2031 forecast update and data-center growth assumptions.",
+    href: "https://www.ercot.com/files/docs/2025/04/07/8.1-Long-Term-Load-Forecast-Update-2025-2031-and-Methodology-Changes.pdf",
+  },
+  {
+    label: "Caterpillar G3520K HR",
+    detail: "Public 2.5 MW continuous-power generator specification.",
+    href: "https://www.cat.com/en_ZA/news/engine-press-releases/caterpillar-unveils-new-g3500k-series-gas-generator-sets.html",
+  },
+  {
+    label: "Lenovo on-premise AI TCO",
+    detail: "Public cloud-versus-owned infrastructure assumptions and limits.",
+    href: "https://lenovopress.lenovo.com/lp2368-on-premise-vs-cloud-generative-ai-total-cost-of-ownership-2026-edition",
+  },
+];
+
 interface WorkPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -268,11 +291,22 @@ export default async function WorkPage({ params }: WorkPageProps) {
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <Reveal className="flex flex-col items-center text-center mb-14">
             <p className="text-sm font-semibold tracking-widest uppercase text-fg-muted mb-4">
-              Outcomes
+              {study.slug === "private-ai-feasibility"
+                ? "Modeled recommendation"
+                : "Outcomes"}
             </p>
             <h2 className="text-3xl md:text-4xl font-bold text-fg tracking-tight">
-              What it added up to.
+              {study.slug === "private-ai-feasibility"
+                ? "What the feasibility model projected."
+                : "What it added up to."}
             </h2>
+            {study.slug === "private-ai-feasibility" ? (
+              <p className="mt-4 max-w-xl text-sm leading-6 text-fg-muted">
+                Capstone feasibility model · proposed facility not constructed.
+                Values below describe the evaluated scenario and design targets,
+                not realized investment or operating performance.
+              </p>
+            ) : null}
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
             {study.outcomes.map((stat) => (
@@ -316,6 +350,55 @@ export default async function WorkPage({ params }: WorkPageProps) {
           </div>
         </div>
       </section>
+
+      {study.slug === "private-ai-feasibility" ? (
+        <section className="border-t border-border bg-surface/20 py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-6 md:px-8">
+            <Reveal>
+              <p className="text-sm font-semibold uppercase tracking-widest text-fg-muted">
+                Sources and assumptions
+              </p>
+              <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-fg md:text-4xl">
+                Public references behind the model.
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-fg-muted">
+                These links support the public regulatory, load-growth,
+                equipment, and cost assumptions shown here. Client source
+                documents remain private, and every dollar or capacity figure
+                on this page should be read as a feasibility input—not a
+                construction commitment.
+              </p>
+            </Reveal>
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
+              {PRIVATE_AI_SOURCES.map((source, index) => (
+                <Reveal key={source.href} delay={index * 60}>
+                  <a
+                    href={source.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="group flex h-full items-start justify-between gap-5 rounded-2xl border border-border bg-bg p-5 transition-colors hover:border-fg/30"
+                  >
+                    <span>
+                      <span className="block text-sm font-semibold text-fg">
+                        {source.label}
+                      </span>
+                      <span className="mt-2 block text-sm leading-6 text-fg-muted">
+                        {source.detail}
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="text-fg-muted transition-transform group-hover:translate-x-1"
+                    >
+                      ↗
+                    </span>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }

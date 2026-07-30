@@ -1,6 +1,6 @@
 {
   "full_name": "Ibrahim Hussain",
-  "headline": "Information Security Intern | Cloud & Identity Security",
+  "headline": "Security Engineering | Cloud & Identity Systems",
   "location": "Dallas, TX",
   "email": "Ibrahim.Hussain@UTDallas.edu",
   "skills": {
@@ -11,7 +11,7 @@
   "education": {
     "school": "The University of Texas at Dallas",
     "degree": "B.S. in Computer Information Systems & Technology",
-    "graduation": "Expected May 2026",
+    "graduation": "May 2026",
     "details": "In progress: Johns Hopkins University Professional Certificate in Cybersecurity — IT and Data Security in the Age of AI; UT Dallas Global Career Accelerator Professional Certificate Program"
   },
   "certifications": [
@@ -22,7 +22,7 @@
   "projects": [
     {
       "title": "Private AI Infrastructure Feasibility Study — DFW Technology",
-      "summary": "Led a 5-person UT Dallas senior capstone consulting team advising DFW Technology, in partnership with the City of Richardson, on the feasibility of private AI data warehouses. Selected as a Top 15 capstone project out of 6,000+ students at the UTDsolv Capstone Expo."
+      "summary": "Led a 5-person UT Dallas senior capstone consulting team evaluating whether a sub-75 MW, behind-the-meter private AI facility could be sited in Richardson without adding public-grid load. Selected as a Top 15 capstone project at the UTDsolv Capstone Expo."
     },
     {
       "title": "SPL Detection Dashboards — UT System Internship",

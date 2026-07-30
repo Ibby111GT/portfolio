@@ -42,8 +42,8 @@ export default function Footer() {
           Let&apos;s build something secure together.
         </h2>
         <p className="text-base text-fg-muted max-w-sm leading-relaxed">
-          I&apos;m open to internships and full-time roles in information
-          security, cloud, or IT.
+          I&apos;m open to security, cloud, identity, and IT engineering
+          opportunities.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3 mt-1">
           <button

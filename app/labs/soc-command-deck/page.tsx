@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import LabCaseStudy from "@/components/LabCaseStudy";
 import LabShell from "@/components/LabShell";
+import ProjectWalkthrough from "@/components/ProjectWalkthrough";
 import SocCommandDeck from "@/components/labs/SocCommandDeck";
+import { WALKTHROUGHS } from "@/lib/walkthroughs";
+
+const walkthrough = WALKTHROUGHS["soc-command-deck"];
 
 export const metadata: Metadata = {
   title: "SOC Command Deck — Ibrahim Hussain",
@@ -17,6 +21,12 @@ export default function SocCommandDeckPage() {
       description="Step into the analyst's seat. A live stream of synthetic detections arrives on the clock — acknowledge, escalate, and resolve them while the KPIs, MITRE ATT&CK heatmap, and risk index recompute in real time. The same detection logic behind the LogSentry tool, expressed as a product you can operate."
     >
       <SocCommandDeck />
+      <ProjectWalkthrough
+        plain={walkthrough.plain}
+        steps={walkthrough.steps}
+        reading={walkthrough.reading}
+        practical={walkthrough.practical}
+      />
       <LabCaseStudy
         challenge="Security teams drown in isolated alerts. The hard skill is not spotting one signal — it is triaging a moving queue under time pressure, deciding what to escalate, and keeping a live read on how exposed the organization is right now."
         solution="SOC Command Deck recreates that seat. A seeded generator streams believable detections tagged to MITRE ATT&CK tactics; the analyst triages each one and can inject an attack burst to feel the queue spike. Every action instantly recomputes the open-alert KPIs, the tactic heatmap, and a weighted risk index — the numbers a shift lead actually watches."

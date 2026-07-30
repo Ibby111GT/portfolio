@@ -300,6 +300,7 @@ export default function Verdant({ project }: { project: CreativeProject }) {
             <div className="relative min-h-[760px] cursor-crosshair overflow-hidden">
               <canvas
                 ref={canvasRef}
+                role="img"
                 className="absolute inset-0 h-full w-full touch-none"
                 aria-label="A landscape where clicking the ground plants procedurally grown trees"
               />

@@ -33,6 +33,8 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
     intro:
       "Classify a suspicious address, domain, or file fingerprint, score how dangerous it looks, and map it to known attacker behavior — entirely offline.",
     repo: "https://github.com/Ibby111GT/threatlens",
+    liveHref: "/labs/threat-hunt",
+    liveLabel: "Try the related threat hunt",
     language: "Python 3 (standard library only)",
     plain: [
       "When something suspicious shows up in a security alert, it usually arrives as a bare scrap of information: an IP address, a website domain, or a long string of letters and numbers that fingerprints a file. Those scraps are called indicators of compromise, or IOCs. On their own they mean nothing — the analyst has to work out what kind of thing it is and whether it should be worried about.",
@@ -351,6 +353,8 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
     intro:
       "Audit password hygiene against current NIST-informed guidance without transmitting a password, installing a dependency, or trusting a black-box score.",
     repo: "https://github.com/Ibby111GT/passaudit",
+    liveHref: "/labs/security-checkup",
+    liveLabel: "Open the browser checkup",
     language: "Python 3 (standard library only)",
     plain: [
       "Old password meters taught people to turn a predictable word into Password1! and called the result strong. Modern guidance puts the emphasis in a different place: use enough characters, reject known compromised values, screen obvious patterns and context, and use multi-factor authentication.",
@@ -453,6 +457,8 @@ g***************(16)             VERY STRONG   88/100  PASS`,
     intro:
       "Read through server log files, flag the dozen patterns that suggest someone is trying to break in, and score the overall risk.",
     repo: "https://github.com/Ibby111GT/logsentry",
+    liveHref: "/labs/soc-command-deck",
+    liveLabel: "Operate the SOC dashboard",
     language: "Python 3 (standard library only)",
     plain: [
       "Every server keeps a diary. It writes a line of text each time somebody logs in, fails to log in, loads a page, or runs a command with administrator rights. A busy machine produces millions of these lines, and almost nobody reads them — which is exactly where attackers prefer to operate.",

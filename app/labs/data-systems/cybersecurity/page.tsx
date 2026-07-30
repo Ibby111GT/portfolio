@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import LabCaseStudy from "@/components/LabCaseStudy";
 import LabShell from "@/components/LabShell";
 import ProjectWalkthrough from "@/components/ProjectWalkthrough";
@@ -7,6 +8,12 @@ import { WALKTHROUGHS } from "@/lib/walkthroughs";
 
 const scenario = DATA_SCENARIOS.cybersecurity;
 const walkthrough = WALKTHROUGHS["data-systems/cybersecurity"];
+
+export const metadata: Metadata = {
+  title: "SentinelStream Security Data Lab — Ibrahim Hussain",
+  description:
+    "Run, break, and recover a governed cybersecurity telemetry pipeline across ingestion, storage, transformation, analytics, and observability.",
+};
 
 export default function CybersecurityDataSystemsPage() {
   return (

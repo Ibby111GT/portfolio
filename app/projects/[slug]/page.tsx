@@ -65,6 +65,14 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
             >
               View source on GitHub
             </a>
+            <a
+              href={`${doc.repo}/actions`}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-fg transition-colors hover:border-fg/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
+            >
+              View CI verification
+            </a>
             <span className="font-mono text-xs text-fg-muted">
               {doc.language}
             </span>

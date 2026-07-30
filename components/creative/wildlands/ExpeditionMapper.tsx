@@ -22,7 +22,7 @@ import {
   Waves,
   X,
 } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import LeafletExpeditionMap from "./LeafletExpeditionMap";
 import {
   PARKS,
@@ -121,22 +121,80 @@ function ExportModal({
   mode: RouteKind;
   onClose: () => void;
 }) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const filename = slugify(name);
   const googleUrl = googleMapsUrl(points, mode);
   const appleUrl = appleMapsUrl(points, mode);
   const unavailable = points.length < 2;
 
+  useEffect(() => {
+    const previouslyFocused =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
+    closeButtonRef.current?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), select:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter(
+        (element) =>
+          element.getAttribute("aria-disabled") !== "true" &&
+          !element.hasAttribute("hidden"),
+      );
+      if (!focusable.length) {
+        event.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (event.shiftKey && (active === first || !dialogRef.current?.contains(active))) {
+        event.preventDefault();
+        last.focus();
+      } else if (
+        !event.shiftKey &&
+        (active === last || !dialogRef.current?.contains(active))
+      ) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 z-[1000] grid place-items-center bg-black/80 p-4 backdrop-blur-md"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="export-title"
       onMouseDown={(event) => {
         if (event.currentTarget === event.target) onClose();
       }}
     >
-      <div className="w-full max-w-lg rounded-2xl border border-white/15 bg-[#0b1118] p-6 shadow-2xl shadow-black md:p-8">
+      <div
+        ref={dialogRef}
+        className="w-full max-w-lg rounded-2xl border border-white/15 bg-[#0b1118] p-6 shadow-2xl shadow-black md:p-8"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="export-title"
+        aria-describedby="export-description"
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-300">
@@ -145,12 +203,16 @@ function ExportModal({
             <h3 id="export-title" className="mt-2 text-2xl font-semibold text-white">
               Export expedition
             </h3>
-            <p className="mt-2 text-sm leading-6 text-white/50">
+            <p
+              id="export-description"
+              className="mt-2 text-sm leading-6 text-white/50"
+            >
               Send the current waypoints to a navigation app or save a portable
               GPS track.
             </p>
           </div>
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
             className="rounded-full border border-white/10 p-2 text-white/50 hover:bg-white/10 hover:text-white"
@@ -266,6 +328,7 @@ export default function ExpeditionMapper() {
   >("all");
   const [highlightedZone, setHighlightedZone] = useState<string | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
+  const closeExport = useCallback(() => setExportOpen(false), []);
 
   const handleParkChange = useCallback((nextParkId: string) => {
     const nextPark =
@@ -362,6 +425,29 @@ export default function ExpeditionMapper() {
               ))}
             </select>
           </label>
+        </div>
+        <div
+          className="mt-5 flex items-start gap-3 rounded-xl border border-red-400/25 bg-red-400/[0.06] px-4 py-3"
+          role="note"
+        >
+          <ShieldAlert
+            size={16}
+            className="mt-0.5 shrink-0 text-red-300"
+            aria-hidden="true"
+          />
+          <p className="text-[11px] leading-5 text-white/60">
+            Planning demonstration — not an official National Park Service map.
+            Verify current alerts, closures, permits, weather, and emergency
+            guidance before travel.{" "}
+            <a
+              href="https://www.nps.gov/findapark/index.htm"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-medium text-red-200 underline decoration-red-300/40 underline-offset-2 hover:text-white"
+            >
+              Check official NPS park information ↗
+            </a>
+          </p>
         </div>
       </div>
 
@@ -684,7 +770,7 @@ export default function ExpeditionMapper() {
           name={exportName}
           points={routePoints}
           mode={movement}
-          onClose={() => setExportOpen(false)}
+          onClose={closeExport}
         />
       ) : null}
     </section>

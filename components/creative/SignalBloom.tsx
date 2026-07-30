@@ -217,6 +217,7 @@ export default function SignalBloom({
             <div className="relative min-h-[760px] overflow-hidden">
               <canvas
                 ref={canvasRef}
+                role="img"
                 className="absolute inset-0 h-full w-full touch-none"
                 aria-label="Interactive generative field of red and blue light particles"
               />

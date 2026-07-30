@@ -1205,6 +1205,8 @@ export default function BlueprintSpatialViewer({
             camera={{ position: VIEW_POSITIONS.perspective, fov: 43 }}
             dpr={[1, 1.7]}
             gl={{ antialias: true, alpha: true }}
+            role="img"
+            aria-label={`${system.title} interactive 3D assembly. Select a numbered component to inspect its construction specification.`}
           >
             <ambientLight intensity={0.14} />
             <pointLight position={[5, 6, 6]} color="#00f3ff" intensity={1.1} />

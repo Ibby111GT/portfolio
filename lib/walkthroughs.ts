@@ -68,6 +68,124 @@ const PIPELINE_READING: ReadingItem[] = [
 ];
 
 export const WALKTHROUGHS: Record<string, Walkthrough> = {
+  "soc-command-deck": {
+    plain:
+      "This is a simulated security operations shift. New alerts arrive from a synthetic rule set while you decide which ones need attention, which ones should be escalated, and which ones can be closed. Every choice changes the queue, the risk score, and the attack-tactic view, so you can see how individual analyst decisions shape the wider security picture.",
+    steps: [
+      {
+        action: "Watch a few alerts enter the queue.",
+        detail:
+          "Each alert identifies the detection rule, severity, MITRE ATT&CK tactic, affected host, and actor. The feed is generated locally in your browser and contains no real organization or user data.",
+      },
+      {
+        action: "Filter to Critical or High.",
+        detail:
+          "Start with the alerts that could cause the most harm. This mirrors a real shift, where the queue is too large to treat every signal with the same urgency.",
+      },
+      {
+        action: "Acknowledge, escalate, or resolve an alert.",
+        detail:
+          "Acknowledge means an analyst has taken ownership. Escalate means the evidence needs incident-response attention. Resolve removes a completed or harmless alert from the active risk calculation.",
+      },
+      {
+        action: "Press Inject attack burst.",
+        detail:
+          "Four high-severity detections arrive together. Watch the open-alert count and risk trend rise, then work the queue until the exposure falls again.",
+      },
+      {
+        action: "Pause the feed and compare the panels.",
+        detail:
+          "The KPIs summarize workload, the risk index weights the active queue by severity and status, and the heatmap shows which ATT&CK tactics are currently driving the most risk.",
+      },
+    ],
+    reading: [
+      {
+        label: "Severity",
+        body: "The potential impact of one alert, from low through critical. Severity sets the starting priority; it does not prove that an attack occurred.",
+      },
+      {
+        label: "Alert status",
+        body: "Where the item is in the workflow: new, acknowledged, escalated, or resolved. Status records what the analyst has done, not how dangerous the original signal was.",
+      },
+      {
+        label: "Open / critical / escalated",
+        body: "Three different workload views: everything still active, the most severe subset, and the items deliberately handed to a deeper investigation.",
+      },
+      {
+        label: "Triaged",
+        body: "The percentage of alerts that have received an analyst decision. A high number means the queue is being worked; it does not automatically mean the environment is safe.",
+      },
+      {
+        label: "Risk index",
+        body: "A severity-weighted summary of the active queue. Escalated alerts carry extra weight, so one urgent incident can matter more than several routine detections.",
+      },
+      {
+        label: "ATT&CK heatmap",
+        body: "Active alert weight grouped by the attacker's goal, using MITRE ATT&CK tactics. A hotter cell shows where the current queue is concentrated.",
+      },
+    ],
+    practical:
+      "A security operations center uses this workflow to keep thousands of signals from becoming an unmanageable list. Analysts prioritize what could hurt the business, document ownership, escalate evidence of a real incident, and close false positives or completed work. The dashboard gives a shift lead one live view of both workload and exposure.",
+  },
+  "security-checkup": {
+    plain:
+      "This is a password-strength explanation tool, not just a colored meter. It estimates how many guesses a password represents, checks for common breached base words and predictable patterns, and explains which weakness changed the verdict. The analysis happens entirely in this browser tab; the value is never transmitted, stored, or logged.",
+    steps: [
+      {
+        action: "Start with one of the four sample passwords.",
+        detail:
+          "Use the provided examples rather than a real account password. The samples make it safe to compare a block-listed classic, a seasonal pattern, a long passphrase, and a symbol-heavy password.",
+      },
+      {
+        action: "Compare the verdict and score.",
+        detail:
+          "The verdict summarizes the whole result. A common or predictable password can be rejected even when it contains uppercase letters, numbers, and symbols.",
+      },
+      {
+        action: "Read entropy, character pool, and crack time.",
+        detail:
+          "Entropy estimates the size of the guessing problem, the character pool shows which kinds of characters are present, and crack time translates the estimate into human language using a fast offline-attack benchmark.",
+      },
+      {
+        action: "Read every finding below the meter.",
+        detail:
+          "The findings explain what helped or hurt: length, a common base word, a keyboard walk, a sequence, repeated characters, or a year. A blocker outweighs cosmetic complexity.",
+      },
+      {
+        action: "Change one property and compare again.",
+        detail:
+          "Lengthen a sample into a memorable multi-word phrase, then compare it with simply adding a symbol. The result demonstrates why modern guidance favors length and block-list checks over arbitrary composition rules.",
+      },
+    ],
+    reading: [
+      {
+        label: "Verdict",
+        body: "The overall band from critical to excellent after both mathematical strength and predictable-pattern checks are considered.",
+      },
+      {
+        label: "Score",
+        body: "A 0–100 teaching aid for comparing examples on this page. It is not a guarantee that a password is safe in every real system.",
+      },
+      {
+        label: "Entropy",
+        body: "An estimate, in bits, of how large the brute-force search space is. More bits generally means more guesses, but a known password or obvious pattern can still make the practical result weak.",
+      },
+      {
+        label: "Character pool",
+        body: "The number of possible characters implied by the categories in use: lowercase, uppercase, numbers, and symbols. Pool size helps, but length has the larger compounding effect.",
+      },
+      {
+        label: "Crack time",
+        body: "An illustrative offline-guessing estimate at roughly 100 billion attempts per second. Real attack speed varies with the password-storage algorithm and the attacker's hardware.",
+      },
+      {
+        label: "Block-list finding",
+        body: "A match against the demo's compact list of commonly breached passwords and base words, including simple leetspeak substitutions. Production systems use much larger block lists.",
+      },
+    ],
+    practical:
+      "Identity teams use this type of feedback when designing password enrollment and reset experiences. The goal is to stop known weak choices without teaching users to make short passwords that merely satisfy a checklist. In production, the same approach is paired with a much larger compromised-password list, rate limiting, multi-factor authentication, and secure password hashing.",
+  },
   "threat-hunt": {
     plain:
       "This is a security investigation you can actually play. A company employee's account has been taken over, and the evidence is scattered across twelve log entries from three different systems - the login service, the laptop, and the cloud file storage. Some of those entries are the attacker. Most are ordinary staff doing ordinary things. Your job is to pick out the ones that prove the break-in.",

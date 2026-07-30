@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import LabCaseStudy from "@/components/LabCaseStudy";
 import LabShell from "@/components/LabShell";
 import ProjectWalkthrough from "@/components/ProjectWalkthrough";
@@ -7,6 +8,12 @@ import { WALKTHROUGHS } from "@/lib/walkthroughs";
 
 const scenario = DATA_SCENARIOS.healthcare;
 const walkthrough = WALKTHROUGHS["data-systems/healthcare"];
+
+export const metadata: Metadata = {
+  title: "CareFlow Healthcare Data Lab — Ibrahim Hussain",
+  description:
+    "Operate a privacy-aware clinical data pipeline across FHIR, claims, and HL7 feeds, then recover a quarantined contract fault.",
+};
 
 export default function HealthcareDataSystemsPage() {
   return (

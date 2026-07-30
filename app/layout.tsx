@@ -57,8 +57,16 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>
       <body className="bg-bg font-sans text-fg antialiased">
+        <a
+          href="#main-content"
+          className="fixed left-4 top-4 z-[2000] -translate-y-24 rounded-full bg-fg px-4 py-2 text-sm font-semibold text-bg shadow-xl transition-transform focus:translate-y-0"
+        >
+          Skip to content
+        </a>
         <Nav />
-        {children}
+        <div id="main-content" tabIndex={-1}>
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

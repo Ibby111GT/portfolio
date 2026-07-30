@@ -15,7 +15,17 @@ describe("creative projects catalog", () => {
       expect(project.title.length).toBeGreaterThan(0);
       expect(project.description.length).toBeGreaterThan(0);
       expect(project.interaction.length).toBeGreaterThan(0);
+      expect(project.purpose.length).toBeGreaterThan(0);
+      expect(project.capabilities.length).toBeGreaterThanOrEqual(2);
+      expect(project.decisions.length).toBeGreaterThanOrEqual(2);
+      expect(project.boundary.length).toBeGreaterThan(0);
       expect(["red", "blue"]).toContain(project.accent);
+      expect([
+        "Spatial & fabrication",
+        "Automotive",
+        "Simulation & data",
+        "Generative art",
+      ]).toContain(project.group);
     }
   });
 

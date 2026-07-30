@@ -134,8 +134,17 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     outcomes: [
       { value: 15, prefix: "Top ", label: "Capstone ranking at UTDsolv Expo" },
-      { value: 200, prefix: "$", suffix: "M+", label: "Capital investment modeled" },
-      { value: 0, label: "Megawatts added to the public grid" },
+      {
+        value: 200,
+        prefix: "$",
+        suffix: "M+",
+        label: "Project scenario evaluated",
+      },
+      {
+        value: 0,
+        suffix: " MW",
+        label: "Design target for incremental public-grid load",
+      },
     ],
     learnings: [
       "The best answer to a hard constraint is often to design under it on purpose rather than argue with it.",
