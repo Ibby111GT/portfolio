@@ -1,14 +1,18 @@
 import Link from "next/link";
+import DetailFooterNavigation from "@/components/DetailFooterNavigation";
+import DetailNavigator from "@/components/DetailNavigator";
 
 export default function LabShell({
   eyebrow,
   title,
   description,
+  slug,
   children,
 }: {
   eyebrow: string;
   title: string;
   description: string;
+  slug: string;
   children: React.ReactNode;
 }) {
   return (
@@ -31,7 +35,21 @@ export default function LabShell({
             {description}
           </p>
         </div>
-        {children}
+        <DetailNavigator
+          accent="red"
+          readingTime="Use it first · 8 min deep dive"
+          label="Choose your depth"
+          items={[
+            { href: "#experience", label: "Run the lab" },
+            { href: "#plain-english", label: "Plain-English guide" },
+            { href: "#technical-details", label: "Technical details" },
+          ]}
+          className="mb-10"
+        />
+        <div id="experience" className="scroll-mt-32">
+          {children}
+        </div>
+        <DetailFooterNavigation currentSlug={slug} className="mt-24" />
       </div>
     </main>
   );

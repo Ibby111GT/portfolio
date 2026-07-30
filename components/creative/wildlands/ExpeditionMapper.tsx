@@ -541,6 +541,7 @@ export default function ExpeditionMapper() {
                   <button
                     key={candidate.properties.id}
                     type="button"
+                    aria-pressed={active}
                     onClick={() => handleRouteSelect(candidate.properties.id)}
                     className={`flex items-center gap-3 rounded-xl border p-3 text-left transition-colors ${
                       active

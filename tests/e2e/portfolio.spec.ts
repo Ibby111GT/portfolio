@@ -2,12 +2,12 @@ import { expect, test } from "@playwright/test";
 
 const CORE_ROUTES = [
   ["/", "Ibrahim Hussain"],
-  ["/projects", "Systems I've shipped, simulated, and delivered."],
-  ["/creative", "Ideas you can operate, not just observe."],
+  ["/projects", "Start simple. Go deep when you're ready."],
+  ["/creative", "Three collections. One clear way in."],
   ["/creative/cabinetry-studio", "Cabinetry Studio"],
-  ["/creative/sentinel-observatory", "Threat globe"],
-  ["/creative/verdant", "Plant a forest"],
-  ["/creative/lumen-city", "Keep the lights on"],
+  ["/creative/sentinel-observatory", "Sentinel Observatory"],
+  ["/creative/verdant", "Verdant"],
+  ["/creative/lumen-city", "Lumen City"],
 ] as const;
 
 test("core portfolio routes render without horizontal overflow", async ({ page }) => {
@@ -79,31 +79,86 @@ test("the primary navigation remains usable at 320px", async ({ page }) => {
   expect(overflow, "the Creative route should fit a 320px viewport").toBeLessThanOrEqual(1);
 });
 
-test("Creative filters expose the intended project groups", async ({ page }) => {
+test("Creative projects are organized into three clear collections", async ({
+  page,
+}) => {
   await page.goto("/creative");
 
-  const filters = page.getByRole("group", { name: "Filter creative projects" });
+  const collections = page.getByRole("navigation", {
+    name: "Creative collections",
+  });
   const projectLinks = page.locator('main a[href^="/creative/"]');
 
+  await expect(collections.getByRole("link")).toHaveCount(3);
   await expect(projectLinks).toHaveCount(10);
-  await filters
-    .getByRole("button", { name: "Spatial & fabrication", exact: true })
-    .click();
-  await expect(projectLinks).toHaveCount(4);
+  await expect(page.locator("#design").locator('a[href^="/creative/"]')).toHaveCount(
+    5,
+  );
   await expect(
-    page.getByRole("link", { name: /Cabinetry Studio/ }),
-  ).toBeVisible();
-  await expect(page.getByRole("link", { name: /Panel Studio/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Wardrobe Atelier/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Wood Object Index/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Apex Hypercars/ })).toHaveCount(0);
-
-  await filters.getByRole("button", { name: "Automotive", exact: true }).click();
-  await expect(projectLinks).toHaveCount(1);
+    page.locator("#simulations").locator('a[href^="/creative/"]'),
+  ).toHaveCount(3);
+  await expect(
+    page.locator("#generative").locator('a[href^="/creative/"]'),
+  ).toHaveCount(2);
   await expect(page.getByRole("link", { name: /Apex Hypercars/ })).toBeVisible();
+});
+
+test("Projects are grouped into three paths and remain searchable", async ({
+  page,
+}) => {
+  await page.goto("/projects");
+
+  const paths = page.getByRole("navigation", { name: "Project collections" });
+  await expect(paths.getByRole("link")).toHaveCount(3);
   await expect(
-    filters.getByRole("button", { name: "Automotive", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
+    page.locator("#professional-work").locator('a[href^="/work/"]'),
+  ).toHaveCount(4);
+  await expect(
+    page.locator("#open-source").locator('a[href^="/projects/"]'),
+  ).toHaveCount(6);
+  await expect(
+    page.locator("#interactive-labs").locator('a[href^="/labs/"]'),
+  ).toHaveCount(6);
+
+  await page
+    .getByPlaceholder("Search all 16 entries by project, skill, or outcome")
+    .fill("Python");
+  await expect(
+    page.locator("#open-source").locator('a[href^="/projects/"]'),
+  ).toHaveCount(5);
+  await expect(page.locator("#professional-work")).toHaveCount(0);
+  await expect(page.locator("#interactive-labs")).toHaveCount(0);
+});
+
+test("Creative details separate the quick guide from technical depth", async ({
+  page,
+}) => {
+  await page.goto("/creative/cabinetry-studio");
+
+  await expect(
+    page.getByRole("heading", {
+      name: "Cabinetry Studio",
+      exact: true,
+      level: 1,
+    }),
+  ).toHaveCount(1);
+  await expect(page.getByText("Try it in order", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("What you are looking at", { exact: true }).first(),
+  ).toBeVisible();
+
+  const navigator = page.getByRole("navigation", {
+    name: "Choose your depth",
+  });
+  const technicalLink = navigator.getByRole("link", {
+    name: /Technical details/,
+  });
+  await expect(technicalLink).toHaveAttribute("href", "#technical-details");
+  await technicalLink.click();
+  await expect(page).toHaveURL(/#technical-details$/);
+  await expect(
+    page.getByRole("heading", { name: "How the system works.", exact: true }),
+  ).toBeVisible();
 });
 
 test("Creative project navigation advances to the next project", async ({ page }) => {
@@ -113,7 +168,7 @@ test("Creative project navigation advances to the next project", async ({ page }
     name: "Continue through creative projects",
   });
   const nextProject = continuation.getByRole("link", {
-    name: /Next project.*Panel Studio/,
+    name: /Next in this collection.*Panel Studio/,
   });
 
   await expect(nextProject).toHaveAttribute("href", "/creative/panel-studio");

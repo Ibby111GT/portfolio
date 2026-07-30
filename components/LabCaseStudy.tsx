@@ -19,11 +19,14 @@ export default function LabCaseStudy({
   outcomes: CaseStudyStat[];
 }) {
   return (
-    <section className="mt-24 border-t border-border pt-20">
+    <section
+      id="technical-details"
+      className="mt-24 scroll-mt-32 border-t border-border pt-20"
+    >
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-fg-muted">
-            Engineering case study
+            Technical deep dive
           </p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-fg md:text-5xl">
             From problem to working system.
@@ -69,6 +72,24 @@ export default function LabCaseStudy({
           <div className="grid gap-8 md:grid-cols-2">
             <BulletBlock title="Key decisions" items={decisions} />
             <BulletBlock title="Competencies shown" items={competencies} />
+          </div>
+          <div className="rounded-xl border border-border bg-surface/50 p-5">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-fg">
+              Implementation proof
+            </h3>
+            <p className="mt-3 text-sm leading-7 text-fg-muted">
+              This is a working client-side simulation built with synthetic
+              data. Its source is public, and the core interactions are covered
+              by automated browser tests.
+            </p>
+            <a
+              href="https://github.com/Ibby111GT/portfolio/tree/main/components/labs"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="mt-3 inline-flex min-h-11 items-center text-sm font-medium text-fg underline decoration-border underline-offset-4"
+            >
+              View lab source ↗
+            </a>
           </div>
         </div>
       </div>

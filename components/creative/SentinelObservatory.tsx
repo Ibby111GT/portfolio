@@ -482,9 +482,9 @@ export default function SentinelObservatory({
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">
                   Sentinel Observatory · live tactical picture
                 </p>
-                <h1 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
+                <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
                   Threat globe
-                </h1>
+                </h2>
                 <p className="mt-4 max-w-md text-sm leading-6 text-white/55">
                   Every arc is a simulated intrusion attempt tracing a great
                   circle toward the home node. Drag to rotate. All synthetic,

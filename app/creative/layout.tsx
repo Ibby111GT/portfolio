@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Creative Playground — Ibrahim Hussain",
+  title: "Creative Systems — Ibrahim Hussain",
   description:
-    "Ten interactive prototypes spanning spatial design, fabrication, automotive systems, geospatial simulation, security visualization, and generative art.",
+    "Ten interactive prototypes organized into design and fabrication, interactive simulations, and generative systems—with plain-English guides and technical deep dives.",
 };
 
 export default function CreativeLayout({

@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 export default function CybersecurityDataSystemsPage() {
   return (
     <LabShell
+      slug="sentinelstream"
       eyebrow={scenario.eyebrow}
       title={scenario.title}
       description="Run a governed security telemetry pipeline end to end: ingest identity, endpoint, and cloud events, watch them land in bronze, silver, and gold zones, then inject a schema fault and recover from quarantine."

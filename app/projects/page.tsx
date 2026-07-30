@@ -5,7 +5,7 @@ import Link from "next/link";
 export const metadata = {
   title: "Projects — Ibrahim Hussain",
   description:
-    "One catalog of working security tools, browser labs, data applications, and professional case studies, each with a plain-English walkthrough.",
+    "Professional work, tested open-source software, and interactive labs—organized into three clear paths with plain-English summaries and technical evidence.",
 };
 
 export default function ProjectsPage() {
@@ -14,46 +14,29 @@ export default function ProjectsPage() {
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-fg-muted">
-            Build / break / learn
+            Work · code · interactive labs
           </p>
           <h1 className="mt-4 max-w-4xl text-5xl font-bold tracking-tight text-fg md:text-7xl">
-            Systems I&apos;ve shipped, simulated, and delivered.
+            Start simple.
+            <br />
+            Go deep when you&apos;re ready.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-fg-muted">
-            One clearly labeled catalog of professional engagements, CI-tested
-            open-source tools, and interactive browser labs. Every entry
-            explains what to do, what the evidence means, and where the system
-            would be used.
+            Professional work, tested software, and browser labs are grouped
+            into three clear paths. Every entry begins in plain English and
+            includes the technical decisions, evidence, and limits underneath.
           </p>
+          <Link
+            href="/creative"
+            className="mt-7 inline-flex min-h-11 items-center border-b border-border text-sm font-medium text-fg-muted transition-colors hover:border-fg hover:text-fg"
+          >
+            Looking for spatial design and interactive art? Explore 10 creative
+            prototypes →
+          </Link>
         </Reveal>
 
         <Reveal className="mt-14" delay={80}>
           <ProjectCatalog />
-        </Reveal>
-
-        <Reveal className="mt-20" delay={120}>
-          <Link
-            href="/creative"
-            className="group grid gap-8 overflow-hidden rounded-3xl border border-border bg-[#080808] p-7 text-white md:grid-cols-[1fr_auto] md:items-end md:p-10"
-          >
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
-                Separate creative collection · 10 live prototypes
-              </p>
-              <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight md:text-5xl">
-                Explore spatial models, simulations, and generative systems.
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/60">
-                The Creative tab is intentionally separate from professional
-                work. Every piece is interactive and now includes an
-                engineering proof layer describing its purpose, decisions, and
-                limits.
-              </p>
-            </div>
-            <span className="inline-flex items-center text-sm font-semibold text-white transition-transform group-hover:translate-x-1">
-              Enter Creative →
-            </span>
-          </Link>
         </Reveal>
       </div>
     </main>

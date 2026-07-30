@@ -308,9 +308,9 @@ export default function Verdant({ project }: { project: CreativeProject }) {
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">
                   Verdant · generative reforestation
                 </p>
-                <h1 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
+                <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
                   Plant a forest
-                </h1>
+                </h2>
                 <p className="mt-4 max-w-md text-sm leading-6 text-white/60">
                   Click the ground to plant a seed. Rainfall and sunlight shape
                   how each tree branches — then watch the canopy, and the carbon

@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 export default function HealthcareDataSystemsPage() {
   return (
     <LabShell
+      slug="careflow"
       eyebrow={scenario.eyebrow}
       title={scenario.title}
       description="Run a protected clinical pipeline end to end: validate FHIR encounters, claims batches, and HL7 lab results, tokenize PHI into governed models, then inject a contract fault and replay the quarantined batch."

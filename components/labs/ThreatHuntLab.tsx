@@ -144,6 +144,7 @@ export default function ThreatHuntLab() {
                   <button
                     key={item}
                     type="button"
+                    aria-pressed={source === item}
                     onClick={() => setSource(item)}
                     className={`rounded-md px-3 py-1.5 font-mono text-[10px] uppercase transition ${
                       source === item ? "bg-white text-black" : "text-white/45 hover:text-white"

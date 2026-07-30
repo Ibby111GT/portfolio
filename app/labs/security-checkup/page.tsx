@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 export default function SecurityCheckupPage() {
   return (
     <LabShell
+      slug="security-checkup"
       eyebrow="Identity security · privacy-first tool"
       title="Security Checkup"
       description="A password strength checker you can actually trust with a password, because it never sends one. Entropy estimation, breach block-list matching, and pattern detection all run in your browser — the same NIST-informed heuristics behind the PassAudit tool, made useful to anyone."

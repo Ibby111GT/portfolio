@@ -225,11 +225,11 @@ export default function SignalBloom({
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">
                   Generative canvas · pointer reactive
                 </p>
-                <h1 className="mt-4 text-5xl font-semibold leading-[0.92] tracking-[-0.045em] md:text-8xl">
+                <h2 className="mt-4 text-5xl font-semibold leading-[0.92] tracking-[-0.045em] md:text-8xl">
                   Signal
                   <br />
                   Bloom
-                </h1>
+                </h2>
                 <p className="mt-6 max-w-lg text-sm leading-7 text-white/55 md:text-base">
                   Move through the field. Nearby signals bend toward you,
                   connect, and leave a fading trace. No two frames are the same.

@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 export default function ThreatHuntPage() {
   return (
     <LabShell
+      slug="threat-hunt"
       eyebrow="Detection engineering simulation"
       title="SignalTrace"
       description="Hunt an identity-led intrusion across authentication, endpoint, and cloud telemetry. Select the events that prove the attack chain, then submit your finding."
