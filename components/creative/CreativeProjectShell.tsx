@@ -13,6 +13,7 @@ const GROUP_ANCHORS: Record<CreativeGroup, string> = {
   "Design & fabrication": "design",
   "Interactive simulations": "simulations",
   "Generative systems": "generative",
+  "Playable worlds": "playable",
 };
 
 export default function CreativeProjectShell({

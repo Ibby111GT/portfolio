@@ -7,12 +7,17 @@ export type CreativeCategory =
   | "Simulation"
   | "Generative"
   | "Security"
-  | "Living systems";
+  | "Living systems"
+  | "Life simulation"
+  | "Arcade driving"
+  | "RPG systems"
+  | "Character animation";
 
 export type CreativeGroup =
   | "Design & fabrication"
   | "Interactive simulations"
-  | "Generative systems";
+  | "Generative systems"
+  | "Playable worlds";
 
 export interface CreativeReadingItem {
   label: string;
@@ -819,5 +824,233 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
       "Generative environmental artwork; values are synthetic and not a climate, hydrology, or land-use forecast.",
     image: null,
     accent: "blue",
+  },
+  {
+    slug: "blocktown-stories",
+    number: "17",
+    title: "Blocktown Stories",
+    category: "Life simulation",
+    group: "Playable worlds",
+    description:
+      "Run a tiny block-built neighborhood where residents manage energy, food, friendship, and fun on their own.",
+    interaction:
+      "Inspect residents, change the pace of time, add a community space, or start a street festival.",
+    purpose:
+      "Demonstrate autonomous decision-making, needs-based behavior, time simulation, and readable world state through a playful life-simulation interface.",
+    steps: [
+      "Select a resident to inspect their current need, destination, and daily routine.",
+      "Change the simulation speed and watch residents choose where to go without scripted paths.",
+      "Add a park or café, then start a street festival to change the neighborhood’s behavior.",
+    ],
+    reading: [
+      {
+        label: "Need bars",
+        detail:
+          "Food, energy, friendship, and fun decline over time and influence each resident’s next destination.",
+      },
+      {
+        label: "Daily routine",
+        detail:
+          "Residents choose a suitable building, travel there, and recover the need that matters most.",
+      },
+      {
+        label: "Town event",
+        detail:
+          "A temporary festival increases social activity and changes how the shared spaces are used.",
+      },
+    ],
+    architecture: [
+      "A needs-based agent system continuously ranks goals for every resident.",
+      "A block-grid town model maps each building type to the needs it can satisfy.",
+      "Time, path movement, resident inspection, building placement, and event state run entirely in the browser.",
+    ],
+    evidenceMode: "Deterministic needs-based life simulation",
+    capabilities: [
+      "Agent decision systems",
+      "Simulation state management",
+      "Canvas world rendering",
+      "Interactive game UI",
+    ],
+    decisions: [
+      "Expose each resident’s current motive so autonomous behavior remains understandable.",
+      "Use short, repeatable routines instead of pretending to simulate a complete human life.",
+      "Let new buildings change agent choices so player input has a visible systemic effect.",
+    ],
+    boundary:
+      "Playful systems prototype. Residents, needs, routines, and outcomes are fictional and intentionally simplified.",
+    boundaryTone: "scope",
+    image: null,
+    accent: "blue",
+  },
+  {
+    slug: "slipstream-circuit",
+    number: "18",
+    title: "Slipstream Circuit",
+    category: "Arcade driving",
+    group: "Playable worlds",
+    description:
+      "Drive a blocky time-trial car, tune its grip and power, chase clean laps, and build a drift score.",
+    interaction:
+      "Steer with the keyboard or touch controls, adjust the car, enable autopilot, and reset the run.",
+    purpose:
+      "Show real-time vehicle input, simplified handling physics, collision recovery, lap tracking, and touch-friendly game controls in one browser experience.",
+    steps: [
+      "Use the arrow keys, WASD, or the on-screen controls to steer, accelerate, brake, and boost.",
+      "Adjust grip and engine output to change how quickly the car rotates and accelerates.",
+      "Complete a clean lap manually or enable autopilot to inspect the reference racing line.",
+    ],
+    reading: [
+      {
+        label: "Racing line",
+        detail:
+          "The dashed blue guide shows the stable reference path around the circuit.",
+      },
+      {
+        label: "Drift score",
+        detail:
+          "Points increase when the car moves quickly while its heading and travel direction diverge.",
+      },
+      {
+        label: "Track limits",
+        detail:
+          "Leaving the paved ring reduces speed and triggers recovery when the car travels too far away.",
+      },
+    ],
+    architecture: [
+      "A fixed-step vehicle model combines throttle, braking, steering, grip, drag, and boost.",
+      "Elliptical track-distance checks power limits, recovery, checkpoint progress, and lap timing.",
+      "Keyboard, pointer, and touch input feed the same control state for consistent play.",
+    ],
+    evidenceMode: "Real-time arcade vehicle simulation",
+    capabilities: [
+      "Game input systems",
+      "Vehicle-motion modeling",
+      "Collision and lap logic",
+      "Responsive controls",
+    ],
+    decisions: [
+      "Favor readable arcade handling over an opaque or falsely realistic tire model.",
+      "Provide autopilot as an inspectable reference rather than making it the default.",
+      "Keep touch controls visible so the experience remains playable without a keyboard.",
+    ],
+    boundary:
+      "Arcade driving prototype with fictional performance values; it is not a vehicle-dynamics or driver-training model.",
+    boundaryTone: "scope",
+    image: null,
+    accent: "red",
+  },
+  {
+    slug: "lantern-vale",
+    number: "19",
+    title: "Lantern Vale",
+    category: "RPG systems",
+    group: "Playable worlds",
+    description:
+      "Explore a compact blocky quest, recover three lost echoes, speak with the keeper, and unlock the valley gate.",
+    interaction:
+      "Move with the keyboard or directional controls, collect echoes, interact with characters, and finish the quest.",
+    purpose:
+      "Demonstrate tile-map logic, collision rules, quest state, inventory, character interaction, and accessible game controls without relying on a game engine.",
+    steps: [
+      "Move through the map with the arrow keys, WASD, or the directional buttons.",
+      "Collect all three blue echoes while avoiding unstable red tiles.",
+      "Speak with the keeper, travel to the gate, and use the interaction control to complete the quest.",
+    ],
+    reading: [
+      {
+        label: "Blue echoes",
+        detail:
+          "Collectible quest items that update the inventory and unlock the final objective.",
+      },
+      {
+        label: "Red rifts",
+        detail:
+          "Hazard tiles that cost one heart and return the hero to the last safe tile.",
+      },
+      {
+        label: "Quest log",
+        detail:
+          "A short state machine explains the next objective and records completion.",
+      },
+    ],
+    architecture: [
+      "A compact tile map stores walls, walkable ground, hazards, characters, collectibles, and the exit gate.",
+      "A deterministic movement reducer handles collision, inventory, damage, dialogue, and quest transitions.",
+      "Keyboard and on-screen controls share the same movement and interaction commands.",
+    ],
+    evidenceMode: "Playable tile-based RPG systems prototype",
+    capabilities: [
+      "Tile-map systems",
+      "Finite-state quests",
+      "Collision and inventory logic",
+      "Accessible game controls",
+    ],
+    decisions: [
+      "Keep the quest deliberately small so every state transition can be inspected in one visit.",
+      "Use color, shape, and text labels together so important tiles do not depend on color alone.",
+      "Make the on-screen directional pad equal to the keyboard path instead of treating mobile as a passive preview.",
+    ],
+    boundary:
+      "Original miniature game prototype. The story, characters, map, and rules are fictional.",
+    boundaryTone: "scope",
+    image: null,
+    accent: "blue",
+  },
+  {
+    slug: "frameforge",
+    number: "20",
+    title: "Frameforge",
+    category: "Character animation",
+    group: "Playable worlds",
+    description:
+      "Direct a blocky character rig through idle, run, jump, and attack states while inspecting every animation frame.",
+    interaction:
+      "Choose an animation state, tune timing and exaggeration, scrub the frames, randomize the rig, or export a pose.",
+    purpose:
+      "Make an animation state machine, procedural posing, frame timing, and sprite-oriented art direction visible in a compact indie-production tool.",
+    steps: [
+      "Choose idle, run, jump, or attack to change the active animation state.",
+      "Adjust frame rate and exaggeration, then select individual timeline frames to inspect the pose.",
+      "Randomize the character proportions or export the current frame as an image.",
+    ],
+    reading: [
+      {
+        label: "State machine",
+        detail:
+          "Each named action uses a distinct set of timing, body, arm, and leg rules.",
+      },
+      {
+        label: "Timeline",
+        detail:
+          "Eight selectable frames reveal how the current motion changes over one animation cycle.",
+      },
+      {
+        label: "Procedural rig",
+        detail:
+          "A small set of body proportions and joint offsets creates every visible pose.",
+      },
+    ],
+    architecture: [
+      "A finite animation state machine selects the pose function for the active action.",
+      "Procedural joint transforms calculate body bounce, limb rotation, squash, and anticipation for each frame.",
+      "Timeline scrubbing, playback speed, reduced motion, rig randomization, and image export remain client-side.",
+    ],
+    evidenceMode: "Procedural character-animation workbench",
+    capabilities: [
+      "Animation state machines",
+      "Procedural posing",
+      "Timeline interaction",
+      "Sprite-style art direction",
+    ],
+    decisions: [
+      "Expose named states and discrete frames so the animation logic is readable instead of hidden behind a video.",
+      "Use a blocky rig to emphasize motion and silhouette over illustration detail.",
+      "Let timing and exaggeration change the same rig so animation trade-offs remain easy to compare.",
+    ],
+    boundary:
+      "Original animation prototype. Export produces a single reference frame rather than a production-ready sprite sheet.",
+    boundaryTone: "scope",
+    image: null,
+    accent: "red",
   },
 ];

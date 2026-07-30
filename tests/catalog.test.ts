@@ -28,6 +28,7 @@ describe("creative projects catalog", () => {
         "Design & fabrication",
         "Interactive simulations",
         "Generative systems",
+        "Playable worlds",
       ]).toContain(project.group);
     }
   });
@@ -37,6 +38,37 @@ describe("creative projects catalog", () => {
     expect(slugs).toContain("sentinel-observatory");
     expect(slugs).toContain("verdant");
     expect(slugs).toContain("lumen-city");
+    expect(slugs).toContain("blocktown-stories");
+    expect(slugs).toContain("slipstream-circuit");
+    expect(slugs).toContain("lantern-vale");
+    expect(slugs).toContain("frameforge");
+  });
+
+  it("keeps every explanation complete and free of draft copy", () => {
+    const forbidden =
+      /\b(?:teh|recieve|seperate|occured|enviroment|interactve|geneartive|explaination|definately|lorem|placeholder|TBD|TODO|coming soon)\b/i;
+    for (const project of CREATIVE_PROJECTS) {
+      const sentences = [
+        project.description,
+        project.interaction,
+        project.purpose,
+        ...project.steps,
+        ...project.reading.map((item) => item.detail),
+        ...project.architecture,
+        ...project.decisions,
+        project.boundary,
+      ];
+      for (const sentence of sentences) {
+        expect(
+          sentence,
+          `${project.slug} contains incomplete or draft copy: "${sentence}"`,
+        ).toMatch(/[.!?]$/);
+        expect(
+          sentence,
+          `${project.slug} contains a likely spelling or draft-copy error`,
+        ).not.toMatch(forbidden);
+      }
+    }
   });
 });
 

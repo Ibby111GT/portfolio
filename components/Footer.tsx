@@ -57,7 +57,7 @@ export default function Footer() {
           Let&apos;s build something useful.
         </h2>
         <p className="text-base text-fg-muted max-w-sm leading-relaxed">
-          I&apos;m open to security, cloud, identity, data, and creative
+          I&apos;m open to software, systems, simulation, data, and creative
           technology opportunities.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3 mt-1">

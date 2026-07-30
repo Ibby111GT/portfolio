@@ -8,28 +8,28 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Ibrahim Hussain — Security & Data Engineering",
+  title: "Ibrahim Hussain — Interactive Systems & Software",
   description:
-    "Working cybersecurity and data engineering labs across security, finance, and healthcare, plus production-minded Python security tools.",
+    "Playable simulations, generative systems, software projects, and engineering case studies built to be explored directly in the browser.",
   openGraph: {
-    title: "Ibrahim Hussain — Security & Data Engineering",
+    title: "Ibrahim Hussain — Interactive Systems & Software",
     description:
-      "Run interactive threat hunting and governed data pipeline labs, then explore the engineering case studies behind them.",
+      "Play small indie worlds, inspect living algorithms, operate software labs, and explore the engineering decisions behind them.",
     type: "website",
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Connected cybersecurity and data engineering systems",
+        alt: "Interactive software, playful simulations, and generative systems",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ibrahim Hussain — Security & Data Engineering",
+    title: "Ibrahim Hussain — Interactive Systems & Software",
     description:
-      "Interactive labs and engineering case studies across cybersecurity, finance, and healthcare.",
+      "Playable worlds, generative systems, interactive labs, and engineering case studies.",
     images: ["/og.png"],
   },
 };

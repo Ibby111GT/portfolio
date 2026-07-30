@@ -92,6 +92,22 @@ const EXPERIENCES: Record<
     () => import("@/components/creative/EmergentSystems"),
     { loading: LoadingCreativeExperience },
   ),
+  "blocktown-stories": dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/PlayableWorlds"),
+    { loading: LoadingCreativeExperience },
+  ),
+  "slipstream-circuit": dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/PlayableWorlds"),
+    { loading: LoadingCreativeExperience },
+  ),
+  "lantern-vale": dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/PlayableWorlds"),
+    { loading: LoadingCreativeExperience },
+  ),
+  frameforge: dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/PlayableWorlds"),
+    { loading: LoadingCreativeExperience },
+  ),
 };
 
 export function generateStaticParams() {

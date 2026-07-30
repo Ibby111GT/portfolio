@@ -11,6 +11,12 @@ import {
   TerraformPoster,
 } from "@/components/creative/SystemPosters";
 import {
+  BlocktownPoster,
+  FrameforgePoster,
+  LanternValePoster,
+  SlipstreamPoster,
+} from "@/components/creative/PlayablePosters";
+import {
   BiospherePoster,
   ContinuumPoster,
   LumenCityPoster,
@@ -39,9 +45,17 @@ const COLLECTIONS: Array<{
       "Cabinetry, architectural panels, wardrobes, wooden products, and an automotive concept—each explored as a system that must fit, assemble, and communicate clearly.",
   },
   {
+    group: "Playable worlds",
+    id: "playable",
+    number: "02",
+    title: "Playable worlds",
+    description:
+      "Small indie-style systems you can inhabit: run a neighborhood, drive a circuit, finish an RPG quest, or direct a blocky character rig.",
+  },
+  {
     group: "Interactive simulations",
     id: "simulations",
-    number: "02",
+    number: "03",
     title: "Interactive simulations",
     description:
       "Playable interfaces for route planning, security operations, and clean-energy balancing. Change the inputs and watch the system respond.",
@@ -49,7 +63,7 @@ const COLLECTIONS: Array<{
   {
     group: "Generative systems",
     id: "generative",
-    number: "03",
+    number: "04",
     title: "Generative systems",
     description:
       "Living algorithms, ecosystems, neural behavior, and engineering studies shaped by simple rules, time, and your input. Every result is created in the browser.",
@@ -83,6 +97,14 @@ function CreativePreview({
         return <LoadPathPoster />;
       case "terraform":
         return <TerraformPoster />;
+      case "blocktown-stories":
+        return <BlocktownPoster />;
+      case "slipstream-circuit":
+        return <SlipstreamPoster />;
+      case "lantern-vale":
+        return <LanternValePoster />;
+      case "frameforge":
+        return <FrameforgePoster />;
       default:
         return <SignalBloomPoster />;
     }
@@ -111,23 +133,23 @@ export default function CreativePage() {
             {CREATIVE_PROJECTS.length} interactive prototypes
           </p>
           <h1 className="mt-4 max-w-5xl text-5xl font-semibold leading-[0.96] tracking-[-0.045em] text-fg md:text-8xl">
-            Three collections.
+            Four collections.
             <br />
-            One clear way in.
+            Systems you can play.
           </h1>
         </Reveal>
         <Reveal delay={120}>
           <p className="mt-7 max-w-2xl text-base leading-7 text-fg-muted md:text-lg">
-            Pick an idea, operate it, and understand it. Every project starts
-            with a simple guide, then opens into the design decisions, system
-            structure, evidence, and limits behind the experience.
+            Build, race, explore, animate, or study a living system. Every
+            project starts with a simple guide, then opens into its design
+            decisions, architecture, evidence, and limits.
           </p>
         </Reveal>
 
         <Reveal delay={200}>
           <nav
             aria-label="Creative collections"
-            className="mt-12 grid gap-3 md:grid-cols-3"
+            className="mt-12 grid gap-3 md:grid-cols-2 lg:grid-cols-4"
           >
             {COLLECTIONS.map((collection) => {
               const count = CREATIVE_PROJECTS.filter(

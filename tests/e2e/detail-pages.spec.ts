@@ -256,3 +256,36 @@ test("algorithm labs compute routes, reroute flow, and evolve drivers", async ({
     )
     .toContain("2");
 });
+
+test("playable worlds expose real game and animation controls", async ({
+  page,
+}) => {
+  await page.goto("/creative/blocktown-stories");
+  await expect(
+    page.getByRole("img", {
+      name: "Blocktown Stories interactive life simulation canvas",
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Start street festival" }).click();
+  await expect(page.getByText("event festival", { exact: false })).toBeVisible();
+
+  await page.goto("/creative/slipstream-circuit");
+  await page.getByRole("button", { name: "Enable autopilot" }).click();
+  await expect(
+    page.getByRole("button", { name: "Disable autopilot" }),
+  ).toBeVisible();
+
+  await page.goto("/creative/lantern-vale");
+  await page.getByRole("button", { name: "Move right" }).click();
+  await expect(
+    page.getByText("Steps", { exact: true }).locator(".."),
+  ).toContainText("1");
+
+  await page.goto("/creative/frameforge");
+  await page.getByLabel("Animation state").selectOption("Jump");
+  await expect(page.getByText("state Jump", { exact: false })).toBeVisible();
+  await page.getByRole("button", { name: "Inspect frame 4" }).click();
+  await expect(
+    page.getByRole("button", { name: "Inspect frame 4" }),
+  ).toHaveAttribute("aria-pressed", "true");
+});

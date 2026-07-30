@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 const CORE_ROUTES = [
   ["/", "Ibrahim Hussain"],
   ["/projects", "Start simple. Go deep when you're ready."],
-  ["/creative", "Three collections. One clear way in."],
+  ["/creative", "Four collections. Systems you can play."],
   ["/creative/cabinetry-studio", "Cabinetry Studio"],
   ["/creative/sentinel-observatory", "Sentinel Observatory"],
   ["/creative/verdant", "Verdant"],
@@ -79,7 +79,7 @@ test("the primary navigation remains usable at 320px", async ({ page }) => {
   expect(overflow, "the Creative route should fit a 320px viewport").toBeLessThanOrEqual(1);
 });
 
-test("Creative projects are organized into three clear collections", async ({
+test("Creative projects are organized into four clear collections", async ({
   page,
 }) => {
   await page.goto("/creative");
@@ -89,8 +89,8 @@ test("Creative projects are organized into three clear collections", async ({
   });
   const projectLinks = page.locator('main a[href^="/creative/"]');
 
-  await expect(collections.getByRole("link")).toHaveCount(3);
-  await expect(projectLinks).toHaveCount(16);
+  await expect(collections.getByRole("link")).toHaveCount(4);
+  await expect(projectLinks).toHaveCount(20);
   await expect(page.locator("#design").locator('a[href^="/creative/"]')).toHaveCount(
     5,
   );
@@ -100,7 +100,11 @@ test("Creative projects are organized into three clear collections", async ({
   await expect(
     page.locator("#generative").locator('a[href^="/creative/"]'),
   ).toHaveCount(8);
+  await expect(
+    page.locator("#playable").locator('a[href^="/creative/"]'),
+  ).toHaveCount(4);
   await expect(page.getByRole("link", { name: /Apex Hypercars/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Lantern Vale/ })).toBeVisible();
 });
 
 test("Projects are grouped into three paths and remain searchable", async ({
