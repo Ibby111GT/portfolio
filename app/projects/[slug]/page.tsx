@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import DetailFooterNavigation from "@/components/DetailFooterNavigation";
+import DetailNavigator from "@/components/DetailNavigator";
 import { CommandList, OutputBlock } from "@/components/TerminalBlock";
 import { TOOL_DOCS, TOOL_SLUGS } from "@/lib/toolProjects";
 
@@ -77,12 +79,38 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
               {doc.language}
             </span>
           </div>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {doc.stack.map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-border bg-surface/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-fg-muted"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
         </header>
 
-        <section className="grid gap-10 border-t border-border pt-14 lg:grid-cols-[0.8fr_1.2fr]">
+        <DetailNavigator
+          readingTime="3 min overview · 10 min deep dive"
+          label="Choose your depth"
+          items={[
+            { href: "#overview", label: "Plain-English overview" },
+            { href: "#run-it", label: "Run it" },
+            { href: "#read-output", label: "Read the output" },
+            { href: "#technical-details", label: "Technical details" },
+            { href: "#verification", label: "Verification" },
+          ]}
+          className="mb-14"
+        />
+
+        <section
+          id="overview"
+          className="grid scroll-mt-32 gap-10 border-t border-border pt-14 lg:grid-cols-[0.8fr_1.2fr]"
+        >
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-fg-muted">
-              Engineering case study
+              In plain English
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-fg">
               From problem to working tool.
@@ -105,7 +133,10 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
           </div>
         </section>
 
-        <section className="mt-20 border-t border-border pt-14">
+        <section
+          id="run-it"
+          className="mt-20 scroll-mt-32 border-t border-border pt-14"
+        >
           <h2 className="text-2xl font-semibold tracking-tight text-fg md:text-3xl">
             Run it yourself
           </h2>
@@ -119,7 +150,10 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
           </div>
         </section>
 
-        <section className="mt-20 border-t border-border pt-14">
+        <section
+          id="read-output"
+          className="mt-20 scroll-mt-32 border-t border-border pt-14"
+        >
           <h2 className="text-2xl font-semibold tracking-tight text-fg md:text-3xl">
             What you are looking at
           </h2>
@@ -137,7 +171,10 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
           </dl>
         </section>
 
-        <section className="mt-20 border-t border-border pt-14">
+        <section
+          id="technical-details"
+          className="mt-20 scroll-mt-32 border-t border-border pt-14"
+        >
           <h2 className="text-2xl font-semibold tracking-tight text-fg md:text-3xl">
             How it works
           </h2>
@@ -161,7 +198,10 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
           </ol>
         </section>
 
-        <section className="mt-20 grid gap-10 border-t border-border pt-14 lg:grid-cols-2">
+        <section
+          id="verification"
+          className="mt-20 grid scroll-mt-32 gap-10 border-t border-border pt-14 lg:grid-cols-2"
+        >
           <div>
             <h2 className="text-2xl font-semibold tracking-tight text-fg md:text-3xl">
               Where this is used
@@ -199,6 +239,7 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
             </div>
           </div>
         </section>
+        <DetailFooterNavigation currentSlug={slug} className="mt-24" />
       </div>
     </main>
   );

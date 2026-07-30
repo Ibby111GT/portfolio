@@ -297,11 +297,11 @@ export default function AtlasImpossible({
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
                   Expedition sandbox · live ecosystem
                 </p>
-                <h1 className="mt-4 max-w-3xl text-5xl font-semibold leading-[0.92] tracking-[-0.045em] md:text-8xl">
+                <h2 className="mt-4 max-w-3xl text-5xl font-semibold leading-[0.92] tracking-[-0.045em] md:text-8xl">
                   Wilderness
                   <br />
                   Field Console
-                </h1>
+                </h2>
                 <p className="mt-6 max-w-xl text-sm leading-7 text-white/65 md:text-base">
                   Run a small national park as a living system. Balance trail
                   access, visitor load, habitat health, weather, and ranger

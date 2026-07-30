@@ -20,11 +20,14 @@ export default function ProjectWalkthrough({
   practical: string;
 }) {
   return (
-    <section className="mt-20 border-t border-border pt-16">
+    <section
+      id="plain-english"
+      className="mt-20 scroll-mt-32 border-t border-border pt-16"
+    >
       <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-fg-muted">
-            Walkthrough
+            In plain English
           </p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-fg md:text-4xl">
             What this is, in plain English.

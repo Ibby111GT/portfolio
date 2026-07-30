@@ -85,9 +85,9 @@ export default function BlueprintBoard({
                 <p className="font-mono text-[8px] uppercase tracking-[0.22em] text-blue-100/70">
                   Drawing set / concept development
                 </p>
-                <h1 className="mt-2 text-2xl font-semibold uppercase tracking-[-0.03em] text-white md:text-4xl">
+                <h2 className="mt-2 text-2xl font-semibold uppercase tracking-[-0.03em] text-white md:text-4xl">
                   {title}
-                </h1>
+                </h2>
               </div>
               <span className="border border-alert/70 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.16em] text-red-100">
                 Rev 01

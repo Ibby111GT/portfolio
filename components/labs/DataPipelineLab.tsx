@@ -392,6 +392,7 @@ export default function DataPipelineLab({
               <button
                 key={layer.name}
                 type="button"
+                aria-pressed={selectedLayer === index}
                 onClick={() => setSelectedLayer(index)}
                 className={`min-h-28 rounded-xl border p-4 text-left transition ${
                   selectedLayer === index

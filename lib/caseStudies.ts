@@ -30,6 +30,7 @@ export interface CaseStudy {
   subtitle: string;
   tagline: string;
   description: string;
+  evidenceBoundary: string;
   stats: CaseStat[];
   glow: "blue" | "red";
   featured?: boolean;
@@ -55,6 +56,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     tagline: "Siting AI compute under a hard regulatory ceiling.",
     description:
       "ITSS 4395 Senior Capstone at UT Dallas. As Group Lead I ran a 5-person consulting team and served as primary client point of contact for DFW Technology, evaluating whether a private AI data centre could be built in Richardson without adding load to an already strained Texas grid.",
+    evidenceBoundary:
+      "This is a student capstone feasibility model, not a completed facility or committed investment. Rankings come from the UTDsolv Expo; planning figures come from the team's final model and cited public sources. Client deliverables remain private.",
     stats: [
       { value: 15, prefix: "Top ", label: "Of 6,000+ students at UTDsolv" },
       { value: 75, suffix: " MW", label: "Regulatory ceiling designed under" },
@@ -161,6 +164,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     tagline: "Detection engineering and endpoint hardening at enterprise scale.",
     description:
       "As an Information Security Intern at the UT System, I build the visibility and controls a large enterprise relies on — SPL detection dashboards, Windows LAPS enforcement, and Intune security policy across managed assets.",
+    evidenceBoundary:
+      "This is a sanitized account of internship work. Scope and endpoint counts come from work completed in the role; dashboards, queries, logs, identities, and internal screenshots are withheld to protect university systems and people.",
     stats: [
       { value: 500, suffix: "+", label: "Endpoints hardened with LAPS" },
       { value: 4, label: "Security functions delivered" },
@@ -244,6 +249,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     tagline: "Hardening Azure environments for enterprise clients.",
     description:
       "As a Cloud Engineer Intern in Houston, I worked across client Azure and Citrix environments — securing traffic flows, keeping systems available, and supporting the move to modern cloud tooling.",
+    evidenceBoundary:
+      "This is a sanitized account of internship work. The incident count comes from service work completed in the role; client names, tickets, configurations, and internal screenshots are withheld under confidentiality.",
     stats: [
       { value: 200, suffix: "+", label: "Incidents resolved" },
       { value: 2, label: "Platforms monitored (Azure, Citrix)" },
@@ -327,6 +334,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     tagline: "Identity-first IT for a growing organization.",
     description:
       "Over three and a half years in Houston, I ran identity and access for the organization — Azure Active Directory, RBAC policies, and the provisioning processes that keep access aligned with the org chart.",
+    evidenceBoundary:
+      "This is a sanitized account of employment work. Employee and tenure counts reflect the role's operational scope; account records, access lists, organizational data, and internal systems are not published.",
     stats: [
       { value: 200, suffix: "+", label: "Employees managed" },
       { value: 3, suffix: "+", label: "Years in role" },

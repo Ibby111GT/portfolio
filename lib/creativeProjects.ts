@@ -10,10 +10,14 @@ export type CreativeCategory =
   | "Living systems";
 
 export type CreativeGroup =
-  | "Spatial & fabrication"
-  | "Automotive"
-  | "Simulation & data"
-  | "Generative art";
+  | "Design & fabrication"
+  | "Interactive simulations"
+  | "Generative systems";
+
+export interface CreativeReadingItem {
+  label: string;
+  detail: string;
+}
 
 export interface CreativeProject {
   slug: string;
@@ -24,9 +28,14 @@ export interface CreativeProject {
   description: string;
   interaction: string;
   purpose: string;
+  steps: string[];
+  reading: CreativeReadingItem[];
+  architecture: string[];
+  evidenceMode: string;
   capabilities: string[];
   decisions: string[];
   boundary: string;
+  boundaryTone?: "scope" | "safety";
   /** Gallery preview image; null renders a generated poster instead. */
   image: string | null;
   accent: "red" | "blue";
@@ -38,12 +47,38 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "01",
     title: "Cabinetry Studio",
     category: "Cabinetry",
-    group: "Spatial & fabrication",
+    group: "Design & fabrication",
     description:
-      "A CAD-led study of bespoke cabinet runs, material sequencing, hardware, lighting, and buildable module planning.",
-    interaction: "Configure the run and produce a live cabinet specification.",
+      "Rotate and explode a cabinet assembly, select any part, and read how it would be built.",
+    interaction:
+      "Review the drawing, dissect the 3D assembly, then configure the cabinet run.",
     purpose:
       "Make Division 6 casework understandable before fabrication by connecting the drawing, the assembly, and the configurable specification.",
+    steps: [
+      "Switch between the technical drawing and finished-room view.",
+      "Open the 3D assembly, select a part, and move the exploded-view control.",
+      "Change the layout, material, hardware, and lighting to update the specification.",
+    ],
+    reading: [
+      {
+        label: "Drawing",
+        detail: "The design intent: dimensions, finish, hardware, and alignment.",
+      },
+      {
+        label: "3D assembly",
+        detail: "The physical parts and the order in which they come together.",
+      },
+      {
+        label: "Live specification",
+        detail: "A planning estimate that responds to the choices you make.",
+      },
+    ],
+    architecture: [
+      "Typed project data keeps dimensions, materials, and construction notes consistent.",
+      "React Three Fiber renders selectable cabinet parts and the exploded assembly.",
+      "Client-side state recalculates modules, budget range, and lead-time guidance.",
+    ],
+    evidenceMode: "Interactive construction concept model",
     capabilities: [
       "3D spatial review",
       "Construction data modeling",
@@ -55,6 +90,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Concept model for portfolio demonstration — not a sealed submittal, shop drawing, or fabrication document.",
+    boundaryTone: "scope",
     image: "/creative/cabinetry-studio.png",
     accent: "blue",
   },
@@ -63,12 +99,37 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "02",
     title: "Panel Studio",
     category: "Wall systems",
-    group: "Spatial & fabrication",
+    group: "Design & fabrication",
     description:
-      "An architectural wall-panel system explored through elevations, mounting details, acoustic performance, and material rhythm.",
+      "Change a wall’s size, finish, spacing, and lighting to see the complete panel system update.",
     interaction: "Set the wall size, profile, spacing, finish, and lighting.",
     purpose:
       "Show how panel rhythm, substrate, access, acoustics, and lighting become one coordinated architectural system.",
+    steps: [
+      "Review the elevation and finished wall to understand the intended rhythm.",
+      "Select parts in the 3D model to see the panel, rail, substrate, and reveal.",
+      "Change wall dimensions, spacing, profile, finish, and lighting.",
+    ],
+    reading: [
+      {
+        label: "Panel rhythm",
+        detail: "How repeated widths and gaps organize the wall visually.",
+      },
+      {
+        label: "Mounting build-up",
+        detail: "The hidden rails, substrate, and access space behind the finish.",
+      },
+      {
+        label: "Performance",
+        detail: "Illustrative coverage, material, and acoustic planning values.",
+      },
+    ],
+    architecture: [
+      "A parametric layout divides the selected wall width into buildable panel modules.",
+      "The shared 3D viewer maps every visible layer to a construction explanation.",
+      "Configuration state updates quantities, finish coverage, and lighting intent together.",
+    ],
+    evidenceMode: "Interactive architectural assembly concept",
     capabilities: [
       "Parametric layout",
       "Assembly callouts",
@@ -80,6 +141,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Concept model only — field dimensions, tested assemblies, engineering, and approved shop drawings govern construction.",
+    boundaryTone: "scope",
     image: "/creative/panel-studio.png",
     accent: "blue",
   },
@@ -88,12 +150,37 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "03",
     title: "Wardrobe Atelier",
     category: "Wardrobes",
-    group: "Spatial & fabrication",
+    group: "Design & fabrication",
     description:
-      "A modular wardrobe planner balancing hanging space, drawers, shoes, accessories, lighting, and room constraints.",
+      "Build a wardrobe from storage modules and see when the design no longer fits the room.",
     interaction: "Select storage modules and optimize the layout to the room.",
     purpose:
       "Turn a vague storage request into a measurable module plan that exposes capacity, clearances, and trade-offs.",
+    steps: [
+      "Set the available room width and review the starting wardrobe layout.",
+      "Add hanging, drawer, shoe, and accessory modules.",
+      "Watch remaining width and storage capacity to catch an overfilled design.",
+    ],
+    reading: [
+      {
+        label: "Room width",
+        detail: "The hard limit that every selected storage module must share.",
+      },
+      {
+        label: "Module mix",
+        detail: "The balance between hanging, folded clothing, shoes, and accessories.",
+      },
+      {
+        label: "Capacity",
+        detail: "A readable estimate of what the selected arrangement can hold.",
+      },
+    ],
+    architecture: [
+      "Each storage module has a defined width, capacity, and functional role.",
+      "A constraint engine totals the selected modules against the room dimension.",
+      "The interface presents spatial trade-offs as both a layout and plain numbers.",
+    ],
+    evidenceMode: "Constraint-based space-planning prototype",
     capabilities: [
       "Constraint-based planning",
       "Module composition",
@@ -105,6 +192,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Planning prototype — site measurement, wall conditions, hardware loads, and fabrication drawings still control a real installation.",
+    boundaryTone: "scope",
     image: "/creative/wardrobe-atelier.png",
     accent: "blue",
   },
@@ -113,12 +201,37 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "04",
     title: "Wood Object Index",
     category: "Product design",
-    group: "Spatial & fabrication",
+    group: "Design & fabrication",
     description:
-      "A collectible catalog of original wooden furniture, lighting, audio, serving, and desktop objects.",
+      "Explore original wooden objects, change their materials, and inspect how each one is assembled.",
     interaction: "Inspect construction, change materials, and curate a collection.",
     purpose:
       "Explore how a product catalog can teach construction, material intent, and object scale instead of behaving like a flat image gallery.",
+    steps: [
+      "Choose an object from the collection.",
+      "Open its construction view and inspect the joinery, dimensions, and intended use.",
+      "Change the wood species and save the pieces you would keep.",
+    ],
+    reading: [
+      {
+        label: "Object record",
+        detail: "One source for the object’s use, scale, material, and construction.",
+      },
+      {
+        label: "Material variant",
+        detail: "A visual study of how species and finish change the same form.",
+      },
+      {
+        label: "Collection",
+        detail: "A small product-curation interaction stored only in the browser.",
+      },
+    ],
+    architecture: [
+      "A shared object schema drives names, materials, dimensions, and construction notes.",
+      "Reusable product views keep the catalog consistent across different object types.",
+      "Local interface state manages material variants and the visitor’s temporary collection.",
+    ],
+    evidenceMode: "Original product-system concept collection",
     capabilities: [
       "Product-system UI",
       "Material variants",
@@ -130,6 +243,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Original concept collection — dimensions and assemblies are illustrative and have not been engineered for production.",
+    boundaryTone: "scope",
     image: "/creative/wood-object-index.png",
     accent: "red",
   },
@@ -138,12 +252,38 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "05",
     title: "Apex Hypercars",
     category: "Automotive",
-    group: "Automotive",
+    group: "Design & fabrication",
     description:
-      "A fictional hypercar developed as a technical blueprint, an editorial poster, and an interactive performance study.",
-    interaction: "Switch from CAD to render, configure the car, and run a test.",
+      "Configure a fictional hypercar and see how mass, aerodynamics, and power change its simulated run.",
+    interaction:
+      "Compare blueprint and render, tune the car, run a test, and inspect the telemetry.",
     purpose:
       "Connect automotive form, engineering telemetry, and editorial art direction inside one operable concept study.",
+    steps: [
+      "Switch between the blueprint and finished studio render.",
+      "Change power, mass, tires, and aerodynamic setup to create a configuration.",
+      "Run the performance test, compare timing splits, and inspect the telemetry trace.",
+    ],
+    reading: [
+      {
+        label: "Predicted result",
+        detail: "The simplified model’s estimate before you run the configured car.",
+      },
+      {
+        label: "Timing splits",
+        detail: "How the simulated run progresses through acceleration checkpoints.",
+      },
+      {
+        label: "Telemetry",
+        detail: "A visual trace showing how the configuration changes the run.",
+      },
+    ],
+    architecture: [
+      "A deterministic client-side model combines power, mass, traction, and aero inputs.",
+      "One configuration state drives the technical view, predicted result, and animated test.",
+      "Canvas telemetry translates the run into readable timing and performance traces.",
+    ],
+    evidenceMode: "Simplified deterministic performance simulation",
     capabilities: [
       "Vehicle configuration",
       "Performance simulation",
@@ -155,6 +295,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Fictional concept vehicle and simplified performance model — not a homologated design or engineering prediction.",
+    boundaryTone: "scope",
     image: "/creative/apex-hypercars.png",
     accent: "red",
   },
@@ -163,13 +304,39 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "06",
     title: "Wildlands Expedition Mapper",
     category: "Simulation",
-    group: "Simulation & data",
+    group: "Interactive simulations",
     description:
-      "A multi-park GIS route planner and atmospheric ranger simulation with live ecology, elevation telemetry, field radio, and portable map exports.",
+      "Build a national-park route, inspect elevation and wildlife, then export the track.",
     interaction:
       "Build a route, inspect its habitat, export the track, then launch a field expedition.",
     purpose:
       "Make route planning, terrain, biodiversity, and field operations legible in one GIS-inspired expedition workspace.",
+    steps: [
+      "Choose a park and a suggested hiking, driving, or water route.",
+      "Turn map layers on and inspect distance, time, elevation, habitat, and safety context.",
+      "Build your own waypoints or export the selected route as GPX, KML, Google Maps, or Apple Maps.",
+      "Launch the ranger simulation to change weather, hear the radio, and unlock a field note.",
+    ],
+    reading: [
+      {
+        label: "Route telemetry",
+        detail: "Distance, estimated travel time, difficulty, and elevation change.",
+      },
+      {
+        label: "Ecosystem panel",
+        detail: "Illustrative species associated with the selected habitat zone.",
+      },
+      {
+        label: "Field operation",
+        detail: "A separate atmospheric simulation of weather, visitors, wildlife, and ranger dispatch.",
+      },
+    ],
+    architecture: [
+      "Hand-authored park and route data supplies coordinates, elevations, habitat zones, and species.",
+      "Leaflet renders CARTO tiles when available while local overlays continue without the basemap.",
+      "Client-side utilities calculate distance and generate GPX, KML, Google, and Apple export formats.",
+    ],
+    evidenceMode: "Hand-authored route scenarios with an optional CARTO basemap",
     capabilities: [
       "Interactive geospatial UI",
       "GPX/KML export",
@@ -181,6 +348,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Portfolio simulation — not an official trail, closure, weather, emergency, or navigation source. Verify all travel with the National Park Service.",
+    boundaryTone: "safety",
     image: "/creative/park-operator.png",
     accent: "blue",
   },
@@ -189,12 +357,37 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "07",
     title: "Signal Bloom",
     category: "Generative",
-    group: "Generative art",
+    group: "Generative systems",
     description:
-      "A pointer-reactive generative field of red and blue signals that drift, connect, and leave fading traces. No two frames are the same.",
+      "Steer a generative particle field and export the composition you create.",
     interaction: "Steer the field, tune density and velocity, and export a frame.",
     purpose:
       "Turn pointer movement and deterministic particle rules into a responsive digital artwork that can be replayed and exported.",
+    steps: [
+      "Move the pointer across the field to bend nearby particle paths.",
+      "Change density, speed, and the red/blue palette.",
+      "Regenerate the field or export the current frame as an image.",
+    ],
+    reading: [
+      {
+        label: "Particles",
+        detail: "Small moving signals governed by speed, direction, and local attraction.",
+      },
+      {
+        label: "Connections",
+        detail: "Temporary lines drawn when signals move close to one another.",
+      },
+      {
+        label: "Trace",
+        detail: "The fading history that turns motion into a layered composition.",
+      },
+    ],
+    architecture: [
+      "A Canvas 2D loop updates particle positions and proximity connections each frame.",
+      "Seeded regeneration makes a selected setup reproducible while interaction remains fluid.",
+      "The browser captures the current canvas directly for image export.",
+    ],
+    evidenceMode: "Seeded procedural canvas artwork",
     capabilities: [
       "Canvas rendering",
       "Deterministic animation",
@@ -206,6 +399,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Generative artwork — visual output is illustrative and intentionally changes with interaction.",
+    boundaryTone: "scope",
     image: null,
     accent: "blue",
   },
@@ -214,13 +408,38 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "08",
     title: "Sentinel Observatory",
     category: "Security",
-    group: "Simulation & data",
+    group: "Interactive simulations",
     description:
-      "A wireframe threat globe: simulated intrusion attempts trace great-circle arcs toward a home node while a glassy HUD reports the live tactical picture. The blueprint-viewer aesthetic applied to security operations.",
+      "Rotate a synthetic threat globe and see how simulated incidents change the tactical picture.",
     interaction:
       "Drag to rotate the globe, tune the threat volume, and run a new sweep.",
     purpose:
       "Translate a moving incident stream into a spatial security picture that communicates concentration, severity, and response pressure.",
+    steps: [
+      "Drag the globe to inspect the simulated source regions and home node.",
+      "Change threat volume and playback speed, then run a new sweep.",
+      "Compare the incident arcs with the severity, region, and response readouts.",
+    ],
+    reading: [
+      {
+        label: "Incident arc",
+        detail: "A simulated connection from a source region toward the monitored node.",
+      },
+      {
+        label: "Severity",
+        detail: "A visual priority signal, not proof that a real attack occurred.",
+      },
+      {
+        label: "Tactical picture",
+        detail: "A summary of concentration and pressure across the current synthetic sweep.",
+      },
+    ],
+    architecture: [
+      "Synthetic incidents are generated from a repeatable seeded scenario.",
+      "Canvas projection converts latitude and longitude into a rotatable wireframe globe.",
+      "The same event state drives arcs, severity styling, counters, and the incident feed.",
+    ],
+    evidenceMode: "Synthetic incident and geospatial visualization",
     capabilities: [
       "Security data visualization",
       "Canvas globe projection",
@@ -232,6 +451,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "All incidents, locations, identities, and metrics are synthetic. This is a visualization prototype, not a live threat feed.",
+    boundaryTone: "scope",
     image: null,
     accent: "red",
   },
@@ -240,12 +460,37 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "09",
     title: "Verdant",
     category: "Living systems",
-    group: "Generative art",
+    group: "Generative systems",
     description:
-      "A generative reforestation study. Plant seeds by touch and watch procedurally grown trees fill in a canopy — with a running, plain-English estimate of the carbon they draw down.",
+      "Plant a procedural forest and see how rain and sunlight change its growth.",
     interaction: "Click the ground to plant, then shape the climate with rainfall and sunlight.",
     purpose:
       "Make the lag between planting, canopy growth, biodiversity, and carbon drawdown visible through a calm systems simulation.",
+    steps: [
+      "Click the ground to plant individual seeds or use the planting controls.",
+      "Change rainfall and sunlight to create a different growing environment.",
+      "Watch canopy, biodiversity, age, and illustrative carbon values change over time.",
+    ],
+    reading: [
+      {
+        label: "Canopy",
+        detail: "The share of the simulated ground covered by mature tree crowns.",
+      },
+      {
+        label: "Biodiversity",
+        detail: "An illustrative index that rises as the forest becomes more varied.",
+      },
+      {
+        label: "Carbon",
+        detail: "A teaching estimate tied to simulated growth, not a credit calculation.",
+      },
+    ],
+    architecture: [
+      "Procedural rules grow each planted tree through visible life stages.",
+      "Rainfall and sunlight modify growth rates and survival inside the local simulation.",
+      "Canvas rendering and plain-language counters share the same ecosystem state.",
+    ],
+    evidenceMode: "Illustrative procedural ecology model",
     capabilities: [
       "Procedural growth",
       "Climate-state modeling",
@@ -257,6 +502,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Illustrative ecology model — not a forestry, carbon-credit, or land-management forecast.",
+    boundaryTone: "scope",
     image: null,
     accent: "blue",
   },
@@ -265,12 +511,37 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     number: "10",
     title: "Lumen City",
     category: "Simulation",
-    group: "Simulation & data",
+    group: "Interactive simulations",
     description:
-      "A playable clean-energy grid. Balance wind, solar, and battery against a city that wakes, works, and sleeps — the skyline glows when supply holds and browns out when it slips.",
+      "Balance wind, solar, storage, and demand to keep a simulated city powered.",
     interaction: "Set the generation mix and weather; keep the city lit through the day.",
     purpose:
       "Teach the difference between installed renewable capacity, variable generation, storage, and demand through a playable grid.",
+    steps: [
+      "Set wind, solar, and battery capacity before starting the clock.",
+      "Change the weather and follow demand as the city moves through the day.",
+      "Use storage to cover shortfalls and keep the reliability indicator healthy.",
+    ],
+    reading: [
+      {
+        label: "Generation",
+        detail: "What the selected wind and solar assets can produce right now.",
+      },
+      {
+        label: "Demand",
+        detail: "The city’s changing need for electricity across the simulated day.",
+      },
+      {
+        label: "Storage",
+        detail: "A finite bridge that can shift energy through time but cannot create it.",
+      },
+    ],
+    architecture: [
+      "A time-series model calculates variable generation and demand for each hour.",
+      "A finite battery state charges on surplus and discharges during shortfalls.",
+      "One shared simulation state drives the skyline, charts, alerts, and reliability score.",
+    ],
+    evidenceMode: "Simplified energy-balancing simulation",
     capabilities: [
       "Time-series simulation",
       "Energy telemetry",
@@ -282,6 +553,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     ],
     boundary:
       "Simplified educational model — not a utility dispatch, engineering, finance, or grid-planning tool.",
+    boundaryTone: "scope",
     image: null,
     accent: "blue",
   },

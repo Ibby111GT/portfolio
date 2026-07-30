@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 export default function FinanceDataSystemsPage() {
   return (
     <LabShell
+      slug="ledgerpulse"
       eyebrow={scenario.eyebrow}
       title={scenario.title}
       description="Run a reconciled finance pipeline end to end: capture ledger changes, billing activity, and forecasts, match transactions into governed marts, then inject a data-quality fault and replay the quarantined invoices."

@@ -303,9 +303,9 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">
                   Lumen City · grid conductor
                 </p>
-                <h1 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
+                <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
                   Keep the lights on
-                </h1>
+                </h2>
                 <p className="mt-4 max-w-md text-sm leading-6 text-white/60">
                   Balance wind, solar, and battery against a city that wakes,
                   works, and sleeps. Get it right and the skyline glows; fall

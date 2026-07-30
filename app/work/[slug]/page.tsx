@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CaseDiagram from "@/components/CaseDiagram";
 import CountUp from "@/components/CountUp";
+import DetailFooterNavigation from "@/components/DetailFooterNavigation";
+import DetailNavigator from "@/components/DetailNavigator";
 import Reveal from "@/components/Reveal";
 import PrivateAiLab from "@/components/labs/PrivateAiLab";
 import TenantControlPlane from "@/components/labs/TenantControlPlane";
@@ -62,17 +64,17 @@ export default async function WorkPage({ params }: WorkPageProps) {
 
   return (
     <main className="min-h-screen bg-bg">
-      <div className="fixed top-24 left-6 md:left-10 z-50 hidden md:block">
-        <Link
-          href="/projects"
-          className="text-sm text-fg-muted hover:text-fg transition-colors duration-200 flex items-center gap-1.5"
-        >
-          ← All projects
-        </Link>
-      </div>
-
-      <section className="relative flex flex-col justify-center overflow-hidden">
+      <section
+        id="overview"
+        className="relative flex scroll-mt-32 flex-col justify-center overflow-hidden"
+      >
         <div className="relative max-w-5xl mx-auto px-6 md:px-8 pt-32 md:pt-40 pb-16 w-full">
+          <Link
+            href="/projects#professional-work"
+            className="inline-flex min-h-11 items-center text-sm text-fg-muted transition-colors hover:text-fg"
+          >
+            ← Professional work
+          </Link>
           <div className="flex flex-col items-center text-center mb-16">
             <Reveal className="flex items-center gap-2.5 mb-6 flex-wrap justify-center">
               {study.tags.map((tag) => (
@@ -124,7 +126,25 @@ export default async function WorkPage({ params }: WorkPageProps) {
         </div>
       </section>
 
-      <section className="border-y border-border bg-surface/25 py-20 md:py-24">
+      <div className="mx-auto max-w-5xl px-6 pb-12 md:px-8">
+        <DetailNavigator
+          readingTime="3 min summary · 10 min full case"
+          label="Choose your depth"
+          items={[
+            { href: "#plain-english", label: "Plain-English summary" },
+            ...(study.slug === "private-ai-feasibility"
+              ? [{ href: "#experience", label: "Explore the model" }]
+              : []),
+            { href: "#technical-details", label: "Decisions & evidence" },
+            { href: "#outcomes", label: "Outcomes" },
+          ]}
+        />
+      </div>
+
+      <section
+        id="plain-english"
+        className="scroll-mt-32 border-y border-border bg-surface/25 py-20 md:py-24"
+      >
         <div className="mx-auto grid max-w-5xl gap-10 px-6 md:grid-cols-[0.8fr_1.2fr] md:px-8">
           <Reveal>
             <p className="text-sm font-semibold tracking-widest uppercase text-fg-muted mb-4">
@@ -159,12 +179,23 @@ export default async function WorkPage({ params }: WorkPageProps) {
                 {study.practicalUse}
               </p>
             </div>
+            <div className="mt-4 rounded-xl border border-border bg-bg/70 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-fg">
+                Evidence and confidentiality
+              </p>
+              <p className="mt-3 text-sm leading-7 text-fg-muted">
+                {study.evidenceBoundary}
+              </p>
+            </div>
           </Reveal>
         </div>
       </section>
 
       {study.slug === "private-ai-feasibility" ? (
-        <section className="py-20 md:py-24 max-w-6xl mx-auto px-6 md:px-8">
+        <section
+          id="experience"
+          className="mx-auto max-w-6xl scroll-mt-32 px-6 py-20 md:px-8 md:py-24"
+        >
           <Reveal>
             <p className="text-sm font-semibold tracking-widest uppercase text-fg-muted mb-4">
               Explore the analysis
@@ -206,6 +237,25 @@ export default async function WorkPage({ params }: WorkPageProps) {
               This is the control plane I would build for that, and the piece of the
               engagement closest to my own work in identity and access.
             </p>
+            <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              {[
+                "Admit one tenant.",
+                "Inspect its imported control gaps.",
+                "Remediate a missing control.",
+                "Watch readiness change.",
+                "Admit all tenants to expose the capacity limit.",
+              ].map((step, index) => (
+                <li
+                  key={step}
+                  className="rounded-xl border border-border bg-surface/50 p-4"
+                >
+                  <span className="font-mono text-[10px] text-fg-muted">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <p className="mt-2 text-xs leading-5 text-fg-muted">{step}</p>
+                </li>
+              ))}
+            </ol>
           </Reveal>
           <Reveal delay={100} className="mt-10">
             <TenantControlPlane />
@@ -221,7 +271,10 @@ export default async function WorkPage({ params }: WorkPageProps) {
         </section>
       ) : null}
 
-      <section className="py-24 md:py-32 max-w-5xl mx-auto px-6 md:px-8">
+      <section
+        id="technical-details"
+        className="mx-auto max-w-5xl scroll-mt-32 px-6 py-24 md:px-8 md:py-32"
+      >
         <Reveal>
           <p className="text-sm font-semibold tracking-widest uppercase text-fg-muted mb-4">
             The Problem
@@ -287,7 +340,10 @@ export default async function WorkPage({ params }: WorkPageProps) {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 border-t border-border bg-surface/30">
+      <section
+        id="outcomes"
+        className="scroll-mt-32 border-t border-border bg-surface/30 py-24 md:py-32"
+      >
         <div className="max-w-5xl mx-auto px-6 md:px-8">
           <Reveal className="flex flex-col items-center text-center mb-14">
             <p className="text-sm font-semibold tracking-widest uppercase text-fg-muted mb-4">
@@ -399,6 +455,13 @@ export default async function WorkPage({ params }: WorkPageProps) {
           </div>
         </section>
       ) : null}
+
+      <div className="mx-auto max-w-5xl px-6 pb-24 pt-8 md:px-8">
+        <DetailFooterNavigation
+          currentSlug={study.slug}
+          collectionLabel="Back to professional work"
+        />
+      </div>
     </main>
   );
 }

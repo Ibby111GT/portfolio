@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 export default function SocCommandDeckPage() {
   return (
     <LabShell
+      slug="soc-command-deck"
       eyebrow="Security operations · interactive dashboard"
       title="SOC Command Deck"
       description="Step into the analyst's seat. A live stream of synthetic detections arrives on the clock — acknowledge, escalate, and resolve them while the KPIs, MITRE ATT&CK heatmap, and risk index recompute in real time. The same detection logic behind the LogSentry tool, expressed as a product you can operate."

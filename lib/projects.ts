@@ -31,12 +31,13 @@ export const PROJECTS: CatalogProject[] = [
     kind: "lab",
     category: "Security operations",
     filter: "security",
-    tagline: "Run a live security operations desk: triage a streaming alert queue.",
+    tagline:
+      "Triage a streaming alert queue and watch risk change with every analyst decision.",
     plain:
       "Sit in the analyst's chair. Synthetic detections stream in on the clock; you acknowledge, escalate, and resolve them while the KPIs, a MITRE ATT&CK heatmap, and a live risk index recompute in real time. LogSentry's detection logic as an operable product.",
     href: "/labs/soc-command-deck",
     stack: ["React", "TypeScript", "MITRE ATT&CK"],
-    signal: "Live queue · 14 detection rules",
+    signal: "14-rule synthetic alert stream",
     accent: "red",
   },
   {
@@ -45,7 +46,8 @@ export const PROJECTS: CatalogProject[] = [
     kind: "lab",
     category: "Identity security",
     filter: "security",
-    tagline: "Check a password's real strength without ever sending it anywhere.",
+    tagline:
+      "Compare safe sample passwords and see exactly which patterns weaken them.",
     plain:
       "A password strength checker you can trust with a password, because it never transmits one. Entropy, a breached-password block-list, and pattern detection all run in your browser — the PassAudit heuristics made useful to anyone.",
     href: "/labs/security-checkup",
@@ -59,12 +61,12 @@ export const PROJECTS: CatalogProject[] = [
     kind: "lab",
     category: "Detection engineering",
     filter: "security",
-    tagline: "Investigate a simulated account takeover and prove the attack chain.",
+    tagline: "Find the evidence that proves a simulated account takeover.",
     plain:
       "A hands-on security investigation. Twelve log entries, some of them an attacker, most of them ordinary staff. Pick the evidence that proves the break-in and get scored on accuracy.",
     href: "/labs/threat-hunt",
     stack: ["React", "TypeScript", "MITRE ATT&CK"],
-    signal: "12 events - runs in your browser",
+    signal: "12-event synthetic investigation",
     accent: "red",
   },
   {
@@ -73,12 +75,13 @@ export const PROJECTS: CatalogProject[] = [
     kind: "lab",
     category: "Cybersecurity data engineering",
     filter: "data",
-    tagline: "Turn identity, endpoint, and cloud telemetry into detection-ready data.",
+    tagline:
+      "Run a security-data pipeline, break its schema, and recover safely.",
     plain:
       "A working data pipeline you can run, break, and repair. It shows how scattered security logs become a short list of things worth investigating - and what happens when a source system changes format.",
     href: "/labs/data-systems/cybersecurity",
     stack: ["Pipeline design", "Data contracts", "NIST controls"],
-    signal: "1.28M records - runs in your browser",
+    signal: "Simulates a 1.28M-event pipeline run",
     accent: "red",
   },
   {
@@ -87,12 +90,13 @@ export const PROJECTS: CatalogProject[] = [
     kind: "lab",
     category: "Finance data engineering",
     filter: "data",
-    tagline: "Reconcile ledger, billing, and forecast data into trusted numbers.",
+    tagline:
+      "Reconcile billing and ledger records, then isolate the exceptions.",
     plain:
       "The plumbing behind a clean month-end close: match invoices to the accounting ledger automatically, quarantine what does not line up, and hand a person only the genuine exceptions.",
     href: "/labs/data-systems/finance",
     stack: ["Reconciliation", "Dimensional modeling", "SOX controls"],
-    signal: "486K records - runs in your browser",
+    signal: "Simulates a 486K-record reconciliation",
     accent: "blue",
   },
   {
@@ -101,12 +105,13 @@ export const PROJECTS: CatalogProject[] = [
     kind: "lab",
     category: "Healthcare data engineering",
     filter: "data",
-    tagline: "Harmonize clinical, claims, and lab feeds without exposing patient data.",
+    tagline:
+      "Combine clinical, claims, and lab data while protecting patient information.",
     plain:
       "One patient visit is recorded in three unconnected hospital systems. This pipeline stitches them into a single operational picture while keeping protected health information locked down.",
     href: "/labs/data-systems/healthcare",
     stack: ["FHIR / HL7", "Data quality", "HIPAA controls"],
-    signal: "742K records - runs in your browser",
+    signal: "Simulates a 742K-record clinical pipeline",
     accent: "blue",
   },
   {
@@ -115,7 +120,7 @@ export const PROJECTS: CatalogProject[] = [
     kind: "tool",
     category: "Threat intelligence",
     filter: "security",
-    tagline: "Triage suspicious addresses, domains, and file hashes offline.",
+    tagline: "Score suspicious IPs, domains, and file hashes offline.",
     plain:
       "Paste in an IP address, domain, or file fingerprint and get back a risk score with the reasoning - no paid subscription and no API key required.",
     href: "/projects/threatlens",
@@ -130,7 +135,8 @@ export const PROJECTS: CatalogProject[] = [
     kind: "tool",
     category: "Network security",
     filter: "security",
-    tagline: "Find which doors are open on a machine you are authorized to test.",
+    tagline:
+      "Find services exposed by a machine you are authorized to test.",
     plain:
       "A port scanner: it checks which network services a computer is exposing, identifies what they are, and reports anything that should not be reachable.",
     href: "/projects/netrecon",
@@ -145,7 +151,8 @@ export const PROJECTS: CatalogProject[] = [
     kind: "tool",
     category: "Log analysis",
     filter: "security",
-    tagline: "Read server logs and surface the handful of lines that matter.",
+    tagline:
+      "Turn noisy server logs into a prioritized list of suspicious activity.",
     plain:
       "Servers record millions of routine events. This reads through them and flags the patterns that suggest someone is trying to break in, ranked by how serious they are.",
     href: "/projects/logsentry",
@@ -160,7 +167,8 @@ export const PROJECTS: CatalogProject[] = [
     kind: "tool",
     category: "Identity security",
     filter: "security",
-    tagline: "Check password strength against current NIST-informed guidance.",
+    tagline:
+      "Audit password strength offline using length, pattern, and compromised-password checks.",
     plain:
       "Tests how easily a password could be guessed, using modern rules: length matters far more than cramming in symbols, and anything already on a breach list is worthless.",
     href: "/projects/passaudit",
@@ -175,7 +183,8 @@ export const PROJECTS: CatalogProject[] = [
     kind: "tool",
     category: "Web security",
     filter: "security",
-    tagline: "Inspect a website's public security configuration.",
+    tagline:
+      "Check the public security settings a website exposes to every visitor.",
     plain:
       "Looks at the settings a website publishes to every visitor - its security headers, cookie flags, and certificate - and reports what is missing or expiring.",
     href: "/projects/webrecon",
@@ -190,7 +199,8 @@ export const PROJECTS: CatalogProject[] = [
     kind: "tool",
     category: "Healthcare data operations",
     filter: "data",
-    tagline: "Make synthetic research records searchable, traceable, and ready to review.",
+    tagline:
+      "Trace, filter, compare, and export synthetic healthcare research records.",
     plain:
       "A working healthcare data application that turns scattered fictional study records into one governed registry. Filter the data, inspect its source history, compare programs, and export the exact view on screen.",
     href: "/projects/peptides",
@@ -211,7 +221,8 @@ export const WORK_PROJECTS: CatalogProject[] = [
     kind: "case",
     category: "Information security internship",
     filter: "work",
-    tagline: "Detection dashboards and endpoint hardening at enterprise scale.",
+    tagline:
+      "Built login-detection dashboards and rotated local administrator passwords across 500+ endpoints.",
     plain:
       "Built dashboards that watch for unusual logins across university systems, and rolled out automatic local-administrator password rotation to more than 500 computers.",
     href: "/work/ut-system-security",
@@ -225,12 +236,13 @@ export const WORK_PROJECTS: CatalogProject[] = [
     kind: "case",
     category: "Senior capstone consulting",
     filter: "work",
-    tagline: "Led a five-person team evaluating private AI infrastructure under a hard power constraint.",
+    tagline:
+      "Led a five-person feasibility study for a sub-75 MW, behind-the-meter AI facility.",
     plain:
       "Led a feasibility engagement assessing whether a sub-75 MW, behind-the-meter AI facility could be sited in Richardson without adding load to the public grid.",
     href: "/work/private-ai-feasibility",
     stack: ["Infrastructure strategy", "Capacity modeling", "Client delivery"],
-    signal: "20 MW pilot · designed below 75 MW",
+    signal: "20 MW modeled pilot · below 75 MW threshold",
     accent: "blue",
   },
   {
@@ -239,7 +251,8 @@ export const WORK_PROJECTS: CatalogProject[] = [
     kind: "case",
     category: "Cloud engineering internship",
     filter: "work",
-    tagline: "Azure firewall hardening and least-privilege access for clients.",
+    tagline:
+      "Hardened Azure access and firewall policies while resolving 200+ client incidents.",
     plain:
       "Tightened the firewall and permission rules protecting client cloud environments, and resolved more than 200 support incidents while keeping those systems available.",
     href: "/work/chief-technology-group",
@@ -253,7 +266,8 @@ export const WORK_PROJECTS: CatalogProject[] = [
     kind: "case",
     category: "Identity and access management",
     filter: "work",
-    tagline: "Identity lifecycle for a 200-person organization.",
+    tagline:
+      "Managed account access from hire to exit for more than 200 employees.",
     plain:
       "Owned who could access what for more than 200 employees — setting up accounts on day one, and making sure access was fully removed the day someone left.",
     href: "/work/roomi-group",
