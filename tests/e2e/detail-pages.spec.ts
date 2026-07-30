@@ -119,3 +119,28 @@ test("Digital Biosphere evolves and responds to ecological controls", async ({
   await expect(page.getByRole("button", { name: "Resume life" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Nutrient rain" })).toBeEnabled();
 });
+
+test("Aegis Home explains and responds to synthetic RF anomalies", async ({
+  page,
+}) => {
+  await page.goto("/labs/aegis-home");
+
+  await expect(
+    page.getByRole("heading", { level: 1, name: /AEGIS.*HOME/ }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("img", {
+      name: "Interactive floor plan showing synthetic wireless signals",
+    }),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: "Unknown signal arrives" }).click();
+  await expect(page.getByText("Unknown BLE signal entered")).toBeVisible();
+  await expect(page.getByText("Review suggested")).toBeVisible();
+
+  await page.getByRole("button", { name: "Room baseline changes" }).click();
+  await expect(
+    page.getByRole("tab", { name: "Room-change map" }),
+  ).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByText("Room baseline changed")).toBeVisible();
+});

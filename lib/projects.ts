@@ -22,6 +22,21 @@ export interface CatalogProject {
 
 export const PROJECTS: CatalogProject[] = [
   {
+    slug: "aegis-home",
+    name: "Aegis/Home",
+    kind: "lab",
+    category: "Wireless privacy",
+    filter: "security",
+    tagline:
+      "Investigate synthetic Wi‑Fi, Bluetooth, and room-change signals without covertly identifying anyone.",
+    plain:
+      "A privacy-first wireless sensing command center. Inspect consented signal aliases on a home map, inject an unknown device, simulate movement or environmental change, and see how an explainable policy separates evidence from assumptions.",
+    href: "/labs/aegis-home",
+    stack: ["React", "RF telemetry", "Privacy engineering"],
+    signal: "Synthetic signals · zero raw identifiers",
+    accent: "red",
+  },
+  {
     slug: "soc-command-deck",
     name: "SOC Command Deck",
     kind: "lab",
