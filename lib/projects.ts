@@ -14,6 +14,9 @@ export interface CatalogProject {
   repo?: string;
   stack: string[];
   signal: string;
+  /** Automated test count for tool repos — the source of truth for every
+   *  aggregate figure on the site, never parsed out of prose. */
+  testCount?: number;
   accent: ProjectAccent;
 }
 
@@ -127,6 +130,7 @@ export const PROJECTS: CatalogProject[] = [
     repo: "https://github.com/Ibby111GT/threatlens",
     stack: ["Python", "MITRE ATT&CK", "Zero dependencies"],
     signal: "30 tests passing",
+    testCount: 30,
     accent: "red",
   },
   {
@@ -143,6 +147,7 @@ export const PROJECTS: CatalogProject[] = [
     repo: "https://github.com/Ibby111GT/netrecon",
     stack: ["Python", "Concurrency", "Sockets"],
     signal: "68 tests passing · safe demo",
+    testCount: 68,
     accent: "red",
   },
   {
@@ -159,6 +164,7 @@ export const PROJECTS: CatalogProject[] = [
     repo: "https://github.com/Ibby111GT/logsentry",
     stack: ["Python", "Detection rules", "MITRE ATT&CK"],
     signal: "54 tests passing · 12 rules",
+    testCount: 54,
     accent: "red",
   },
   {
@@ -175,6 +181,7 @@ export const PROJECTS: CatalogProject[] = [
     repo: "https://github.com/Ibby111GT/passaudit",
     stack: ["Python", "NIST SP 800-63B-4", "Entropy analysis"],
     signal: "62 tests passing · fully offline",
+    testCount: 62,
     accent: "red",
   },
   {
@@ -191,6 +198,7 @@ export const PROJECTS: CatalogProject[] = [
     repo: "https://github.com/Ibby111GT/webrecon",
     stack: ["Python", "TLS", "HTTP security headers"],
     signal: "34 tests passing · read-only",
+    testCount: 34,
     accent: "red",
   },
   {
@@ -207,6 +215,7 @@ export const PROJECTS: CatalogProject[] = [
     repo: "https://github.com/Ibby111GT/Peptides",
     stack: ["JavaScript", "Data quality", "Provenance"],
     signal: "Live demo · 17 integrity tests",
+    testCount: 17,
     accent: "blue",
   },
 ];
@@ -288,3 +297,8 @@ export function getProject(slug: string): CatalogProject | undefined {
 
 export const TOOL_PROJECTS = PROJECTS.filter((project) => project.kind === "tool");
 export const LAB_PROJECTS = PROJECTS.filter((project) => project.kind === "lab");
+
+export const TOTAL_TOOL_TESTS = TOOL_PROJECTS.reduce(
+  (total, project) => total + (project.testCount ?? 0),
+  0,
+);

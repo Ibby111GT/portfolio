@@ -13,6 +13,14 @@ export const metadata: Metadata = {
   title: "SentinelStream Security Data Lab — Ibrahim Hussain",
   description:
     "Run, break, and recover a governed cybersecurity telemetry pipeline across ingestion, storage, transformation, analytics, and observability.",
+  alternates: { canonical: "/labs/data-systems/cybersecurity" },
+  openGraph: {
+    title: "SentinelStream Security Data Lab — Ibrahim Hussain",
+    description:
+      "Run, break, and recover a governed cybersecurity telemetry pipeline.",
+    url: "/labs/data-systems/cybersecurity",
+    images: ["/og.png"],
+  },
 };
 
 export default function CybersecurityDataSystemsPage() {

@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "SignalTrace Threat Hunt — Ibrahim Hussain",
   description:
     "Investigate a synthetic identity-led intrusion across authentication, endpoint, and cloud telemetry, then submit an evidence-scored finding.",
+  alternates: { canonical: "/labs/threat-hunt" },
+  openGraph: {
+    title: "SignalTrace Threat Hunt — Ibrahim Hussain",
+    description:
+      "Investigate a synthetic identity-led intrusion and submit an evidence-scored finding.",
+    url: "/labs/threat-hunt",
+    images: ["/og.png"],
+  },
 };
 
 export default function ThreatHuntPage() {

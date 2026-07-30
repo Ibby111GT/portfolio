@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "SOC Command Deck — Ibrahim Hussain",
   description:
     "An interactive security operations dashboard: a live synthetic alert stream, analyst triage, a MITRE ATT&CK heatmap, and a real-time risk index. Runs entirely in your browser.",
+  alternates: { canonical: "/labs/soc-command-deck" },
+  openGraph: {
+    title: "SOC Command Deck — Ibrahim Hussain",
+    description:
+      "Triage a streaming alert queue while KPIs, a MITRE ATT&CK heatmap, and a live risk index respond to every decision.",
+    url: "/labs/soc-command-deck",
+    images: ["/og.png"],
+  },
 };
 
 export default function SocCommandDeckPage() {

@@ -6,6 +6,14 @@ export const metadata = {
   title: "Projects — Ibrahim Hussain",
   description:
     "Professional work, tested open-source software, and interactive labs—organized into three clear paths with plain-English summaries and technical evidence.",
+  alternates: { canonical: "/projects" },
+  openGraph: {
+    title: "Projects — Ibrahim Hussain",
+    description:
+      "Professional work, tested open-source software, and interactive labs in three clear paths.",
+    url: "/projects",
+    images: ["/og.png"],
+  },
 };
 
 export default function ProjectsPage() {

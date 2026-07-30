@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 
+const DESCRIPTION =
+  "A security, cloud, identity, and systems engineering career built through operational work, open-source tools, and client-facing delivery.";
+
 export const metadata: Metadata = {
   title: "About — Ibrahim Hussain",
-  description:
-    "A security, cloud, identity, and systems engineering career built through operational work, open-source tools, and client-facing delivery.",
+  description: DESCRIPTION,
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About — Ibrahim Hussain",
+    description: DESCRIPTION,
+    url: "/about",
+    images: ["/og.png"],
+  },
 };
 
 export default function AboutLayout({

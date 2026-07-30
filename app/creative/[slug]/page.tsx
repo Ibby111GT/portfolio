@@ -74,6 +74,10 @@ export function generateStaticParams() {
   return CREATIVE_PROJECTS.map((project) => ({ slug: project.slug }));
 }
 
+// Unknown slugs get a real HTTP 404 instead of a 200 with a client-rendered
+// not-found panel (a soft 404 to crawlers).
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: {
@@ -81,12 +85,22 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = CREATIVE_PROJECTS.find((item) => item.slug === slug);
+  const title = project
+    ? `${project.title} — Interactive Creative Prototype`
+    : "Creative Project — Ibrahim Hussain";
 
   return {
-    title: project
-      ? `${project.title} — Interactive Creative Prototype`
-      : "Creative Project — Ibrahim Hussain",
+    title,
     description: project?.description,
+    alternates: { canonical: `/creative/${slug}` },
+    openGraph: {
+      title,
+      description: project?.description,
+      url: `/creative/${slug}`,
+      type: "article",
+      images: ["/og.png"],
+    },
+    twitter: { title, description: project?.description },
   };
 }
 

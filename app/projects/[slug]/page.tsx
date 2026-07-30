@@ -14,14 +14,30 @@ export function generateStaticParams() {
   return TOOL_SLUGS.map((slug) => ({ slug }));
 }
 
+// Unknown slugs get a real HTTP 404 instead of a 200 with a client-rendered
+// not-found panel (a soft 404 to crawlers).
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: ToolPageProps): Promise<Metadata> {
   const { slug } = await params;
   const doc = TOOL_DOCS[slug];
+  const title = doc
+    ? `${doc.name} — Ibrahim Hussain`
+    : "Project — Ibrahim Hussain";
   return {
-    title: doc ? `${doc.name} — Ibrahim Hussain` : "Project — Ibrahim Hussain",
+    title,
     description: doc?.intro,
+    alternates: { canonical: `/projects/${slug}` },
+    openGraph: {
+      title,
+      description: doc?.intro,
+      url: `/projects/${slug}`,
+      type: "article",
+      images: ["/og.png"],
+    },
+    twitter: { title, description: doc?.intro },
   };
 }
 

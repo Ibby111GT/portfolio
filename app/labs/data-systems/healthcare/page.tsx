@@ -13,6 +13,14 @@ export const metadata: Metadata = {
   title: "CareFlow Healthcare Data Lab — Ibrahim Hussain",
   description:
     "Operate a privacy-aware clinical data pipeline across FHIR, claims, and HL7 feeds, then recover a quarantined contract fault.",
+  alternates: { canonical: "/labs/data-systems/healthcare" },
+  openGraph: {
+    title: "CareFlow Healthcare Data Lab — Ibrahim Hussain",
+    description:
+      "Operate a privacy-aware clinical data pipeline and recover a quarantined contract fault.",
+    url: "/labs/data-systems/healthcare",
+    images: ["/og.png"],
+  },
 };
 
 export default function HealthcareDataSystemsPage() {

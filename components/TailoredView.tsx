@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import TerminalConsole from "@/components/TerminalConsole";
 import type { BaseProfile, TailoredPayload } from "@/lib/types";
@@ -7,6 +8,11 @@ import type { BaseProfile, TailoredPayload } from "@/lib/types";
 interface TailoredViewProps {
   profile: BaseProfile;
   tailored: TailoredPayload;
+}
+
+function humanizeKey(key: string): string {
+  const words = key.replace(/[_-]+/g, " ").trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 export default function TailoredView({ profile, tailored }: TailoredViewProps) {
@@ -47,6 +53,14 @@ export default function TailoredView({ profile, tailored }: TailoredViewProps) {
                 {overrides.reframing_strategy}
               </p>
             ) : null}
+            <p className="mt-4">
+              <Link
+                href="/"
+                className="text-sm font-medium text-fg-muted transition-colors hover:text-fg"
+              >
+                View the full portfolio →
+              </Link>
+            </p>
           </Reveal>
         </div>
       </section>
@@ -114,6 +128,52 @@ export default function TailoredView({ profile, tailored }: TailoredViewProps) {
           </Reveal>
         ) : null}
 
+        {tailored.tooling_requirements?.length ? (
+          <Reveal>
+            <section>
+              <p className="text-xs font-medium tracking-widest uppercase text-fg-muted mb-5">
+                Tooling Requirements
+              </p>
+              <div className="flex gap-2 flex-wrap">
+                {tailored.tooling_requirements.map((tool) => (
+                  <span
+                    key={tool}
+                    className="text-[10px] md:text-xs uppercase tracking-widest text-fg-muted bg-surface border border-border rounded-md px-2.5 py-1"
+                  >
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </section>
+          </Reveal>
+        ) : null}
+
+        {overrides?.short_essays &&
+        Object.keys(overrides.short_essays).length > 0 ? (
+          <Reveal>
+            <section>
+              <p className="text-xs font-medium tracking-widest uppercase text-fg-muted mb-5">
+                Short Essays
+              </p>
+              <div className="space-y-6">
+                {Object.entries(overrides.short_essays).map(([key, essay]) => (
+                  <div
+                    key={key}
+                    className="rounded-2xl border border-border bg-surface/40 px-6 py-5"
+                  >
+                    <p className="text-sm font-semibold text-fg">
+                      {humanizeKey(key)}
+                    </p>
+                    <p className="mt-2 text-sm text-fg-muted leading-relaxed">
+                      {essay}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </Reveal>
+        ) : null}
+
         {overrides?.achievement_mappings?.length ? (
           <Reveal>
             <section>
@@ -132,6 +192,31 @@ export default function TailoredView({ profile, tailored }: TailoredViewProps) {
                     <p className="text-sm text-fg-muted leading-relaxed">
                       {mapping.evidence}
                       {mapping.source ? ` — ${mapping.source}` : ""}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </Reveal>
+        ) : null}
+
+        {sandbox?.capstone_mappings?.length ? (
+          <Reveal>
+            <section>
+              <p className="text-xs font-medium tracking-widest uppercase text-fg-muted mb-5">
+                Capstone Mapping
+              </p>
+              <div className="relative flex flex-col pl-5 border-l border-border">
+                {sandbox.capstone_mappings.map((mapping) => (
+                  <div
+                    key={mapping.role_requirement}
+                    className="flex flex-col gap-1 py-4"
+                  >
+                    <p className="text-sm font-semibold text-fg">
+                      {mapping.role_requirement}
+                    </p>
+                    <p className="text-sm text-fg-muted leading-relaxed">
+                      {mapping.achievement}
                     </p>
                   </div>
                 ))}

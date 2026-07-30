@@ -13,6 +13,14 @@ export const metadata: Metadata = {
   title: "LedgerPulse Finance Data Lab — Ibrahim Hussain",
   description:
     "Operate a reconciled finance pipeline, quarantine bad invoices, and replay them after a data-contract repair.",
+  alternates: { canonical: "/labs/data-systems/finance" },
+  openGraph: {
+    title: "LedgerPulse Finance Data Lab — Ibrahim Hussain",
+    description:
+      "Operate a reconciled finance pipeline and replay quarantined invoices after a contract repair.",
+    url: "/labs/data-systems/finance",
+    images: ["/og.png"],
+  },
 };
 
 export default function FinanceDataSystemsPage() {

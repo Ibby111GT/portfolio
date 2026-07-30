@@ -41,16 +41,30 @@ export function generateStaticParams() {
   return CASE_STUDIES.map((study) => ({ slug: study.slug }));
 }
 
+// Unknown slugs get a real HTTP 404 instead of a 200 with a client-rendered
+// not-found panel (a soft 404 to crawlers).
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: WorkPageProps): Promise<Metadata> {
   const { slug } = await params;
   const study = getCaseStudy(slug);
+  const title = study
+    ? `${study.title} — Ibrahim Hussain`
+    : "Case Study — Ibrahim Hussain";
   return {
-    title: study
-      ? `${study.title} — Ibrahim Hussain`
-      : "Case Study — Ibrahim Hussain",
+    title,
     description: study?.tagline,
+    alternates: { canonical: `/work/${slug}` },
+    openGraph: {
+      title,
+      description: study?.tagline,
+      url: `/work/${slug}`,
+      type: "article",
+      images: ["/og.png"],
+    },
+    twitter: { title, description: study?.tagline },
   };
 }
 

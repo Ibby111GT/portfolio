@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "Security Checkup — Ibrahim Hussain",
   description:
     "A privacy-first password strength checker. Entropy, block-list, and pattern analysis run entirely in your browser — nothing is ever sent or stored. Ported from the PassAudit tool.",
+  alternates: { canonical: "/labs/security-checkup" },
+  openGraph: {
+    title: "Security Checkup — Ibrahim Hussain",
+    description:
+      "A privacy-first password strength checker that never transmits or stores a password.",
+    url: "/labs/security-checkup",
+    images: ["/og.png"],
+  },
 };
 
 export default function SecurityCheckupPage() {

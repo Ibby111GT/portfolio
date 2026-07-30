@@ -6,6 +6,14 @@ export const metadata: Metadata = {
   title: "Peptide Evidence Explorer — Live Demo",
   description:
     "A working synthetic healthcare data registry with quality, provenance, comparison, and export.",
+  alternates: { canonical: "/projects/peptides/demo" },
+  openGraph: {
+    title: "Peptide Evidence Explorer — Live Demo",
+    description:
+      "A working synthetic healthcare data registry with quality, provenance, comparison, and export.",
+    url: "/projects/peptides/demo",
+    images: ["/og.png"],
+  },
 };
 
 export default function PeptideDemoPage() {

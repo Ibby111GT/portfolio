@@ -3,10 +3,11 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { SITE_URL } from "@/lib/siteUrl";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://portfolio-six-dusky-10.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: "Ibrahim Hussain — Security & Data Engineering",
   description:
     "Working cybersecurity and data engineering labs across security, finance, and healthcare, plus production-minded Python security tools.",
