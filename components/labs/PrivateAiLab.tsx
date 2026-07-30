@@ -107,8 +107,8 @@ const ALTERNATIVES: Alternative[] = [
 ];
 
 const MARK = {
-  meets: { glyph: "meets", tone: "text-emerald-300" },
-  partial: { glyph: "partial", tone: "text-amber-300" },
+  meets: { glyph: "meets", tone: "text-blue-300" },
+  partial: { glyph: "partial", tone: "text-red-300" },
   fails: { glyph: "fails", tone: "text-red-300" },
 } as const;
 
@@ -157,9 +157,9 @@ export default function PrivateAiLab() {
   const active = ALTERNATIVES.find((a) => a.id === selected)!;
 
   const toggle = (on: boolean) =>
-    `rounded-lg border px-3 py-2 text-left text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300 ${
+    `rounded-lg border px-3 py-2 text-left text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${
       on
-        ? "border-violet-300/50 bg-violet-300/10 text-violet-100"
+        ? "border-blue-300/50 bg-blue-300/10 text-blue-100"
         : "border-white/12 text-white/45 hover:border-white/25 hover:text-white/70"
     }`;
 
@@ -199,11 +199,11 @@ export default function PrivateAiLab() {
             value={loadMw}
             onChange={(e) => setLoadMw(Number(e.target.value))}
             aria-describedby="load-help"
-            className="mt-3 w-full accent-violet-400"
+            className="mt-3 w-full accent-blue-400"
           />
           <div className="mt-1 flex justify-between font-mono text-[10px] text-white/30">
             <span>1</span>
-            <span className="text-violet-300">Phase 1: {PHASE1_MIN}-{PHASE1_MAX}</span>
+            <span className="text-blue-300">Phase 1: {PHASE1_MIN}-{PHASE1_MAX}</span>
             <span className="text-red-300">SB 6: {SB6_THRESHOLD_MW}</span>
             <span>100</span>
           </div>
@@ -217,7 +217,7 @@ export default function PrivateAiLab() {
             className={`mt-5 rounded-xl border p-4 ${
               model.triggersSb6
                 ? "border-red-400/40 bg-red-400/[0.08]"
-                : "border-emerald-300/30 bg-emerald-300/[0.06]"
+                : "border-blue-300/30 bg-blue-300/[0.06]"
             }`}
           >
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
@@ -273,7 +273,7 @@ export default function PrivateAiLab() {
             <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/[0.07]">
               <div
                 className={`h-full rounded-full transition-[width] duration-200 ${
-                  model.zeroGridLoad ? "bg-emerald-300" : "bg-violet-400"
+                  model.zeroGridLoad ? "bg-blue-300" : "bg-blue-400"
                 }`}
                 style={{ width: `${model.coveredPct}%` }}
               />
@@ -284,8 +284,8 @@ export default function PrivateAiLab() {
             role="status"
             className={`mt-4 rounded-xl border p-4 ${
               model.zeroGridLoad
-                ? "border-emerald-300/30 bg-emerald-300/[0.06]"
-                : "border-amber-300/30 bg-amber-300/[0.06]"
+                ? "border-blue-300/30 bg-blue-300/[0.06]"
+                : "border-red-300/30 bg-red-300/[0.06]"
             }`}
           >
             <p className="text-sm font-medium">
@@ -306,7 +306,7 @@ export default function PrivateAiLab() {
               </p>
             ) : null}
             {bess && model.bridgedMw > 0 ? (
-              <p className="mt-1 text-[11px] leading-5 text-amber-200/70">
+              <p className="mt-1 text-[11px] leading-5 text-red-200/70">
                 Storage can hold up {model.bridgedMw.toFixed(1)} MW of that shortfall
                 for about {model.bridgeHours.toFixed(1)} hours, then it is empty.
                 Batteries move energy in time; they do not make it. Without
@@ -337,16 +337,16 @@ export default function PrivateAiLab() {
                     type="button"
                     onClick={() => setSelected(alt.id)}
                     aria-pressed={on}
-                    className={`flex items-center gap-3 rounded-lg border px-3 py-2 text-left text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300 ${
+                    className={`flex items-center gap-3 rounded-lg border px-3 py-2 text-left text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${
                       on
-                        ? "border-violet-300/50 bg-violet-300/10"
+                        ? "border-blue-300/50 bg-blue-300/10"
                         : "border-white/10 hover:border-white/25"
                     }`}
                   >
                     <span className="font-mono text-[10px] text-white/40">{alt.id}</span>
                     <span className={on ? "text-white" : "text-white/60"}>{alt.name}</span>
                     {alt.recommended ? (
-                      <span className="ml-auto rounded border border-emerald-300/30 bg-emerald-300/10 px-1.5 py-0.5 font-mono text-[9px] uppercase text-emerald-200">
+                      <span className="ml-auto rounded border border-blue-300/30 bg-blue-300/10 px-1.5 py-0.5 font-mono text-[9px] uppercase text-blue-200">
                         picked
                       </span>
                     ) : null}
@@ -394,7 +394,7 @@ export default function PrivateAiLab() {
               {PRECEDENTS.map((p) => (
                 <li key={p.label}>
                   <div className="flex items-baseline gap-2">
-                    <span className="font-mono text-sm text-violet-200">{p.figure}</span>
+                    <span className="font-mono text-sm text-blue-200">{p.figure}</span>
                     <span className="text-[11px] text-white/65">{p.label}</span>
                   </div>
                   <p className="mt-0.5 text-[10px] leading-4 text-white/35">{p.note}</p>

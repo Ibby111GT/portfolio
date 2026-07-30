@@ -32,7 +32,7 @@ export interface DataScenario {
   eyebrow: string;
   title: string;
   description: string;
-  accent: "lime" | "amber" | "red";
+  accent: "blue" | "red";
   records: number;
   warehouse: string;
   model: string;
@@ -65,7 +65,7 @@ export const DATA_SCENARIOS: Record<DataDomain, DataScenario> = {
     title: "SentinelStream",
     description:
       "A governed telemetry pipeline that turns identity, endpoint, and cloud events into detection-ready security data.",
-    accent: "lime",
+    accent: "red",
     records: 1_284_440,
     warehouse: "Security Lakehouse",
     model: "gold.security_findings",
@@ -152,7 +152,7 @@ export const DATA_SCENARIOS: Record<DataDomain, DataScenario> = {
     title: "LedgerPulse",
     description:
       "A reconciled finance pipeline that combines ledger, billing, and forecast data into trusted operating metrics.",
-    accent: "amber",
+    accent: "blue",
     records: 486_280,
     warehouse: "Finance Data Warehouse",
     model: "mart.finance_position",
@@ -239,7 +239,7 @@ export const DATA_SCENARIOS: Record<DataDomain, DataScenario> = {
     title: "CareFlow",
     description:
       "A protected clinical data pipeline that harmonizes FHIR, claims, and lab feeds into reliable care operations data.",
-    accent: "red",
+    accent: "blue",
     records: 742_610,
     warehouse: "Protected Health Lake",
     model: "gold.patient_flow",

@@ -16,7 +16,7 @@ export interface ProjectCardData {
   title: string;
   subtitle: string;
   stats: ProjectStat[];
-  glow: "blue" | "purple" | "green" | "amber";
+  glow: "blue" | "red";
   featured?: boolean;
   deliverables?: string[];
   href?: string;
@@ -24,24 +24,14 @@ export interface ProjectCardData {
 
 const GLOWS = {
   blue: {
-    shadow: "#3c64ff28",
-    left: "radial-gradient(ellipse at 20% 50%, #3c64ff88 0%, transparent 70%)",
-    right: "radial-gradient(ellipse at 80% 40%, #823ce666 0%, transparent 70%)",
+    shadow: "#2563eb30",
+    left: "radial-gradient(ellipse at 20% 50%, #2563eb88 0%, transparent 70%)",
+    right: "radial-gradient(ellipse at 80% 40%, #60a5fa55 0%, transparent 70%)",
   },
-  purple: {
-    shadow: "#823ce628",
-    left: "radial-gradient(ellipse at 20% 50%, #823ce688 0%, transparent 70%)",
-    right: "radial-gradient(ellipse at 80% 40%, #3c64ff66 0%, transparent 70%)",
-  },
-  green: {
-    shadow: "#22c55e28",
-    left: "radial-gradient(ellipse at 20% 50%, #16a34a77 0%, transparent 70%)",
-    right: "radial-gradient(ellipse at 80% 40%, #0d948866 0%, transparent 70%)",
-  },
-  amber: {
-    shadow: "#f59e0b28",
-    left: "radial-gradient(ellipse at 20% 50%, #d9770688 0%, transparent 70%)",
-    right: "radial-gradient(ellipse at 80% 40%, #dc262655 0%, transparent 70%)",
+  red: {
+    shadow: "#dc262630",
+    left: "radial-gradient(ellipse at 20% 50%, #dc262688 0%, transparent 70%)",
+    right: "radial-gradient(ellipse at 80% 40%, #f8717155 0%, transparent 70%)",
   },
 } as const;
 
@@ -64,7 +54,7 @@ export default function ProjectCard({
       }}
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px z-10 bg-gradient-to-r from-transparent via-white/50 to-transparent" />
-      <div className="absolute inset-0 bg-[#08080f]" />
+      <div className="absolute inset-0 bg-[#080808]" />
       <div
         className="absolute pointer-events-none"
         style={{

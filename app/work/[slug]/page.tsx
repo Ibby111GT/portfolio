@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CaseDiagram from "@/components/CaseDiagram";
 import CountUp from "@/components/CountUp";
 import Reveal from "@/components/Reveal";
 import PrivateAiLab from "@/components/labs/PrivateAiLab";
@@ -26,23 +27,6 @@ export async function generateMetadata({
       : "Case Study — Ibrahim Hussain",
     description: study?.tagline,
   };
-}
-
-function HeroVisual({ label }: { label: string }) {
-  return (
-    <div className="relative rounded-2xl overflow-hidden border border-border shadow-[0_32px_80px_rgba(0,0,0,0.12)] dark:shadow-[0_32px_80px_rgba(0,0,0,0.5)] aspect-[16/8] bg-surface">
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 25% 20%, rgba(60,100,255,0.16) 0%, transparent 60%), radial-gradient(ellipse at 80% 85%, rgba(130,60,230,0.14) 0%, transparent 60%)",
-        }}
-      />
-      <span className="absolute bottom-4 left-5 font-mono text-[10px] uppercase tracking-widest text-fg-muted">
-        {label}
-      </span>
-    </div>
-  );
 }
 
 export default async function WorkPage({ params }: WorkPageProps) {
@@ -112,7 +96,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
             </Reveal>
           </div>
           <Reveal delay={200}>
-            <HeroVisual label={`${study.slug}.overview`} />
+            <CaseDiagram diagram={study.diagram} />
           </Reveal>
         </div>
       </section>

@@ -1,6 +1,6 @@
 export type ProjectKind = "lab" | "tool" | "case";
 export type ProjectFilter = "security" | "data" | "work";
-export type ProjectAccent = "cyan" | "lime" | "amber" | "red" | "violet";
+export type ProjectAccent = "blue" | "red";
 
 export interface CatalogProject {
   slug: string;
@@ -26,6 +26,34 @@ export const FILTERS: Array<{ id: ProjectFilter | "all"; label: string }> = [
 
 export const PROJECTS: CatalogProject[] = [
   {
+    slug: "soc-command-deck",
+    name: "SOC Command Deck",
+    kind: "lab",
+    category: "Security operations",
+    filter: "security",
+    tagline: "Run a live security operations desk: triage a streaming alert queue.",
+    plain:
+      "Sit in the analyst's chair. Synthetic detections stream in on the clock; you acknowledge, escalate, and resolve them while the KPIs, a MITRE ATT&CK heatmap, and a live risk index recompute in real time. LogSentry's detection logic as an operable product.",
+    href: "/labs/soc-command-deck",
+    stack: ["React", "TypeScript", "MITRE ATT&CK"],
+    signal: "Live queue · 14 detection rules",
+    accent: "red",
+  },
+  {
+    slug: "security-checkup",
+    name: "Security Checkup",
+    kind: "lab",
+    category: "Identity security",
+    filter: "security",
+    tagline: "Check a password's real strength without ever sending it anywhere.",
+    plain:
+      "A password strength checker you can trust with a password, because it never transmits one. Entropy, a breached-password block-list, and pattern detection all run in your browser — the PassAudit heuristics made useful to anyone.",
+    href: "/labs/security-checkup",
+    stack: ["TypeScript", "NIST SP 800-63B-4", "Privacy-first"],
+    signal: "100% client-side · unit-tested",
+    accent: "red",
+  },
+  {
     slug: "threat-hunt",
     name: "SignalTrace",
     kind: "lab",
@@ -37,7 +65,7 @@ export const PROJECTS: CatalogProject[] = [
     href: "/labs/threat-hunt",
     stack: ["React", "TypeScript", "MITRE ATT&CK"],
     signal: "12 events - runs in your browser",
-    accent: "cyan",
+    accent: "red",
   },
   {
     slug: "sentinelstream",
@@ -51,7 +79,7 @@ export const PROJECTS: CatalogProject[] = [
     href: "/labs/data-systems/cybersecurity",
     stack: ["Pipeline design", "Data contracts", "NIST controls"],
     signal: "1.28M records - runs in your browser",
-    accent: "lime",
+    accent: "red",
   },
   {
     slug: "ledgerpulse",
@@ -65,7 +93,7 @@ export const PROJECTS: CatalogProject[] = [
     href: "/labs/data-systems/finance",
     stack: ["Reconciliation", "Dimensional modeling", "SOX controls"],
     signal: "486K records - runs in your browser",
-    accent: "amber",
+    accent: "blue",
   },
   {
     slug: "careflow",
@@ -79,7 +107,7 @@ export const PROJECTS: CatalogProject[] = [
     href: "/labs/data-systems/healthcare",
     stack: ["FHIR / HL7", "Data quality", "HIPAA controls"],
     signal: "742K records - runs in your browser",
-    accent: "red",
+    accent: "blue",
   },
   {
     slug: "threatlens",
@@ -93,8 +121,8 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/threatlens",
     repo: "https://github.com/Ibby111GT/threatlens",
     stack: ["Python", "MITRE ATT&CK", "Zero dependencies"],
-    signal: "10 tests passing",
-    accent: "violet",
+    signal: "30 tests passing",
+    accent: "red",
   },
   {
     slug: "netrecon",
@@ -108,8 +136,8 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/netrecon",
     repo: "https://github.com/Ibby111GT/netrecon",
     stack: ["Python", "Concurrency", "Sockets"],
-    signal: "56 tests passing · safe demo",
-    accent: "cyan",
+    signal: "68 tests passing · safe demo",
+    accent: "red",
   },
   {
     slug: "logsentry",
@@ -124,7 +152,7 @@ export const PROJECTS: CatalogProject[] = [
     repo: "https://github.com/Ibby111GT/logsentry",
     stack: ["Python", "Detection rules", "MITRE ATT&CK"],
     signal: "54 tests passing · 12 rules",
-    accent: "amber",
+    accent: "red",
   },
   {
     slug: "passaudit",
@@ -138,8 +166,8 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/passaudit",
     repo: "https://github.com/Ibby111GT/passaudit",
     stack: ["Python", "NIST SP 800-63B-4", "Entropy analysis"],
-    signal: "58 tests passing · fully offline",
-    accent: "lime",
+    signal: "62 tests passing · fully offline",
+    accent: "red",
   },
   {
     slug: "webrecon",
@@ -153,8 +181,8 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/webrecon",
     repo: "https://github.com/Ibby111GT/webrecon",
     stack: ["Python", "TLS", "HTTP security headers"],
-    signal: "30 tests passing · read-only",
-    accent: "violet",
+    signal: "34 tests passing · read-only",
+    accent: "red",
   },
   {
     slug: "peptides",
@@ -168,8 +196,8 @@ export const PROJECTS: CatalogProject[] = [
     href: "/projects/peptides",
     repo: "https://github.com/Ibby111GT/Peptides",
     stack: ["JavaScript", "Data quality", "Provenance"],
-    signal: "Live demo · 11 integrity tests",
-    accent: "red",
+    signal: "Live demo · 17 integrity tests",
+    accent: "blue",
   },
 ];
 
@@ -189,7 +217,7 @@ export const WORK_PROJECTS: CatalogProject[] = [
     href: "/work/ut-system-security",
     stack: ["SPL dashboards", "Windows LAPS", "Intune"],
     signal: "500+ endpoints hardened",
-    accent: "cyan",
+    accent: "red",
   },
   {
     slug: "private-ai-feasibility",
@@ -203,7 +231,7 @@ export const WORK_PROJECTS: CatalogProject[] = [
     href: "/work/private-ai-feasibility",
     stack: ["Feasibility analysis", "Data governance", "Client delivery"],
     signal: "Top 15 of 6,000+ students",
-    accent: "violet",
+    accent: "blue",
   },
   {
     slug: "chief-technology-group",
@@ -217,7 +245,7 @@ export const WORK_PROJECTS: CatalogProject[] = [
     href: "/work/chief-technology-group",
     stack: ["Azure Firewall", "IAM", "Azure DevOps"],
     signal: "200+ incidents resolved",
-    accent: "lime",
+    accent: "blue",
   },
   {
     slug: "roomi-group",
@@ -231,7 +259,7 @@ export const WORK_PROJECTS: CatalogProject[] = [
     href: "/work/roomi-group",
     stack: ["Azure AD", "RBAC", "Provisioning"],
     signal: "3+ years, 200+ identities",
-    accent: "amber",
+    accent: "blue",
   },
 ];
 

@@ -1,4 +1,4 @@
-export type LabAccent = "cyan" | "lime" | "red" | "amber";
+export type LabAccent = "blue" | "red";
 
 export interface LabDefinition {
   slug: string;
@@ -18,7 +18,7 @@ export const LABS: LabDefinition[] = [
     description:
       "Investigate a realistic identity attack, pivot through telemetry, and build an evidence-backed incident timeline before the attacker escapes.",
     skills: ["Threat hunting", "MITRE ATT&CK", "Telemetry analysis"],
-    accent: "cyan",
+    accent: "red",
     signal: "12 correlated events",
   },
   {
@@ -28,7 +28,7 @@ export const LABS: LabDefinition[] = [
     description:
       "Normalize identity, endpoint, and cloud telemetry into a governed lakehouse that powers detections, risk scoring, and SOC dashboards.",
     skills: ["Streaming", "Detection data", "NIST controls"],
-    accent: "lime",
+    accent: "red",
     signal: "1.28M events / run",
   },
   {
@@ -38,7 +38,7 @@ export const LABS: LabDefinition[] = [
     description:
       "Unify ledger, billing, and forecast data into reconciled financial models with anomaly detection and SOX-aware governance.",
     skills: ["Data contracts", "Reconciliation", "SOX controls"],
-    accent: "amber",
+    accent: "blue",
     signal: "486K records / run",
   },
   {
@@ -48,7 +48,7 @@ export const LABS: LabDefinition[] = [
     description:
       "Transform FHIR, claims, and lab streams into protected clinical data products with quality gates, lineage, and HIPAA controls.",
     skills: ["FHIR", "Data quality", "HIPAA governance"],
-    accent: "red",
+    accent: "blue",
     signal: "742K records / run",
   },
 ];

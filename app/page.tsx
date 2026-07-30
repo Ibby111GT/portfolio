@@ -7,6 +7,7 @@ import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 import TailoredView from "@/components/TailoredView";
 import LabCard from "@/components/LabCard";
+import ShowcaseNavigator from "@/components/ShowcaseNavigator";
 import { CASE_STUDIES } from "@/lib/caseStudies";
 import { LABS } from "@/lib/labs";
 import { mergeTailoredIntoView } from "@/lib/profile";
@@ -135,15 +136,15 @@ function HomeView({
             ) : null}
             <Reveal className="mb-6 md:mb-8">
               <span
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] md:text-[11px] font-medium tracking-wide text-fg-muted bg-green-500/[0.12] border border-green-500/30 dark:bg-green-500/[0.08] dark:border-white/15"
-                style={{ boxShadow: "0 4px 16px rgba(34,197,94,0.1)" }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] md:text-[11px] font-medium tracking-wide text-fg-muted bg-blue-500/[0.12] border border-blue-500/30 dark:bg-blue-500/[0.08] dark:border-white/15"
+                style={{ boxShadow: "0 4px 16px rgba(29,78,216,0.16)" }}
               >
                 <span className="relative flex h-1.5 w-1.5 shrink-0">
                   <span
-                    className="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-60 animate-ping"
+                    className="absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-60 animate-ping"
                     style={{ animationDuration: "2s" }}
                   />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-500" />
                 </span>
                 {statusText}
               </span>
@@ -163,7 +164,14 @@ function HomeView({
                 </Reveal>
               ))}
             </h1>
-            <Reveal delay={420}>
+            <Reveal delay={360}>
+              <p className="mx-auto mb-7 max-w-2xl text-sm leading-6 text-fg-muted md:text-lg md:leading-8">
+                I build security, data, and infrastructure systems that turn
+                messy signals into decisions — with working demos that show
+                exactly how they hold up.
+              </p>
+            </Reveal>
+            <Reveal delay={500}>
               <div className="flex items-center gap-3">
                 <a
                   href="/projects"
@@ -181,11 +189,11 @@ function HomeView({
                 </a>
               </div>
             </Reveal>
-            <Reveal delay={600}>
+            <Reveal delay={680}>
               <a
-                href="#projects"
+                href="#start"
                 className="mt-10 flex flex-col items-center text-fg-muted/70 hover:text-fg-muted transition-colors duration-200"
-                aria-label="Scroll to featured projects"
+                aria-label="Scroll to choose a portfolio path"
               >
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                   <path
@@ -202,6 +210,29 @@ function HomeView({
         </div>
       </section>
 
+      <section className="border-y border-border bg-surface/35 px-6 py-6 md:px-8">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-border md:grid-cols-4">
+          {[
+            ["14", "Working projects"],
+            ["4", "Live browser labs"],
+            ["4", "Professional case studies"],
+            ["0", "API keys needed to explore"],
+          ].map(([value, label]) => (
+            <div
+              key={label}
+              className="px-4 py-3 text-center first:pl-0 last:pr-0"
+            >
+              <p className="text-2xl font-bold tracking-tight text-fg">{value}</p>
+              <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-fg-muted">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <ShowcaseNavigator />
+
       <section
         id="projects"
         className="relative px-6 md:px-8 pt-28 pb-32 md:pt-36 md:pb-40"
@@ -210,11 +241,11 @@ function HomeView({
           <Reveal className="flex items-end justify-between mb-12 gap-6 flex-wrap">
             <div>
               <h2 className="text-3xl md:text-5xl font-bold text-fg tracking-tight">
-                Selected Projects
+                Professional Case Studies
               </h2>
               <p className="mt-3 text-base text-fg-muted max-w-md">
-                Professional work, security engineering, and data systems —
-                all part of the same project catalog.
+                The decisions, constraints, and measurable outcomes behind
+                work delivered in real organizations.
               </p>
             </div>
           </Reveal>

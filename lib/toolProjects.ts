@@ -117,7 +117,7 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
     safety:
       "Everything runs locally by default and no data leaves your machine. The only outbound connection possible is the optional VirusTotal lookup, which happens solely when you pass your own API key.",
     verified: [
-      "python3 -m unittest discover → 10 tests, all passing",
+      "python3 -m unittest discover → 30 tests, all passing",
       "python3 threat_intel.py --demo → scores the full bundled indicator set",
       "python3 threat_intel.py --ioc 8.8.8.8 --json → valid single-line JSON",
     ],
@@ -232,7 +232,7 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
     safety:
       "The demo only ever touches your own machine's loopback address and refuses to run against anything else. Port scanning systems you do not own or have written permission to test may be illegal — the tool ships with that warning and the README repeats it.",
     verified: [
-      "python3 -m unittest discover → 56 tests, all passing on Linux and Windows",
+      "python3 -m unittest discover → 68 tests, all passing on Linux and Windows",
       "python3 scanner.py --demo → finds both self-started listeners with banners",
       "Invalid target, oversized range, bad thread count, and bad timeout all exit cleanly with an explanation",
     ],
@@ -338,7 +338,7 @@ export const TOOL_DOCS: Record<string, ToolDoc> = {
     safety:
       "It performs no injection testing, sends no attack payloads, and does not attempt to exploit anything. The README previously advertised XSS and SQL injection detection that the code never performed; those claims were removed rather than faked. Only inspect sites you own or are explicitly authorized to test.",
     verified: [
-      "python3 -m unittest discover → 30 tests, all passing, fully offline",
+      "python3 -m unittest discover → 34 tests, all passing, fully offline",
       "python3 web_scanner.py --demo → 12 findings across headers, cookies, and TLS",
       "--checks filtering, --output JSON, and unknown-check errors all verified",
     ],
@@ -440,11 +440,11 @@ g***************(16)             VERY STRONG   88/100  PASS`,
     safety:
       "PassAudit makes no network calls. Use synthetic or explicitly authorized values only; never paste a real production password into an unreviewed tool. Hash auditing is local and must only be used on data you own or are authorized to assess.",
     verified: [
-      "python3 -m unittest discover -v → 58 tests, all passing",
+      "python3 -m unittest discover -v → 62 tests, all passing",
       "python3 -m passaudit --demo → eight masked synthetic results",
       "Package CLI, JSON masking, compatibility wrappers, and offline hash audit covered by tests",
     ],
-    stack: ["Python 3", "NIST SP 800-63B-4", "Offline analysis", "58 tests"],
+    stack: ["Python 3", "NIST SP 800-63B-4", "Offline analysis", "62 tests"],
   },
   logsentry: {
     slug: "logsentry",
@@ -652,7 +652,7 @@ Active filters are applied to metrics and exports.`,
     safety:
       "Every program, result, organization, and identifier is fictional. The application is a data-engineering demonstration, not a drug database, treatment guide, or medical decision tool. It makes no external requests after loading.",
     verified: [
-      "python3 -m unittest discover → 11 tests, all passing",
+      "python3 -m unittest discover → 17 tests, all passing",
       "Search, status filter, quality filter, comparison, detail lineage, and export run in-browser",
       "Synthetic-data disclosure and dependency-free local assets enforced by tests",
     ],

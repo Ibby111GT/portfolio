@@ -128,13 +128,13 @@ export default function TerminalConsole({
 
           <div className="space-y-2 text-xs leading-relaxed text-fg-muted">
             <p>
-              <span className="text-green-500 dark:text-green-400">
+              <span className="text-blue-500 dark:text-blue-400">
                 context&gt;
               </span>{" "}
               {companyContext}
             </p>
             <p>
-              <span className="text-green-500 dark:text-green-400">
+              <span className="text-blue-500 dark:text-blue-400">
                 study&gt;
               </span>{" "}
               {caseStudy}
@@ -157,8 +157,8 @@ export default function TerminalConsole({
                     onClick={() => runAsset(asset)}
                     className={`w-full rounded-lg border px-3 py-2 text-left text-xs transition-colors duration-200 ${
                       isActive
-                        ? "border-green-500/50 bg-green-500/10 text-green-500 dark:text-green-400"
-                        : "border-border text-fg-muted hover:border-green-500/30 hover:text-fg"
+                        ? "border-blue-500/50 bg-blue-500/10 text-blue-500 dark:text-blue-400"
+                        : "border-border text-fg-muted hover:border-blue-500/30 hover:text-fg"
                     }`}
                   >
                     {label}
@@ -184,7 +184,7 @@ export default function TerminalConsole({
             {lines.length === 0 ? (
               <p className="text-white/40">
                 {PROMPT} awaiting task selection...
-                <span className="ml-1 inline-block h-4 w-2 animate-blink bg-green-400/80 align-middle" />
+                <span className="ml-1 inline-block h-4 w-2 animate-blink bg-blue-400/80 align-middle" />
               </p>
             ) : (
               lines.map((line, index) => (
@@ -197,7 +197,7 @@ export default function TerminalConsole({
               ))
             )}
             {phase === "streaming" ? (
-              <span className="mt-1 inline-block h-4 w-2 animate-blink bg-green-400/80 align-middle" />
+              <span className="mt-1 inline-block h-4 w-2 animate-blink bg-blue-400/80 align-middle" />
             ) : null}
           </div>
         </div>

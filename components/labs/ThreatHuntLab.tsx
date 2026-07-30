@@ -34,16 +34,16 @@ const EVENTS: HuntEvent[] = [
 ];
 
 const SOURCE_STYLES: Record<Source, string> = {
-  identity: "border-cyan-300/25 bg-cyan-300/10 text-cyan-200",
-  endpoint: "border-violet-300/25 bg-violet-300/10 text-violet-200",
-  cloud: "border-amber-300/25 bg-amber-300/10 text-amber-200",
+  identity: "border-blue-300/25 bg-blue-300/10 text-blue-200",
+  endpoint: "border-blue-300/25 bg-blue-300/10 text-blue-200",
+  cloud: "border-red-300/25 bg-red-300/10 text-red-200",
 };
 
 const SEVERITY_DOTS = {
   info: "bg-slate-500",
   low: "bg-blue-400",
-  medium: "bg-amber-400",
-  high: "bg-orange-400",
+  medium: "bg-red-400",
+  high: "bg-red-400",
   critical: "bg-red-500",
 };
 
@@ -110,8 +110,8 @@ export default function ThreatHuntLab() {
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-5 py-4">
         <div className="flex items-center gap-3">
           <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-50" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan-300" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-300 opacity-50" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-blue-300" />
           </span>
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">Case IR-2026-071</p>
@@ -131,12 +131,12 @@ export default function ThreatHuntLab() {
             <div className="flex flex-col gap-3 md:flex-row">
               <label className="relative flex-1">
                 <span className="sr-only">Search telemetry</span>
-                <span className="pointer-events-none absolute left-3 top-2.5 font-mono text-xs text-cyan-300">q:</span>
+                <span className="pointer-events-none absolute left-3 top-2.5 font-mono text-xs text-blue-300">q:</span>
                 <input
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="actor, IP, action, tactic..."
-                  className="w-full rounded-lg border border-white/10 bg-white/[0.04] py-2 pl-9 pr-3 font-mono text-xs text-white outline-none transition focus:border-cyan-300/50"
+                  className="w-full rounded-lg border border-white/10 bg-white/[0.04] py-2 pl-9 pr-3 font-mono text-xs text-white outline-none transition focus:border-blue-300/50"
                 />
               </label>
               <div className="flex gap-1 rounded-lg border border-white/10 bg-white/[0.03] p-1">
@@ -164,7 +164,7 @@ export default function ThreatHuntLab() {
                     setQuery(preset.query);
                     setSource(preset.source);
                   }}
-                  className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] text-white/55 transition hover:border-cyan-300/30 hover:text-cyan-200"
+                  className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] text-white/55 transition hover:border-blue-300/30 hover:text-blue-200"
                 >
                   {preset.label}
                 </button>
@@ -190,7 +190,7 @@ export default function ThreatHuntLab() {
                   return (
                     <tr
                       key={event.id}
-                      className={`border-t border-white/[0.06] transition ${active ? "bg-cyan-300/[0.07]" : "hover:bg-white/[0.025]"}`}
+                      className={`border-t border-white/[0.06] transition ${active ? "bg-blue-300/[0.07]" : "hover:bg-white/[0.025]"}`}
                     >
                       <td className="px-4 py-3">
                         <button
@@ -200,8 +200,8 @@ export default function ThreatHuntLab() {
                           aria-label={`${active ? "Remove" : "Add"} ${event.id} as evidence`}
                           className={`flex h-6 w-6 items-center justify-center rounded-md border font-mono text-xs transition ${
                             active
-                              ? "border-cyan-300 bg-cyan-300 text-black"
-                              : "border-white/15 text-white/30 hover:border-cyan-300/50 hover:text-cyan-200"
+                              ? "border-blue-300 bg-blue-300 text-black"
+                              : "border-white/15 text-white/30 hover:border-blue-300/50 hover:text-blue-200"
                           }`}
                         >
                           {active ? "+" : ""}
@@ -220,7 +220,7 @@ export default function ThreatHuntLab() {
                       <td className="max-w-md px-3 py-3">
                         <div className="flex items-center gap-2">
                           <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${SEVERITY_DOTS[event.severity]}`} />
-                          <code className="text-[11px] text-cyan-100/70">{event.action}</code>
+                          <code className="text-[11px] text-blue-100/70">{event.action}</code>
                         </div>
                         <p className="mt-1.5 text-xs leading-5 text-white/60">{event.summary}</p>
                       </td>
@@ -257,7 +257,7 @@ export default function ThreatHuntLab() {
               return (
                 <div key={objective} className="flex items-center justify-between rounded-lg bg-white/[0.04] px-3 py-2.5">
                   <span className="text-xs text-white/60">{objective}</span>
-                  <span className={`font-mono text-[10px] ${complete ? "text-cyan-200" : "text-white/25"}`}>
+                  <span className={`font-mono text-[10px] ${complete ? "text-blue-200" : "text-white/25"}`}>
                     {complete ? "LINKED" : "OPEN"}
                   </span>
                 </div>
@@ -274,7 +274,7 @@ export default function ThreatHuntLab() {
               {submitted ? (
                 <div className="text-right">
                   <p className="font-mono text-[10px] uppercase text-white/30">Confidence</p>
-                  <p className={`mt-1 text-3xl font-semibold ${score >= 80 ? "text-cyan-200" : score >= 55 ? "text-amber-200" : "text-red-300"}`}>
+                  <p className={`mt-1 text-3xl font-semibold ${score >= 80 ? "text-blue-200" : score >= 55 ? "text-red-200" : "text-red-300"}`}>
                     {score}%
                   </p>
                 </div>
@@ -283,8 +283,8 @@ export default function ThreatHuntLab() {
             {submitted ? (
               <div className={`mt-4 rounded-lg border p-3 text-xs leading-5 ${
                 score >= 80
-                  ? "border-cyan-300/25 bg-cyan-300/10 text-cyan-100"
-                  : "border-amber-300/25 bg-amber-300/10 text-amber-100"
+                  ? "border-blue-300/25 bg-blue-300/10 text-blue-100"
+                  : "border-red-300/25 bg-red-300/10 text-red-100"
               }`}>
                 {score >= 80
                   ? "High-confidence compromise confirmed. Revoke sessions, isolate FIN-LT-044, and preserve cloud audit logs."
@@ -298,7 +298,7 @@ export default function ThreatHuntLab() {
               type="button"
               onClick={() => setSubmitted(true)}
               disabled={selected.size === 0}
-              className="flex-1 rounded-lg bg-cyan-300 px-4 py-2.5 text-xs font-semibold text-black transition hover:bg-cyan-200 disabled:cursor-not-allowed disabled:opacity-30"
+              className="flex-1 rounded-lg bg-blue-300 px-4 py-2.5 text-xs font-semibold text-black transition hover:bg-blue-200 disabled:cursor-not-allowed disabled:opacity-30"
             >
               Submit finding
             </button>

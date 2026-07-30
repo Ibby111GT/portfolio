@@ -12,9 +12,9 @@ type StatusFilter = PeptideStatus | "All";
 type QualityFilter = PeptideQuality | "All";
 
 const STATUS_STYLE: Record<PeptideStatus, string> = {
-  Active: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
-  Completed: "border-cyan-500/30 bg-cyan-500/10 text-cyan-700 dark:text-cyan-300",
-  Paused: "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+  Active: "border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-blue-300",
+  Completed: "border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-blue-300",
+  Paused: "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300",
 };
 
 export default function PeptideEvidenceLab() {
@@ -127,7 +127,7 @@ export default function PeptideEvidenceLab() {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-surface/30">
-      <div className="border-b border-amber-500/20 bg-amber-500/[0.06] px-5 py-4 text-sm leading-6 text-fg-muted">
+      <div className="border-b border-red-500/20 bg-red-500/[0.06] px-5 py-4 text-sm leading-6 text-fg-muted">
         <strong className="text-fg">Synthetic demonstration data.</strong> Every
         program and identifier is fictional. This shows data operations, not
         medical guidance.

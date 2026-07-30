@@ -14,6 +14,10 @@ const config: Config = {
         fg: "var(--fg)",
         "fg-muted": "var(--fg-muted)",
         border: "var(--border)",
+        accent: "var(--accent)",
+        "accent-soft": "var(--accent-soft)",
+        alert: "var(--alert)",
+        "alert-soft": "var(--alert-soft)",
       },
       fontFamily: {
         sans: [

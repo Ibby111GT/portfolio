@@ -66,7 +66,7 @@ function StoryImage({ aspect, label }: { aspect: string; label: string }) {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 30% 20%, rgba(60,100,255,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(130,60,230,0.10) 0%, transparent 60%)",
+            "radial-gradient(ellipse at 30% 20%, rgba(60,100,255,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(200,30,30,0.10) 0%, transparent 60%)",
         }}
       />
       <span className="absolute bottom-4 left-4 font-mono text-[10px] uppercase tracking-widest text-fg-muted">

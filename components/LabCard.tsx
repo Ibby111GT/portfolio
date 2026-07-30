@@ -1,30 +1,19 @@
 import Link from "next/link";
 import type { LabDefinition } from "@/lib/labs";
 
+// Two accents only: red for security subjects, blue for data and systems.
 const ACCENTS = {
-  cyan: {
-    glow: "from-cyan-400/30 via-blue-500/10 to-transparent",
-    dot: "bg-cyan-300",
-    text: "text-cyan-200",
-    border: "group-hover:border-cyan-300/40",
-  },
-  lime: {
-    glow: "from-lime-400/25 via-emerald-500/10 to-transparent",
-    dot: "bg-lime-300",
-    text: "text-lime-200",
-    border: "group-hover:border-lime-300/40",
+  blue: {
+    glow: "from-blue-500/25 via-blue-500/10 to-transparent",
+    dot: "bg-blue-400",
+    text: "text-blue-300",
+    border: "group-hover:border-blue-400/40",
   },
   red: {
-    glow: "from-red-500/30 via-orange-500/10 to-transparent",
+    glow: "from-red-500/25 via-red-500/10 to-transparent",
     dot: "bg-red-400",
-    text: "text-red-200",
+    text: "text-red-300",
     border: "group-hover:border-red-400/40",
-  },
-  amber: {
-    glow: "from-amber-400/30 via-orange-500/10 to-transparent",
-    dot: "bg-amber-300",
-    text: "text-amber-200",
-    border: "group-hover:border-amber-300/40",
   },
 } as const;
 

@@ -52,27 +52,21 @@ const LAYERS = [
   },
 ] as const;
 
+// Two accents only: red for security subjects, blue for data and systems.
 const ACCENTS = {
-  lime: {
-    active: "border-lime-300/50 bg-lime-300/10",
-    text: "text-lime-200",
-    dot: "bg-lime-300",
-    button: "bg-lime-300 hover:bg-lime-200",
-    bar: "bg-lime-300",
-  },
-  amber: {
-    active: "border-amber-300/50 bg-amber-300/10",
-    text: "text-amber-200",
-    dot: "bg-amber-300",
-    button: "bg-amber-300 hover:bg-amber-200",
-    bar: "bg-amber-300",
+  blue: {
+    active: "border-blue-400/50 bg-blue-400/10",
+    text: "text-blue-300",
+    dot: "bg-blue-400",
+    button: "bg-blue-400 hover:bg-blue-300",
+    bar: "bg-blue-400",
   },
   red: {
-    active: "border-red-300/50 bg-red-300/10",
-    text: "text-red-200",
-    dot: "bg-red-300",
-    button: "bg-red-300 hover:bg-red-200",
-    bar: "bg-red-300",
+    active: "border-red-400/50 bg-red-400/10",
+    text: "text-red-300",
+    dot: "bg-red-400",
+    button: "bg-red-400 hover:bg-red-300",
+    bar: "bg-red-400",
   },
 } as const;
 
@@ -315,7 +309,7 @@ export default function DataPipelineLab({
         <div className="flex items-center gap-3">
           <span
             className={`h-2.5 w-2.5 rounded-full ${
-              fault ? "bg-amber-300" : accent.dot
+              fault ? "bg-red-300" : accent.dot
             }`}
           />
           <div>
@@ -358,7 +352,7 @@ export default function DataPipelineLab({
               type="button"
               onClick={resolveFault}
               disabled={running || runStatus !== "degraded"}
-              className="rounded-lg border border-amber-300/40 bg-amber-300/10 px-4 py-2 text-xs text-amber-100 transition hover:bg-amber-300/20 disabled:opacity-40"
+              className="rounded-lg border border-red-300/40 bg-red-300/10 px-4 py-2 text-xs text-red-100 transition hover:bg-red-300/20 disabled:opacity-40"
             >
               Apply fix & replay
             </button>
@@ -512,7 +506,7 @@ export default function DataPipelineLab({
                 </p>
                 <span
                   className={`font-mono text-xs ${
-                    fault ? "text-amber-200" : accent.text
+                    fault ? "text-red-200" : accent.text
                   }`}
                 >
                   {complete ? `${quality}%` : "Not evaluated"}
@@ -521,7 +515,7 @@ export default function DataPipelineLab({
               <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
                 <div
                   className={`h-full transition-all duration-500 ${
-                    fault ? "bg-amber-300" : accent.bar
+                    fault ? "bg-red-300" : accent.bar
                   }`}
                   style={{ width: `${quality}%` }}
                 />
@@ -546,7 +540,7 @@ export default function DataPipelineLab({
                             : held
                               ? "text-white/30"
                               : recovered
-                                ? "text-cyan-200"
+                                ? "text-blue-200"
                             : complete
                               ? accent.text
                               : "text-white/25"
@@ -604,7 +598,7 @@ function StageIndicator({
     return <span className="h-2 w-2 animate-pulse rounded-full bg-white" />;
   }
   if (state === "warning") {
-    return <span className="h-2 w-2 rounded-full bg-amber-300" />;
+    return <span className="h-2 w-2 rounded-full bg-red-300" />;
   }
   if (state === "complete") {
     return <span className={`h-2 w-2 rounded-full ${accent}`} />;

@@ -24,7 +24,7 @@ export function CommandList({
               {line.comment ? (
                 <span className="block text-white/35"># {line.comment}</span>
               ) : null}
-              <span className="text-emerald-300">$ </span>
+              <span className="text-blue-300">$ </span>
               {line.command}
               {"\n"}
             </span>

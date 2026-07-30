@@ -10,6 +10,19 @@ export interface CaseSection {
   body: string;
 }
 
+export interface CaseDiagramStage {
+  label: string;
+  detail?: string;
+  /** accent = nominal/system, alert = the constraint or risk being managed. */
+  tone?: "accent" | "alert" | "neutral";
+}
+
+export interface CaseDiagram {
+  caption: string;
+  stages: CaseDiagramStage[];
+  callout?: { label: string; body: string };
+}
+
 export interface CaseStudy {
   slug: string;
   tags: string[];
@@ -18,9 +31,10 @@ export interface CaseStudy {
   tagline: string;
   description: string;
   stats: CaseStat[];
-  glow: "blue" | "purple" | "green" | "amber";
+  glow: "blue" | "red";
   featured?: boolean;
   deliverables?: string[];
+  diagram: CaseDiagram;
   plainLanguage: string;
   whatToLookFor: string[];
   practicalUse: string;
@@ -46,7 +60,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: 75, suffix: " MW", label: "Regulatory ceiling designed under" },
       { value: 5, label: "Person team led" },
     ],
-    glow: "purple",
+    glow: "blue",
     featured: true,
     deliverables: [
       "Feasibility Study",
@@ -54,6 +68,34 @@ export const CASE_STUDIES: CaseStudy[] = [
       "5-Year Financial Model",
       "90-Day Implementation Plan",
     ],
+    diagram: {
+      caption: "Recommended architecture — 20 MW Edge Tier pilot",
+      stages: [
+        {
+          label: "On-site generation",
+          detail: "30–40 MW solar, 10 × 2.5 MW gas gensets, 20 MW / 80 MWh battery",
+          tone: "accent",
+        },
+        {
+          label: "Behind the meter",
+          detail: "Power never crosses the public grid connection",
+          tone: "accent",
+        },
+        {
+          label: "20 MW facility",
+          detail: "Deliberately under the 75 MW review threshold",
+          tone: "alert",
+        },
+        {
+          label: "Regulated SME tenants",
+          detail: "Healthcare, finance, legal, public sector",
+        },
+      ],
+      callout: {
+        label: "Load added to the Oncor grid",
+        body: "Zero. That is the entire argument — the city captures the investment and the jobs without its residents absorbing the power cost.",
+      },
+    },
     plainLanguage:
       "AI runs on electricity, and Texas is running short of it. A new state law adds large-load review and operating requirements at 75 megawatts or greater, and residents are increasingly hostile to projects that raise their power bills. Our client wanted to build AI infrastructure in Richardson anyway. My team's job was to work out whether there was a version of that project that was actually buildable — and we found one: keep the facility deliberately under the legal threshold, generate its power on site so it takes nothing from the public grid, and sell to the customers the giant cloud providers ignore.",
     whatToLookFor: [
@@ -114,7 +156,35 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: 500, suffix: "+", label: "Endpoints hardened with LAPS" },
       { value: 4, label: "Security functions delivered" },
     ],
-    glow: "blue",
+    glow: "red",
+    diagram: {
+      caption: "Detection pipeline and credential hardening",
+      stages: [
+        {
+          label: "Authentication events",
+          detail: "Sign-in and endpoint activity across enterprise systems",
+        },
+        {
+          label: "SPL dashboards",
+          detail: "Login trends, IP anomalies, event volume",
+          tone: "accent",
+        },
+        {
+          label: "Analyst triage",
+          detail: "Abnormal authentication surfaced for investigation",
+          tone: "accent",
+        },
+        {
+          label: "LAPS enforcement",
+          detail: "Local admin passwords rotated automatically on 500+ endpoints",
+          tone: "alert",
+        },
+      ],
+      callout: {
+        label: "Why both halves",
+        body: "Dashboards find the intrusion you are already having. Rotating every local administrator password removes the shared credential an intruder would use to spread — visibility first, then the control that shrinks the blast radius.",
+      },
+    },
     plainLanguage:
       "A large university system produces more login activity than a person can read. I built views that turn that flood into patterns an analyst can recognize, then helped remove a separate credential risk by making every managed computer rotate its local administrator password automatically.",
     whatToLookFor: [
@@ -169,7 +239,35 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: 200, suffix: "+", label: "Incidents resolved" },
       { value: 2, label: "Platforms monitored (Azure, Citrix)" },
     ],
-    glow: "green",
+    glow: "blue",
+    diagram: {
+      caption: "Client cloud traffic and access path",
+      stages: [
+        {
+          label: "Inbound / outbound traffic",
+          detail: "Client Azure and Citrix environments",
+        },
+        {
+          label: "Azure Firewall policy",
+          detail: "Hardened rules narrowing what may enter or leave",
+          tone: "alert",
+        },
+        {
+          label: "IAM least privilege",
+          detail: "Role assignments reviewed and reduced",
+          tone: "alert",
+        },
+        {
+          label: "Client workloads",
+          detail: "Kept available through 200+ resolved incidents",
+          tone: "accent",
+        },
+      ],
+      callout: {
+        label: "The tension",
+        body: "Every rule that shrinks the attack surface can also break something a business depends on. The work is finding the narrowest policy that still lets legitimate traffic through.",
+      },
+    },
     plainLanguage:
       "Client cloud systems must let legitimate work through without leaving unnecessary paths open to attackers. I helped tighten those network and identity rules, kept Azure and Citrix services healthy, and supported the move from older infrastructure practices into a more repeatable DevOps workflow.",
     whatToLookFor: [
@@ -224,7 +322,35 @@ export const CASE_STUDIES: CaseStudy[] = [
       { value: 200, suffix: "+", label: "Employees managed" },
       { value: 3, suffix: "+", label: "Years in role" },
     ],
-    glow: "amber",
+    glow: "red",
+    diagram: {
+      caption: "Identity lifecycle for 200+ employees",
+      stages: [
+        {
+          label: "Joiner",
+          detail: "Account provisioned with the access the role needs, nothing more",
+          tone: "accent",
+        },
+        {
+          label: "Mover",
+          detail: "Role change means access is re-granted, not accumulated",
+          tone: "accent",
+        },
+        {
+          label: "Azure AD groups",
+          detail: "RBAC policy is the single place permission is decided",
+        },
+        {
+          label: "Leaver",
+          detail: "De-provisioned the day someone departs",
+          tone: "alert",
+        },
+      ],
+      callout: {
+        label: "The failure this prevents",
+        body: "Access accumulates silently. Someone who changes roles three times ends up holding all three sets of permissions, and a departed account nobody closed is an unlocked door with no one watching it.",
+      },
+    },
     plainLanguage:
       "Identity management is the process of making sure the right person has the right access for the right amount of time. I handled that lifecycle for a growing organization: creating accounts, changing access when roles changed, and removing it promptly when people left.",
     whatToLookFor: [

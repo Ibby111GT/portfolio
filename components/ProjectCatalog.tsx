@@ -9,20 +9,15 @@ import {
   type ProjectFilter,
 } from "@/lib/projects";
 
+// Two accents only: red for security subjects, blue for data and systems.
 const ACCENT_TEXT = {
-  cyan: "text-cyan-600 dark:text-cyan-300",
-  lime: "text-lime-600 dark:text-lime-300",
-  amber: "text-amber-600 dark:text-amber-300",
-  red: "text-red-600 dark:text-red-300",
-  violet: "text-violet-600 dark:text-violet-300",
+  blue: "text-blue-700 dark:text-blue-400",
+  red: "text-red-700 dark:text-red-400",
 } as const;
 
 const ACCENT_DOT = {
-  cyan: "bg-cyan-500 dark:bg-cyan-300",
-  lime: "bg-lime-500 dark:bg-lime-300",
-  amber: "bg-amber-500 dark:bg-amber-300",
-  red: "bg-red-500 dark:bg-red-400",
-  violet: "bg-violet-500 dark:bg-violet-300",
+  blue: "bg-blue-600 dark:bg-blue-400",
+  red: "bg-red-600 dark:bg-red-400",
 } as const;
 
 export default function ProjectCatalog() {

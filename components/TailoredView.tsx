@@ -19,15 +19,15 @@ export default function TailoredView({ profile, tailored }: TailoredViewProps) {
         <div className="relative max-w-5xl mx-auto px-6 md:px-8 pt-32 md:pt-40 pb-12">
           <Reveal className="mb-6">
             <span
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] md:text-[11px] font-medium tracking-wide text-fg-muted bg-green-500/[0.12] border border-green-500/30 dark:bg-green-500/[0.08] dark:border-white/15"
-              style={{ boxShadow: "0 4px 16px rgba(34,197,94,0.1)" }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] md:text-[11px] font-medium tracking-wide text-fg-muted bg-blue-500/[0.12] border border-blue-500/30 dark:bg-blue-500/[0.08] dark:border-white/15"
+              style={{ boxShadow: "0 4px 16px rgba(29,78,216,0.16)" }}
             >
               <span className="relative flex h-1.5 w-1.5 shrink-0">
                 <span
-                  className="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-60 animate-ping"
+                  className="absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-60 animate-ping"
                   style={{ animationDuration: "2s" }}
                 />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-500" />
               </span>
               Tailored for {tailored.role_title ?? "this role"}
               {tailored.focus_area ? ` · ${tailored.focus_area}` : ""}
@@ -62,11 +62,11 @@ export default function TailoredView({ profile, tailored }: TailoredViewProps) {
                 className="relative rounded-2xl overflow-hidden"
                 style={{
                   boxShadow:
-                    "0 8px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.07), 0 0 24px #22c55e28",
+                    "0 8px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.07), 0 0 24px #2563eb30",
                 }}
               >
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px z-10 bg-gradient-to-r from-transparent via-white/50 to-transparent" />
-                <div className="absolute inset-0 bg-[#08080f]" />
+                <div className="absolute inset-0 bg-[#080808]" />
                 <div
                   className="absolute pointer-events-none"
                   style={{
@@ -75,7 +75,7 @@ export default function TailoredView({ profile, tailored }: TailoredViewProps) {
                     width: "70%",
                     height: "100%",
                     background:
-                      "radial-gradient(ellipse at 20% 50%, #16a34a55 0%, transparent 70%)",
+                      "radial-gradient(ellipse at 20% 50%, #2563eb55 0%, transparent 70%)",
                   }}
                 />
                 <ul className="relative z-10 px-7 py-7 md:px-10 md:py-9 space-y-4">
@@ -84,7 +84,7 @@ export default function TailoredView({ profile, tailored }: TailoredViewProps) {
                       key={bullet}
                       className="flex gap-3 text-sm md:text-base text-white/80 leading-relaxed"
                     >
-                      <span className="text-green-400 shrink-0 mt-0.5">→</span>
+                      <span className="text-blue-400 shrink-0 mt-0.5">→</span>
                       {bullet}
                     </li>
                   ))}

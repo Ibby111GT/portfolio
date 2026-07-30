@@ -198,7 +198,7 @@ export default function TenantControlPlane() {
         <button
           type="button"
           onClick={reset}
-          className="rounded-lg border border-white/12 px-3 py-1.5 text-xs text-white/55 transition hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300"
+          className="rounded-lg border border-white/12 px-3 py-1.5 text-xs text-white/55 transition hover:border-white/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
         >
           Reset
         </button>
@@ -257,7 +257,7 @@ export default function TenantControlPlane() {
                 <li key={t.id}>
                   <div
                     className={`flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border px-3 py-2.5 transition ${
-                      isFocus ? "border-violet-300/40 bg-violet-300/[0.06]" : "border-white/10"
+                      isFocus ? "border-blue-300/40 bg-blue-300/[0.06]" : "border-white/10"
                     }`}
                   >
                     <button
@@ -265,10 +265,10 @@ export default function TenantControlPlane() {
                       onClick={() => toggleTenant(t.id)}
                       aria-pressed={on}
                       aria-label={`${on ? "Remove" : "Admit"} ${t.name}`}
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border font-mono text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300 ${
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border font-mono text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${
                         on
-                          ? "border-violet-300 bg-violet-300 text-black"
-                          : "border-white/20 text-white/30 hover:border-violet-300/60"
+                          ? "border-blue-300 bg-blue-300 text-black"
+                          : "border-white/20 text-white/30 hover:border-blue-300/60"
                       }`}
                     >
                       {on ? "+" : ""}
@@ -277,14 +277,14 @@ export default function TenantControlPlane() {
                     <button
                       type="button"
                       onClick={() => setFocus(t.id)}
-                      className="min-w-0 flex-1 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300"
+                      className="min-w-0 flex-1 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
                     >
                       <span className="flex flex-wrap items-center gap-2">
                         <span className={`text-sm ${on ? "text-white" : "text-white/60"}`}>
                           {t.name}
                         </span>
                         {t.anchor ? (
-                          <span className="rounded border border-violet-300/30 bg-violet-300/10 px-1.5 py-0.5 font-mono text-[9px] uppercase text-violet-200">
+                          <span className="rounded border border-blue-300/30 bg-blue-300/10 px-1.5 py-0.5 font-mono text-[9px] uppercase text-blue-200">
                             anchor
                           </span>
                         ) : null}
@@ -303,8 +303,8 @@ export default function TenantControlPlane() {
                         !on
                           ? "text-white/25"
                           : gaps.length
-                            ? "text-amber-300"
-                            : "text-emerald-300"
+                            ? "text-red-300"
+                            : "text-blue-300"
                       }`}
                     >
                       {!on ? "pipeline" : gaps.length ? `${gaps.length} gap` : "ready"}
@@ -328,7 +328,7 @@ export default function TenantControlPlane() {
           ) : null}
 
           {state.readyToServe ? (
-            <div role="status" className="mt-4 rounded-xl border border-emerald-300/30 bg-emerald-300/[0.06] p-4">
+            <div role="status" className="mt-4 rounded-xl border border-blue-300/30 bg-blue-300/[0.06] p-4">
               <p className="text-sm font-medium">Cleared to serve</p>
               <p className="mt-1.5 text-xs leading-5 text-white/60">
                 {state.live.length} tenant{state.live.length === 1 ? "" : "s"} at{" "}
@@ -362,7 +362,7 @@ export default function TenantControlPlane() {
                       </span>
                       <span
                         className={`shrink-0 font-mono text-[10px] uppercase ${
-                          open ? "text-amber-300" : "text-emerald-300"
+                          open ? "text-red-300" : "text-blue-300"
                         }`}
                       >
                         {open ? "gap" : "in place"}
@@ -376,7 +376,7 @@ export default function TenantControlPlane() {
                         <button
                           type="button"
                           onClick={() => resolveGap(focused.id, c)}
-                          className="mt-2 rounded-md border border-white/15 px-2 py-1 font-mono text-[10px] uppercase text-white/60 transition hover:border-emerald-300/50 hover:text-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300"
+                          className="mt-2 rounded-md border border-white/15 px-2 py-1 font-mono text-[10px] uppercase text-white/60 transition hover:border-blue-300/50 hover:text-blue-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
                         >
                           Mark remediated
                         </button>
@@ -419,7 +419,7 @@ function Meter({
   note: string;
 }) {
   const bar =
-    tone === "bad" ? "bg-red-400" : tone === "warn" ? "bg-amber-300" : "bg-emerald-300";
+    tone === "bad" ? "bg-red-400" : tone === "warn" ? "bg-red-300" : "bg-blue-300";
   return (
     <div className="bg-[#08070d] px-5 py-4">
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
