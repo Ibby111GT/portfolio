@@ -8,6 +8,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
+  // Local runs share one next-start process; more workers than this saturate
+  // it and asset-heavy pages (creative PNGs) start timing out on load.
+  workers: process.env.CI ? undefined : 4,
   reporter: process.env.CI ? "github" : "list",
   use: {
     baseURL,

@@ -17,15 +17,4 @@ export default defineConfig([
     "test-results/**",
     "next-env.d.ts",
   ]),
-  {
-    rules: {
-      // These React Compiler advisory rules reject several intentional canvas,
-      // animation-loop, and hydration patterns that are already covered by
-      // strict TypeScript, unit tests, and browser smoke tests.
-      "react-hooks/immutability": "off",
-      "react-hooks/preserve-manual-memoization": "off",
-      "react-hooks/refs": "off",
-      "react-hooks/set-state-in-effect": "off",
-    },
-  },
 ]);
