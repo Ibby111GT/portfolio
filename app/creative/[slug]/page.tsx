@@ -68,6 +68,10 @@ const EXPERIENCES: Record<
     () => import("@/components/creative/LumenCity"),
     { loading: LoadingCreativeExperience },
   ),
+  "continuum-engine": dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/ContinuumEngine"),
+    { loading: LoadingCreativeExperience },
+  ),
 };
 
 export function generateStaticParams() {

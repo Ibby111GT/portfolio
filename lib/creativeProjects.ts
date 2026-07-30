@@ -557,4 +557,58 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     image: null,
     accent: "blue",
   },
+  {
+    slug: "continuum-engine",
+    number: "11",
+    title: "Continuum Engine",
+    category: "Generative",
+    group: "Generative systems",
+    description:
+      "Conduct a luminous topology made from thousands of agents, orbital attractors, and reproducible field rules.",
+    interaction:
+      "Choose a topology, bend its gravity, freeze time, and export your universe.",
+    purpose:
+      "Turn abstract vector mathematics into a tactile instrument where deterministic rules, emergence, and human intervention remain visible at the same time.",
+    steps: [
+      "Choose a field recipe or build one from topology, turbulence, symmetry, and velocity controls.",
+      "Move or drag through the canvas to inject a temporary gravitational attractor.",
+      "Freeze and step through time, regenerate from a named seed, or export the current universe.",
+    ],
+    reading: [
+      {
+        label: "Topology field",
+        detail: "A vector function that gives every point in space a direction of travel.",
+      },
+      {
+        label: "Tracer population",
+        detail: "Thousands of short-lived agents reveal the otherwise invisible field through motion.",
+      },
+      {
+        label: "Emergent structure",
+        detail: "Braids, shells, voids, and orbits appear without being explicitly drawn.",
+      },
+    ],
+    architecture: [
+      "A seeded particle engine initializes up to 3,200 reproducible tracers and recycles them across finite lifetimes.",
+      "Three continuous vector functions combine polar coordinates, lattice waves, rotational symmetry, and time-varying turbulence.",
+      "Pointer gravity, live telemetry, reduced-motion rendering, frame stepping, and canvas export operate entirely client-side.",
+    ],
+    evidenceMode: "Seeded real-time vector-field synthesis",
+    capabilities: [
+      "Generative mathematics",
+      "High-density Canvas rendering",
+      "Interactive systems design",
+      "Deterministic export",
+    ],
+    decisions: [
+      "Use tracers instead of drawing curves directly so the image reveals the behavior of the system rather than illustrating a predefined composition.",
+      "Separate deterministic initialization from pointer intervention so a universe can be reproduced before it becomes personal.",
+      "Expose freeze and single-frame stepping to make a fast-moving generative process inspectable.",
+    ],
+    boundary:
+      "Generative artwork and systems study. Telemetry describes the internal simulation only; it does not represent a physical scientific model.",
+    boundaryTone: "scope",
+    image: null,
+    accent: "blue",
+  },
 ];

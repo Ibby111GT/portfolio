@@ -77,3 +77,24 @@ test("lab pages carry their catalog accent and section anchors", async ({
     "LedgerPulse",
   );
 });
+
+test("Continuum Engine hydrates its field and responds to controls", async ({
+  page,
+}) => {
+  await page.goto("/creative/continuum-engine");
+
+  const canvas = page.getByRole("img", {
+    name: "Interactive generative topology field with flowing luminous particles",
+  });
+  await expect(canvas).toBeVisible();
+  await expect
+    .poll(() => canvas.evaluate((element) => (element as HTMLCanvasElement).width))
+    .toBeGreaterThan(300);
+
+  await page.getByRole("button", { name: "New universe" }).click();
+  await expect(page.getByText("gen 02")).toBeVisible();
+
+  await page.getByRole("button", { name: "Freeze time" }).click();
+  await expect(page.getByRole("button", { name: "Step frame" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Resume time" })).toBeVisible();
+});

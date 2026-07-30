@@ -140,3 +140,78 @@ export function LumenCityPoster() {
     </svg>
   );
 }
+
+/** Continuum Engine — braided trajectories around a luminous singularity. */
+export function ContinuumPoster() {
+  const rng = mulberry32(hashSeed("continuum-engine"));
+  const paths = Array.from({ length: 82 }, (_, index) => {
+    const phase = (index / 82) * Math.PI * 2;
+    const radius = 90 + rng() * 280;
+    const twist = 0.62 + rng() * 1.8;
+    return {
+      x1: 400 + Math.cos(phase) * radius,
+      y1: 500 + Math.sin(phase) * radius * 1.24,
+      x2: 400 + Math.cos(phase + twist) * radius * 0.42,
+      y2: 500 + Math.sin(phase + twist) * radius * 0.54,
+      hue: 184 + rng() * 112,
+    };
+  });
+  return (
+    <svg
+      viewBox="0 0 800 1000"
+      preserveAspectRatio="xMidYMid slice"
+      className={posterClass}
+      aria-hidden="true"
+    >
+      <defs>
+        <radialGradient id="continuum-bg">
+          <stop offset="0" stopColor="#102735" />
+          <stop offset="0.42" stopColor="#070b14" />
+          <stop offset="1" stopColor="#020305" />
+        </radialGradient>
+        <filter id="continuum-glow">
+          <feGaussianBlur stdDeviation="7" />
+        </filter>
+      </defs>
+      <rect width="800" height="1000" fill="url(#continuum-bg)" />
+      <g fill="none">
+        {paths.map((path, index) => (
+          <path
+            key={index}
+            d={`M ${path.x1} ${path.y1} Q 400 500 ${path.x2} ${path.y2}`}
+            stroke={`hsl(${path.hue}, 88%, 66%)`}
+            strokeOpacity={0.12 + (index % 5) * 0.035}
+            strokeWidth={0.7 + (index % 4) * 0.22}
+          />
+        ))}
+      </g>
+      <circle
+        cx="400"
+        cy="500"
+        r="82"
+        fill="#56e8ff"
+        fillOpacity="0.12"
+        filter="url(#continuum-glow)"
+      />
+      <circle cx="400" cy="500" r="5" fill="#dffcff" />
+      <circle
+        cx="400"
+        cy="500"
+        r="112"
+        fill="none"
+        stroke="#67e8f9"
+        strokeOpacity="0.16"
+      />
+      <text
+        x="54"
+        y="86"
+        fill="white"
+        fillOpacity="0.44"
+        fontSize="15"
+        letterSpacing="4"
+      >
+        CONTINUUM / FIELD 11
+      </text>
+    </svg>
+  );
+}

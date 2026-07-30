@@ -5,6 +5,7 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import SignalBloomPoster from "@/components/creative/SignalBloomPoster";
 import {
+  ContinuumPoster,
   LumenCityPoster,
   SentinelPoster,
   VerdantPoster,
@@ -63,6 +64,8 @@ function CreativePreview({
         return <VerdantPoster />;
       case "lumen-city":
         return <LumenCityPoster />;
+      case "continuum-engine":
+        return <ContinuumPoster />;
       default:
         return <SignalBloomPoster />;
     }
