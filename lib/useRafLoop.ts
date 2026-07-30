@@ -10,10 +10,12 @@ export interface RafLoop {
 
 /**
  * Single requestAnimationFrame loop with StrictMode-safe lifecycle.
- * Nothing starts at mount — `start()` is only ever called from user
- * interaction handlers, so double-invoked effects cannot double-start it.
- * The loop pauses while the document is hidden and resumes without a
- * time jump (delta is measured against the previous visible frame).
+ * Nothing starts at mount by itself — `start()` is called from user
+ * interaction handlers, or from an effect via useCreativeCanvas; both are
+ * safe because `start()` cancels any prior frame first, so double-invoked
+ * effects cannot double-start it. The loop pauses while the document is
+ * hidden and resumes without a time jump (delta is measured against the
+ * previous visible frame).
  */
 export function useRafLoop(
   onFrame: (dt: number, elapsed: number) => void,

@@ -20,6 +20,12 @@ const ACCENT_DOT = {
 } as const;
 
 const PROJECT_USES: Record<string, string> = {
+  "pathfinder-arena":
+    "Teach graph search, compare heuristic efficiency, and prototype routing logic on editable obstacles.",
+  flowline:
+    "Evaluate fleet sizing, queue pressure, machine downtime, and material-routing resilience.",
+  "neuro-drivers":
+    "Demonstrate neural-network layers, fitness selection, mutation, and controller evolution visually.",
   "agent-foundry":
     "Prototype internal document agents, policy assistants, and auditable RAG workflows before production integration.",
   "aegis-home":

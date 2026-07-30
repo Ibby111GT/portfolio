@@ -2,6 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
+import {
+  StageHeader,
+  StatStrip,
+} from "@/components/creative/stage/controls";
 import type { CreativeProject } from "@/lib/creativeProjects";
 import { hashSeed, mulberry32 } from "@/lib/seededRandom";
 
@@ -19,9 +23,9 @@ interface Snapshot {
 }
 
 const SPECIES: Record<Species, { label: string; color: string; role: string }> = {
-  grazer: { label: "Luma grazers", color: "#67e8f9", role: "Consume photosynthetic nutrients" },
-  hunter: { label: "Vesper hunters", color: "#fb7185", role: "Regulate grazer populations" },
-  scavenger: { label: "Morrow recyclers", color: "#c4b5fd", role: "Return dead matter to the substrate" },
+  grazer: { label: "Luma grazers", color: "#60a5fa", role: "Consume photosynthetic nutrients" },
+  hunter: { label: "Vesper hunters", color: "#f87171", role: "Regulate grazer populations" },
+  scavenger: { label: "Morrow recyclers", color: "#dbeafe", role: "Return dead matter to the substrate" },
 };
 const INITIAL: Record<Species, number> = { grazer: 42, hunter: 8, scavenger: 12 };
 
@@ -31,8 +35,7 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
   const organismsRef = useRef<Organism[]>([]);
   const nutrientsRef = useRef<Nutrient[]>([]);
   const corpsesRef = useRef<Corpse[]>([]);
-  const historyRef = useRef<Array<{ g: number; h: number; s: number }>>([]);
-  const commandRef = useRef<{ reset?: () => void; event?: (type: "rain" | "drought" | "bloom") => void; add?: (species: Species) => void }>({});
+  const commandRef = useRef<{ reset?: () => void; repaint?: () => void; event?: (type: "rain" | "drought" | "bloom") => void; add?: (species: Species) => void }>({});
   const selectedRef = useRef<number | null>(null);
   const climateRef = useRef({ rainfall: 62, temperature: 48, timeScale: 10, paused: false });
   const [rainfall, setRainfall] = useState(62);
@@ -41,9 +44,13 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
   const [paused, setPaused] = useState(false);
   const [epoch, setEpoch] = useState(1);
   const [snapshot, setSnapshot] = useState<Snapshot>({ grazers: 42, hunters: 8, scavengers: 12, nutrients: 90, births: 0, deaths: 0, generation: 1, diversity: 0.5 });
+  const [history, setHistory] = useState<Array<{ g: number; h: number; s: number }>>([]);
   const [selected, setSelected] = useState<Organism | null>(null);
 
-  useEffect(() => { climateRef.current = { rainfall, temperature, timeScale, paused }; }, [paused, rainfall, temperature, timeScale]);
+  useEffect(() => {
+    climateRef.current = { rainfall, temperature, timeScale, paused };
+    commandRef.current.repaint?.();
+  }, [paused, rainfall, temperature, timeScale]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -61,10 +68,10 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
 
     function genome(species: Species, parent?: Genome): Genome {
       const base = species === "hunter"
-        ? { speed: 1.45, sense: 105, efficiency: 0.78, fertility: 0.19, hue: 350 }
+        ? { speed: 1.45, sense: 105, efficiency: 0.78, fertility: 0.19, hue: 0 }
         : species === "scavenger"
-          ? { speed: 0.72, sense: 82, efficiency: 0.9, fertility: 0.3, hue: 268 }
-          : { speed: 0.92, sense: 74, efficiency: 0.86, fertility: 0.42, hue: 188 };
+          ? { speed: 0.72, sense: 82, efficiency: 0.9, fertility: 0.3, hue: 210 }
+          : { speed: 0.92, sense: 74, efficiency: 0.86, fertility: 0.42, hue: 215 };
       if (!parent) return { ...base, speed: base.speed * (0.85 + random() * 0.3), sense: base.sense * (0.82 + random() * 0.36), efficiency: base.efficiency * (0.9 + random() * 0.2), fertility: base.fertility * (0.84 + random() * 0.32), hue: base.hue + (random() - 0.5) * 18 };
       const mutate = (value: number, spread: number) => Math.max(0.05, value * (1 + (random() - 0.5) * spread));
       return { speed: mutate(parent.speed, 0.22), sense: mutate(parent.sense, 0.2), efficiency: Math.min(1.15, mutate(parent.efficiency, 0.12)), fertility: Math.min(0.9, mutate(parent.fertility, 0.18)), hue: parent.hue + (random() - 0.5) * 10 };
@@ -80,14 +87,25 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
       random = mulberry32(hashSeed(`biosphere-${epoch}`)); nextId = 1; births = 0; deaths = 0; frame = 0;
       organismsRef.current = (Object.keys(INITIAL) as Species[]).flatMap((species) => Array.from({ length: INITIAL[species] }, () => create(species)));
       nutrientsRef.current = Array.from({ length: 90 }, () => nutrient());
-      corpsesRef.current = []; historyRef.current = []; selectedRef.current = null; setSelected(null);
+      corpsesRef.current = []; setHistory([]); selectedRef.current = null; setSelected(null);
     }
     function resize() {
       const rect = container.getBoundingClientRect(), ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const previousWidth = width;
+      const previousHeight = height;
       width = Math.max(340, rect.width); height = Math.max(700, rect.height); horizon = height * 0.22;
       surface.width = Math.round(width * ratio); surface.height = Math.round(height * ratio);
       surface.style.width = `${width}px`; surface.style.height = `${height}px`; drawing.setTransform(ratio, 0, 0, ratio, 0, 0);
-      reset();
+      if (!organismsRef.current.length) {
+        reset();
+      } else {
+        const scaleX = width / previousWidth;
+        const scaleY = height / previousHeight;
+        for (const item of organismsRef.current) { item.x *= scaleX; item.y *= scaleY; }
+        for (const item of nutrientsRef.current) { item.x *= scaleX; item.y *= scaleY; }
+        for (const item of corpsesRef.current) { item.x *= scaleX; item.y *= scaleY; }
+      }
+      paint();
     }
     function nearest<T extends { x: number; y: number }>(agent: Organism, items: T[], radius: number, predicate?: (item: T) => boolean) {
       let result: T | undefined, best = radius * radius;
@@ -161,11 +179,11 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
       for (let x = 0; x < width; x += 44) { drawing.beginPath(); drawing.moveTo(x, horizon); drawing.lineTo(x, height); drawing.stroke(); }
       for (let y = horizon; y < height; y += 44) { drawing.beginPath(); drawing.moveTo(0, y); drawing.lineTo(width, y); drawing.stroke(); }
       for (const item of nutrientsRef.current) {
-        item.phase += 0.025; drawing.fillStyle = `rgba(74,222,128,${0.34 + Math.sin(item.phase) * 0.16})`;
+        item.phase += 0.025; drawing.fillStyle = `rgba(96,165,250,${0.34 + Math.sin(item.phase) * 0.16})`;
         drawing.beginPath(); drawing.arc(item.x, item.y, 1.7, 0, Math.PI * 2); drawing.fill();
       }
       for (const corpse of corpsesRef.current) {
-        drawing.strokeStyle = `rgba(251,191,36,${Math.max(0, 0.45 - corpse.age / 45)})`;
+        drawing.strokeStyle = `rgba(248,113,113,${Math.max(0, 0.45 - corpse.age / 45)})`;
         drawing.beginPath(); drawing.moveTo(corpse.x - 3, corpse.y - 3); drawing.lineTo(corpse.x + 3, corpse.y + 3); drawing.moveTo(corpse.x + 3, corpse.y - 3); drawing.lineTo(corpse.x - 3, corpse.y + 3); drawing.stroke();
       }
       for (const agent of organismsRef.current) {
@@ -187,7 +205,8 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
       const genes = agents.map((agent) => agent.genome.hue);
       const diversity = genes.length ? Math.min(1, (Math.max(...genes) - Math.min(...genes)) / 180) : 0;
       const data = { grazers: count("grazer"), hunters: count("hunter"), scavengers: count("scavenger"), nutrients: nutrientsRef.current.length, births, deaths, generation: Math.max(1, ...agents.map((agent) => agent.generation)), diversity };
-      setSnapshot(data); historyRef.current.push({ g: data.grazers, h: data.hunters, s: data.scavengers }); if (historyRef.current.length > 42) historyRef.current.shift();
+      setSnapshot(data);
+      setHistory((current) => [...current, { g: data.grazers, h: data.hunters, s: data.scavengers }].slice(-42));
       const chosen = agents.find((agent) => agent.id === selectedRef.current); if (chosen) setSelected({ ...chosen, genome: { ...chosen.genome } });
     }
     function loop() {
@@ -200,20 +219,26 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
       const found = nearest({ x, y, genome: { sense: 24 } } as Organism, organismsRef.current, 24);
       if (found) { selectedRef.current = found.id; setSelected({ ...found, genome: { ...found.genome } }); }
       else { for (let i = 0; i < 9; i += 1) nutrientsRef.current.push(nutrient(x + random() * 24 - 12, y + random() * 24 - 12)); }
+      paint();
+      publish();
     }
     commandRef.current.reset = reset;
-    commandRef.current.add = (species) => { for (let i = 0; i < (species === "hunter" ? 3 : 7); i += 1) organismsRef.current.push(create(species)); };
+    commandRef.current.repaint = paint;
+    commandRef.current.add = (species) => {
+      for (let i = 0; i < (species === "hunter" ? 3 : 7); i += 1) organismsRef.current.push(create(species));
+      paint(); publish();
+    };
     commandRef.current.event = (type) => {
       if (type === "rain") { for (let i = 0; i < 55; i += 1) nutrientsRef.current.push(nutrient()); }
       if (type === "drought") nutrientsRef.current.splice(0, Math.floor(nutrientsRef.current.length * 0.58));
       if (type === "bloom") for (const agent of organismsRef.current) agent.energy = Math.min(120, agent.energy + 24);
+      paint(); publish();
     };
     const observer = new ResizeObserver(resize); observer.observe(container); surface.addEventListener("pointerdown", select); resize();
     if (reduced) { for (let i = 0; i < 120; i += 1) update(); paint(); publish(); } else animation = requestAnimationFrame(loop);
     return () => { observer.disconnect(); surface.removeEventListener("pointerdown", select); cancelAnimationFrame(animation); commandRef.current = {}; };
   }, [epoch]);
 
-  const history = historyRef.current;
   const maxHistory = Math.max(1, ...history.flatMap((item) => [item.g, item.h, item.s]));
   const polyline = (key: "g" | "h" | "s") => history.map((item, index) => `${(index / Math.max(1, history.length - 1)) * 100},${48 - (item[key] / maxHistory) * 44}`).join(" ");
   const balance = useMemo(() => Math.max(0, Math.min(100, 100 - Math.abs(snapshot.grazers - 45) - Math.abs(snapshot.hunters - 9) * 2 - Math.abs(snapshot.scavengers - 13))), [snapshot]);
@@ -222,28 +247,24 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
     <CreativeProjectShell project={project}>
       <section className="mx-auto max-w-[1500px] px-4 pb-24 sm:px-6 md:px-8">
         <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#060909]">
-          <header className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-6 py-4 md:px-8">
-            <div className="flex items-center gap-3"><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-300" /><span className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/45">Biosphere 12 · autonomous ecology online</span></div>
-            <div className="flex gap-5 font-mono text-[9px] uppercase tracking-[0.16em] text-white/35"><span>epoch {epoch}</span><span>balance {balance}%</span><span>diversity {(snapshot.diversity * 100).toFixed(0)}%</span></div>
-          </header>
+          <StageHeader
+            eyebrow="Digital Biosphere · autonomous ecology"
+            stats={[
+              { label: "epoch", value: String(epoch) },
+              { label: "balance", value: `${balance}%` },
+              { label: "diversity", value: `${(snapshot.diversity * 100).toFixed(0)}%` },
+            ]}
+          />
           <div className="grid xl:grid-cols-[minmax(0,1fr)_390px]">
             <div ref={hostRef} className="relative min-h-[760px] overflow-hidden bg-[#06100d] md:min-h-[900px]">
               <canvas ref={canvasRef} role="img" aria-label="Autonomous digital biosphere with evolving organisms and resources" className="absolute inset-0 h-full w-full cursor-crosshair touch-none" />
-              <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/80 via-black/25 to-transparent px-7 pb-32 pt-9 md:px-12 md:pt-12">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-emerald-200/55">Artificial life / agent ecology</p>
-                <h2 className="mt-4 text-[clamp(3.5rem,8vw,8rem)] font-semibold leading-[0.8] tracking-[-0.06em]">DIGITAL<br />BIOSPHERE</h2>
-                <p className="mt-7 max-w-lg text-sm leading-7 text-white/48 md:text-base">Nothing here is choreographed. Organisms sense, feed, reproduce, mutate, hunt, die, and recycle themselves into the substrate.</p>
-              </div>
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 grid grid-cols-4 gap-px border-t border-white/10 bg-white/10">
-                {([["Grazers", snapshot.grazers, "text-cyan-300"], ["Hunters", snapshot.hunters, "text-rose-400"], ["Recyclers", snapshot.scavengers, "text-violet-300"], ["Generation", snapshot.generation, "text-emerald-300"]] as const).map(([label, value, color]) => <div key={label} className="bg-black/75 px-3 py-4 backdrop-blur-md md:px-6"><p className="font-mono text-[8px] uppercase tracking-[0.16em] text-white/30">{label}</p><p className={`mt-2 font-mono text-lg ${color}`}>{value}</p></div>)}
-              </div>
             </div>
             <aside className="border-t border-white/10 bg-[#080c0b] p-6 md:p-8 xl:border-l xl:border-t-0">
               <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">Environmental pressure</p>
               <Range label="Rainfall" value={rainfall} suffix="%" onChange={setRainfall} />
               <Range label="Temperature" value={temperature} suffix="°" onChange={setTemperature} />
               <Range label="Time scale" value={timeScale} min={2} max={24} suffix={`${(timeScale / 10).toFixed(1)}×`} displayValue onChange={setTimeScale} />
-              <div className="mt-7 grid grid-cols-3 gap-2">{(["rain", "drought", "bloom"] as const).map((event) => <button key={event} type="button" onClick={() => commandRef.current.event?.(event)} className="min-h-14 rounded-xl border border-white/10 px-2 text-[10px] capitalize text-white/55 hover:border-emerald-300/35 hover:bg-emerald-300/[0.05]">{event === "rain" ? "Nutrient rain" : event === "drought" ? "Drought" : "Energy bloom"}</button>)}</div>
+              <div className="mt-7 grid grid-cols-3 gap-2">{(["rain", "drought", "bloom"] as const).map((event) => <button key={event} type="button" onClick={() => commandRef.current.event?.(event)} className="min-h-14 rounded-xl border border-white/10 px-2 text-[10px] capitalize text-white/55 hover:border-blue-300/35 hover:bg-blue-300/[0.05]">{event === "rain" ? "Nutrient rain" : event === "drought" ? "Drought" : "Energy bloom"}</button>)}</div>
               <div className="mt-7 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
                 <div className="flex items-center justify-between"><p className="font-mono text-[9px] uppercase tracking-[0.17em] text-white/35">Population memory</p><span className="font-mono text-[9px] text-white/25">{snapshot.births} born / {snapshot.deaths} lost</span></div>
                 <svg viewBox="0 0 100 52" className="mt-4 h-24 w-full" aria-label="Population history chart">
@@ -254,13 +275,21 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
               </div>
               <p className="mt-7 font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">Introduce organisms</p>
               <div className="mt-3 space-y-2">{(Object.keys(SPECIES) as Species[]).map((species) => <button key={species} type="button" onClick={() => commandRef.current.add?.(species)} className="flex w-full items-center justify-between rounded-xl border border-white/10 px-4 py-3 text-left hover:bg-white/[0.04]"><span><span className="block text-xs font-semibold text-white/70">{SPECIES[species].label}</span><span className="mt-1 block text-[10px] text-white/35">{SPECIES[species].role}</span></span><span style={{ background: SPECIES[species].color }} className="h-2 w-2 rounded-full" /></button>)}</div>
-              <div className="mt-7 grid grid-cols-2 gap-2"><button type="button" onClick={() => setPaused((value) => !value)} className="rounded-full border border-white/12 px-4 py-3 text-xs font-semibold text-white/65">{paused ? "Resume life" : "Pause life"}</button><button type="button" onClick={() => setEpoch((value) => value + 1)} className="rounded-full bg-emerald-300 px-4 py-3 text-xs font-semibold text-black">New ecosystem</button></div>
+              <div className="mt-7 grid grid-cols-2 gap-2"><button type="button" onClick={() => setPaused((value) => !value)} className="rounded-full border border-white/12 px-4 py-3 text-xs font-semibold text-white/65">{paused ? "Resume life" : "Pause life"}</button><button type="button" onClick={() => setEpoch((value) => value + 1)} className="rounded-full bg-blue-300 px-4 py-3 text-xs font-semibold text-black">New ecosystem</button></div>
               <div className="mt-7 min-h-40 rounded-2xl border border-white/10 bg-black/20 p-4">
                 <p className="font-mono text-[9px] uppercase tracking-[0.17em] text-white/35">Selected lineage</p>
                 {selected ? <div className="mt-4"><div className="flex items-center justify-between"><p className="text-sm font-semibold" style={{ color: SPECIES[selected.species].color }}>{SPECIES[selected.species].label} #{selected.id}</p><span className="font-mono text-[9px] text-white/35">gen {selected.generation}</span></div><dl className="mt-4 grid grid-cols-2 gap-3 text-[10px]"><Gene label="Energy" value={selected.energy.toFixed(1)} /><Gene label="Age" value={selected.age.toFixed(1)} /><Gene label="Speed" value={selected.genome.speed.toFixed(2)} /><Gene label="Sense" value={selected.genome.sense.toFixed(0)} /><Gene label="Efficiency" value={selected.genome.efficiency.toFixed(2)} /><Gene label="Fertility" value={selected.genome.fertility.toFixed(2)} /></dl></div> : <p className="mt-4 text-xs leading-6 text-white/35">Select a moving organism to inspect its inherited traits. Click empty substrate to add nutrients.</p>}
               </div>
             </aside>
           </div>
+          <StatStrip
+            items={[
+              { label: "Grazers", value: String(snapshot.grazers) },
+              { label: "Hunters", value: String(snapshot.hunters), alert: true },
+              { label: "Recyclers", value: String(snapshot.scavengers) },
+              { label: "Generation", value: String(snapshot.generation) },
+            ]}
+          />
         </div>
       </section>
     </CreativeProjectShell>
@@ -268,7 +297,7 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
 }
 
 function Range({ label, value, min = 0, max = 100, suffix, displayValue = false, onChange }: { label: string; value: number; min?: number; max?: number; suffix: string; displayValue?: boolean; onChange: (value: number) => void }) {
-  return <label className="mt-6 block"><span className="flex justify-between font-mono text-[9px] uppercase tracking-[0.16em] text-white/35"><span>{label}</span><span>{displayValue ? suffix : `${value}${suffix}`}</span></span><input type="range" min={min} max={max} value={value} onChange={(event) => onChange(Number(event.target.value))} className="mt-3 w-full accent-emerald-300" /></label>;
+  return <label className="mt-6 block"><span className="flex justify-between font-mono text-[9px] uppercase tracking-[0.16em] text-white/35"><span>{label}</span><span>{displayValue ? suffix : `${value}${suffix}`}</span></span><input type="range" min={min} max={max} value={value} onChange={(event) => onChange(Number(event.target.value))} className="mt-3 w-full accent-blue-300" /></label>;
 }
 function Gene({ label, value }: { label: string; value: string }) {
   return <div><dt className="text-white/30">{label}</dt><dd className="mt-1 font-mono text-white/65">{value}</dd></div>;

@@ -668,4 +668,156 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     image: null,
     accent: "blue",
   },
+  {
+    slug: "murmuration",
+    number: "13",
+    title: "Murmuration",
+    category: "Living systems",
+    group: "Generative systems",
+    description:
+      "Conduct a leaderless flock whose collective motion emerges from alignment, cohesion, separation, and fear.",
+    interaction:
+      "Tune the flock rules, place a predator, pause the field, or export a frame.",
+    purpose:
+      "Make swarm intelligence visible by showing how independent agents create coordinated motion from only local information.",
+    steps: [
+      "Adjust cohesion and separation to change the flock’s social behavior.",
+      "Click the field to place a predator and force a collective response.",
+      "Pause, regenerate, or export the resulting formation.",
+    ],
+    reading: [
+      { label: "Alignment", detail: "Each agent turns toward nearby headings." },
+      { label: "Cohesion", detail: "Neighbors pull one another toward a local center." },
+      { label: "Separation", detail: "Short-range repulsion prevents collisions." },
+    ],
+    architecture: [
+      "A deterministic boids engine evaluates local neighborhoods every frame.",
+      "A predator field adds a moving repulsive force without scripting the flock’s escape path.",
+      "A shared DPR-aware canvas stage preserves agents through resizes and supports reduced motion.",
+    ],
+    evidenceMode: "Real-time agent-based flock simulation",
+    capabilities: ["Swarm algorithms", "Vector mathematics", "Canvas systems", "Interactive art"],
+    decisions: [
+      "Keep every agent autonomous so global formations remain emergent.",
+      "Use a visible predator radius to explain the disturbance without over-labeling the field.",
+    ],
+    boundary:
+      "Generative systems study; behavior is algorithmic and does not model a specific animal population.",
+    image: null,
+    accent: "blue",
+  },
+  {
+    slug: "automata-atlas",
+    number: "14",
+    title: "Automata Atlas",
+    category: "Generative",
+    group: "Generative systems",
+    description:
+      "Paint a field of cells, change its neighborhood rules, and watch order, oscillation, and collapse emerge.",
+    interaction:
+      "Choose a rule family, paint cells, pause, step one generation, or export the grid.",
+    purpose:
+      "Turn cellular automata from an abstract algorithm into a laboratory for emergence, stability, and rule comparison.",
+    steps: [
+      "Choose Conway Life, HighLife, Seeds, or tune the thresholds.",
+      "Click cells to alter the current population.",
+      "Pause and step once to inspect a single generational transition.",
+    ],
+    reading: [
+      { label: "Cell state", detail: "Each cell is either living or inactive." },
+      { label: "Neighborhood", detail: "Eight adjacent cells determine the next state." },
+      { label: "Generation", detail: "Every cell updates simultaneously from the same prior grid." },
+    ],
+    architecture: [
+      "A toroidal grid stores cell state in a compact typed array.",
+      "Preset and tunable birth/survival rules share one deterministic transition engine.",
+      "Direct painting, pause, single-step, resize, and export remain local to the browser.",
+    ],
+    evidenceMode: "Interactive cellular-automata engine",
+    capabilities: ["Cellular automata", "Typed arrays", "State transitions", "Algorithm visualization"],
+    decisions: [
+      "Expose single-generation stepping so cause and effect can be inspected.",
+      "Use wraparound boundaries so edge cells follow the same rules as the center.",
+    ],
+    boundary:
+      "Algorithmic exploration; patterns are mathematical states rather than biological forecasts.",
+    image: null,
+    accent: "blue",
+  },
+  {
+    slug: "load-path",
+    number: "15",
+    title: "Load Path",
+    category: "Simulation",
+    group: "Generative systems",
+    description:
+      "Move a force across an architectural frame and watch tension and compression redistribute instantly.",
+    interaction:
+      "Choose a frame, move the load, change its magnitude, and export the stress composition.",
+    purpose:
+      "Explain structural load transfer with a visual, inspectable approximation that connects geometry to internal force.",
+    steps: [
+      "Choose a bridge, cantilever, or tower frame.",
+      "Click the span or move the load-position control.",
+      "Increase the load and watch member color and thickness respond.",
+    ],
+    reading: [
+      { label: "Blue members", detail: "Illustrative tension increases with color intensity." },
+      { label: "Red members", detail: "Illustrative compression increases with color intensity." },
+      { label: "Load arrow", detail: "The applied point force driving the current distribution." },
+    ],
+    architecture: [
+      "A parametric node-and-member graph produces three frame topologies.",
+      "Member response is recomputed from load magnitude, position, span, and connectivity.",
+      "Canvas rendering maps sign and magnitude to a consistent blue/red visual language.",
+    ],
+    evidenceMode: "Interactive structural-force approximation",
+    capabilities: ["Graph modeling", "Vector forces", "Engineering visualization", "Parametric systems"],
+    decisions: [
+      "Separate tension and compression by both hue and thickness.",
+      "Keep the model deliberately inspectable instead of presenting opaque finite-element output.",
+    ],
+    boundary:
+      "Educational approximation only—not structural analysis, engineering advice, or a basis for construction.",
+    image: null,
+    accent: "red",
+  },
+  {
+    slug: "terraform",
+    number: "16",
+    title: "Terraform",
+    category: "Living systems",
+    group: "Generative systems",
+    description:
+      "Shape a micro-climate where rain flows downhill, terrain erodes, water gathers, and vegetation responds.",
+    interaction:
+      "Select a climate, adjust rain and heat, then click the terrain to drop a local storm.",
+    purpose:
+      "Show how coupled environmental variables produce landscape change without scripting the final composition.",
+    steps: [
+      "Choose a basin, plateau, or delta climate.",
+      "Adjust rainfall and temperature to change water and plant pressure.",
+      "Click the terrain to add a storm and watch water find lower ground.",
+    ],
+    reading: [
+      { label: "Elevation", detail: "Procedural terrain controls the direction of water flow." },
+      { label: "Water", detail: "Rain accumulates, moves toward lower cells, and evaporates." },
+      { label: "Vegetation", detail: "Growth responds to moisture, elevation, and temperature stress." },
+    ],
+    architecture: [
+      "Seeded procedural terrain initializes elevation and vegetation fields.",
+      "A grid simulation updates rainfall, downhill flow, erosion, evaporation, and growth.",
+      "Local storm input and climate controls disturb the same continuous system.",
+    ],
+    evidenceMode: "Procedural micro-climate simulation",
+    capabilities: ["Procedural terrain", "Environmental modeling", "Grid simulation", "Generative systems"],
+    decisions: [
+      "Couple water and vegetation so the artwork has memory and feedback.",
+      "Make storms spatial inputs rather than global decoration.",
+    ],
+    boundary:
+      "Generative environmental artwork; values are synthetic and not a climate, hydrology, or land-use forecast.",
+    image: null,
+    accent: "blue",
+  },
 ];

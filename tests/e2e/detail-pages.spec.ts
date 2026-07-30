@@ -130,7 +130,7 @@ test("Aegis Home explains and responds to synthetic RF anomalies", async ({
   ).toBeVisible();
   await expect(
     page.getByRole("img", {
-      name: "Interactive floor plan showing synthetic wireless signals",
+      name: "Interactive floor plan showing deterministic wireless signals",
     }),
   ).toBeVisible();
 
@@ -145,7 +145,9 @@ test("Aegis Home explains and responds to synthetic RF anomalies", async ({
   await expect(page.getByText("Room baseline changed")).toBeVisible();
 
   const beforeInspection = page.url();
-  await page.getByRole("button", { name: "Inspect Work laptop" }).click();
+  await page
+    .getByRole("button", { name: "Inspect and drag Work laptop" })
+    .click();
   await expect(page.getByText("Work laptop", { exact: true })).toHaveCount(2);
   expect(page.url()).toBe(beforeInspection);
 
@@ -173,7 +175,9 @@ test("Aegis Home explains and responds to synthetic RF anomalies", async ({
     page.getByText(/1 authorized records loaded locally/),
   ).toBeVisible();
   await expect(
-    page.getByRole("button", { name: "Inspect Owned office beacon" }),
+    page.getByRole("button", {
+      name: "Inspect and drag Owned office beacon",
+    }),
   ).toBeVisible();
 });
 
@@ -198,4 +202,57 @@ test("Agent Foundry builds, retrieves, refuses, and exports a grounded agent", a
   await expect(
     page.getByRole("region", { name: "Grounded response" }),
   ).toContainText("could not find enough support");
+});
+
+test("new generative systems hydrate and expose working controls", async ({
+  page,
+}) => {
+  const systems = [
+    ["murmuration", "Murmuration interactive simulation canvas"],
+    ["automata-atlas", "Automata Atlas interactive simulation canvas"],
+    ["load-path", "Load Path interactive simulation canvas"],
+    ["terraform", "Terraform interactive simulation canvas"],
+  ] as const;
+
+  for (const [slug, canvasName] of systems) {
+    await page.goto(`/creative/${slug}`);
+    const canvas = page.getByRole("img", { name: canvasName });
+    await expect(canvas).toBeVisible();
+    await expect
+      .poll(() =>
+        canvas.evaluate(
+          (element) => (element as HTMLCanvasElement).width,
+        ),
+      )
+      .toBeGreaterThan(300);
+    await canvas.click({ position: { x: 220, y: 260 } });
+    await page.getByRole("button", { name: "Pause" }).click();
+    await expect(page.getByRole("button", { name: "Resume" })).toBeVisible();
+  }
+});
+
+test("algorithm labs compute routes, reroute flow, and evolve drivers", async ({
+  page,
+}) => {
+  await page.goto("/labs/pathfinder-arena");
+  await page.getByRole("button", { name: "Run algorithm" }).click();
+  await expect(
+    page.getByText("Path length", { exact: true }).locator(".."),
+  ).not.toContainText("0");
+
+  await page.goto("/labs/flowline");
+  await page.getByRole("button", { name: "Toggle bottleneck" }).click();
+  await expect
+    .poll(async () =>
+      page.getByText("Failed machines", { exact: true }).locator("..").innerText(),
+    )
+    .toContain("1");
+
+  await page.goto("/labs/neuro-drivers");
+  await page.getByRole("button", { name: "Evolve now" }).click();
+  await expect
+    .poll(async () =>
+      page.getByText("Generation", { exact: true }).locator("..").innerText(),
+    )
+    .toContain("2");
 });

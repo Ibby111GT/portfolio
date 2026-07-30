@@ -22,6 +22,51 @@ export interface CatalogProject {
 
 export const PROJECTS: CatalogProject[] = [
   {
+    slug: "pathfinder-arena",
+    name: "Pathfinder Arena",
+    kind: "lab",
+    category: "Algorithms",
+    filter: "data",
+    tagline:
+      "Edit one maze and compare how A*, Dijkstra, breadth-first, and depth-first search explore it.",
+    plain:
+      "A working graph-search laboratory. Add or remove walls, run four classic algorithms against the same start and goal, and compare explored nodes with final route length.",
+    href: "/labs/pathfinder-arena",
+    stack: ["TypeScript", "Graph theory", "Canvas"],
+    signal: "4 real search algorithms · editable maze",
+    accent: "blue",
+  },
+  {
+    slug: "flowline",
+    name: "Flowline",
+    kind: "lab",
+    category: "Industrial systems",
+    filter: "data",
+    tagline:
+      "Operate a factory fleet, create bottlenecks, and watch autonomous vehicles reroute material.",
+    plain:
+      "An agent-based material-handling simulation with machine queues, AGV routing, arrival pressure, failures, throughput, and wait-time feedback.",
+    href: "/labs/flowline",
+    stack: ["Agent simulation", "Queueing", "Operations"],
+    signal: "Live AGV routing · failure recovery",
+    accent: "blue",
+  },
+  {
+    slug: "neuro-drivers",
+    name: "Neuro Drivers",
+    kind: "lab",
+    category: "Neural systems",
+    filter: "data",
+    tagline:
+      "Select an evolving driver and watch its sensor, hidden, and steering layers activate live.",
+    plain:
+      "A browser-native neuroevolution experiment. Simple neural controllers steer a population around a track, accumulate fitness, fail, reproduce, and mutate across generations.",
+    href: "/labs/neuro-drivers",
+    stack: ["Neural networks", "Evolution", "Simulation"],
+    signal: "5–6–2 live network · evolving population",
+    accent: "blue",
+  },
+  {
     slug: "agent-foundry",
     name: "Agent/Foundry",
     kind: "lab",

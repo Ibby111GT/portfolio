@@ -285,16 +285,16 @@ export default function AgentFoundry() {
         <header className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px] lg:items-end">
           <div>
             <div className="flex items-center gap-3">
-              <span className="grid h-9 w-9 place-items-center rounded-full border border-violet-300/30 bg-violet-300/10 text-violet-200">
+              <span className="grid h-9 w-9 place-items-center rounded-full border border-blue-300/30 bg-blue-300/10 text-blue-200">
                 <Sparkles size={17} />
               </span>
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-violet-200/60">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-blue-200/60">
                 Local retrieval agent factory
               </p>
             </div>
             <h1 className="mt-5 text-5xl font-semibold tracking-[-0.055em] sm:text-7xl lg:text-[7rem] lg:leading-[0.84]">
               AGENT
-              <span className="text-violet-300">/</span>FOUNDRY
+              <span className="text-blue-300">/</span>FOUNDRY
             </h1>
             <p className="mt-7 max-w-3xl text-base leading-8 text-white/48 md:text-lg">
               Turn local documents into a role-specific, citation-first agent.
@@ -302,7 +302,7 @@ export default function AgentFoundry() {
               export the resulting agent contract.
             </p>
           </div>
-          <div className="rounded-2xl border border-violet-300/20 bg-violet-300/[0.04] p-5">
+          <div className="rounded-2xl border border-blue-300/20 bg-blue-300/[0.04] p-5">
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/30">
               Practical use
             </p>
@@ -354,7 +354,7 @@ export default function AgentFoundry() {
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/18 text-xs font-semibold text-white/55 hover:border-violet-300/35 hover:bg-violet-300/[0.04]"
+              className="mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/18 text-xs font-semibold text-white/55 hover:border-blue-300/35 hover:bg-blue-300/[0.04]"
             >
               <Upload size={14} /> Add local text files
             </button>
@@ -375,7 +375,7 @@ export default function AgentFoundry() {
                   key={source.id}
                   className="flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.02] px-3 py-3"
                 >
-                  <FileText size={13} className="shrink-0 text-violet-200/55" />
+                  <FileText size={13} className="shrink-0 text-blue-200/55" />
                   <span className="min-w-0 flex-1 truncate text-[11px] text-white/50">
                     {source.name}
                   </span>
@@ -388,7 +388,7 @@ export default function AgentFoundry() {
             <button
               type="button"
               onClick={buildIndex}
-              className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-violet-300 px-4 text-xs font-semibold text-black"
+              className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-blue-300 px-4 text-xs font-semibold text-black"
             >
               <Database size={14} /> Build searchable index
             </button>
@@ -402,20 +402,20 @@ export default function AgentFoundry() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 rows={3}
-                className="w-full resize-none rounded-2xl border border-white/12 bg-black/30 p-4 text-sm leading-6 text-white/75 outline-none focus:border-violet-300/45"
+                className="w-full resize-none rounded-2xl border border-white/12 bg-black/30 p-4 text-sm leading-6 text-white/75 outline-none focus:border-blue-300/45"
               />
             </label>
             <button
               type="button"
               onClick={runAgent}
-              className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 text-xs font-semibold text-black"
+              className="relative z-10 mt-3 inline-flex min-h-11 scroll-mb-28 items-center gap-2 rounded-full bg-white px-5 text-xs font-semibold text-black"
             >
               <Play size={13} /> Run grounded agent
             </button>
             <p
               role="status"
               aria-live="polite"
-              className="mt-4 font-mono text-[9px] text-violet-200/55"
+              className="mt-4 font-mono text-[9px] text-blue-200/55"
             >
               {status}
             </p>
@@ -426,7 +426,7 @@ export default function AgentFoundry() {
               className="mt-7 rounded-[1.5rem] border border-white/10 bg-black/25 p-5"
             >
               <div className="flex items-center gap-2">
-                <ShieldCheck size={15} className="text-emerald-300" />
+                <ShieldCheck size={15} className="text-blue-300" />
                 <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/35">
                   Grounded response
                 </p>
@@ -444,7 +444,7 @@ export default function AgentFoundry() {
                   className="rounded-2xl border border-white/10 bg-white/[0.02] p-4"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-violet-200/60">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-blue-200/60">
                       Match {index + 1} · {match.source}
                     </p>
                     <span className="rounded-full border border-white/10 px-2 py-1 font-mono text-[8px] text-white/38">
@@ -487,7 +487,7 @@ export default function AgentFoundry() {
                     key={title}
                     className="grid grid-cols-[24px_1fr] gap-3"
                   >
-                    <span className="font-mono text-[9px] text-violet-200/55">
+                    <span className="font-mono text-[9px] text-blue-200/55">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
@@ -536,7 +536,7 @@ function SectionLabel({
     <div
       className={`flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.18em] text-white/38 ${className}`}
     >
-      <span className="text-violet-200/55">{icon}</span>
+      <span className="text-blue-200/55">{icon}</span>
       {text}
     </div>
   );

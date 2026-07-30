@@ -5,6 +5,12 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import SignalBloomPoster from "@/components/creative/SignalBloomPoster";
 import {
+  AutomataPoster,
+  LoadPathPoster,
+  MurmurationPoster,
+  TerraformPoster,
+} from "@/components/creative/SystemPosters";
+import {
   BiospherePoster,
   ContinuumPoster,
   LumenCityPoster,
@@ -46,7 +52,7 @@ const COLLECTIONS: Array<{
     number: "03",
     title: "Generative systems",
     description:
-      "Digital artworks shaped by simple rules, time, and your input. Every result is created in the browser.",
+      "Living algorithms, ecosystems, neural behavior, and engineering studies shaped by simple rules, time, and your input. Every result is created in the browser.",
   },
 ];
 
@@ -69,6 +75,14 @@ function CreativePreview({
         return <ContinuumPoster />;
       case "digital-biosphere":
         return <BiospherePoster />;
+      case "murmuration":
+        return <MurmurationPoster />;
+      case "automata-atlas":
+        return <AutomataPoster />;
+      case "load-path":
+        return <LoadPathPoster />;
+      case "terraform":
+        return <TerraformPoster />;
       default:
         return <SignalBloomPoster />;
     }
@@ -186,8 +200,8 @@ export default function CreativePage() {
                       prefetch={false}
                       className={`group relative block overflow-hidden rounded-3xl border border-border bg-[#080808] ${
                         featured
-                          ? "min-h-[520px] md:min-h-[590px]"
-                          : "min-h-[410px] md:min-h-[440px]"
+                          ? "min-h-[620px] md:min-h-[660px]"
+                          : "min-h-[530px] md:min-h-[560px]"
                       }`}
                     >
                       <CreativePreview
@@ -219,6 +233,12 @@ export default function CreativePage() {
                         </h3>
                         <p className="mt-3 max-w-xl text-sm leading-6 text-white/70 md:text-base">
                           {project.description}
+                        </p>
+                        <p className="mt-4 max-w-xl text-xs leading-5 text-white/65">
+                          <span className="font-semibold text-white/90">
+                            What this is for:
+                          </span>{" "}
+                          {project.purpose}
                         </p>
                         <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/12 pt-5">
                           <p className="max-w-xl text-xs leading-5 text-white/50">

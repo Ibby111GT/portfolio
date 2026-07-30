@@ -76,6 +76,22 @@ const EXPERIENCES: Record<
     () => import("@/components/creative/DigitalBiosphere"),
     { loading: LoadingCreativeExperience },
   ),
+  murmuration: dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/EmergentSystems"),
+    { loading: LoadingCreativeExperience },
+  ),
+  "automata-atlas": dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/EmergentSystems"),
+    { loading: LoadingCreativeExperience },
+  ),
+  "load-path": dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/EmergentSystems"),
+    { loading: LoadingCreativeExperience },
+  ),
+  terraform: dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/EmergentSystems"),
+    { loading: LoadingCreativeExperience },
+  ),
 };
 
 export function generateStaticParams() {
