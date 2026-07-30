@@ -215,3 +215,98 @@ export function ContinuumPoster() {
     </svg>
   );
 }
+
+/** Digital Biosphere — three trophic populations sharing one nutrient field. */
+export function BiospherePoster() {
+  const rng = mulberry32(hashSeed("digital-biosphere"));
+  const nutrients = Array.from({ length: 92 }, () => ({
+    x: 34 + rng() * 732,
+    y: 248 + rng() * 700,
+    r: 1 + rng() * 2.2,
+  }));
+  const agents = Array.from({ length: 64 }, (_, index) => ({
+    x: 42 + rng() * 716,
+    y: 270 + rng() * 650,
+    r: index < 9 ? 7 : index < 22 ? 5 : 4,
+    kind: index < 9 ? "hunter" : index < 22 ? "recycler" : "grazer",
+    rotation: rng() * 360,
+  }));
+  return (
+    <svg
+      viewBox="0 0 800 1000"
+      preserveAspectRatio="xMidYMid slice"
+      className={posterClass}
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="biosphere-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#071311" />
+          <stop offset="1" stopColor="#020806" />
+        </linearGradient>
+        <radialGradient id="biosphere-aura">
+          <stop offset="0" stopColor="#34d399" stopOpacity=".2" />
+          <stop offset="1" stopColor="#34d399" stopOpacity="0" />
+        </radialGradient>
+        <filter id="biosphere-glow">
+          <feGaussianBlur stdDeviation="4" />
+        </filter>
+      </defs>
+      <rect width="800" height="1000" fill="url(#biosphere-bg)" />
+      <circle cx="400" cy="590" r="340" fill="url(#biosphere-aura)" />
+      <g stroke="#a7f3d0" strokeOpacity=".035">
+        {Array.from({ length: 17 }, (_, index) => (
+          <path key={`v-${index}`} d={`M ${index * 50} 220 V 1000`} />
+        ))}
+        {Array.from({ length: 17 }, (_, index) => (
+          <path key={`h-${index}`} d={`M 0 ${220 + index * 50} H 800`} />
+        ))}
+      </g>
+      <text x="52" y="82" fill="#a7f3d0" fillOpacity=".5" fontSize="14" letterSpacing="4">
+        AUTONOMOUS ECOLOGY / 12
+      </text>
+      <text x="52" y="144" fill="white" fillOpacity=".9" fontSize="44" fontWeight="600" letterSpacing="-2">
+        DIGITAL BIOSPHERE
+      </text>
+      <text x="53" y="184" fill="white" fillOpacity=".35" fontSize="13" letterSpacing="2">
+        FEED · MUTATE · HUNT · RECYCLE
+      </text>
+      <g fill="#4ade80">
+        {nutrients.map((item, index) => (
+          <circle key={index} cx={item.x} cy={item.y} r={item.r} opacity=".48" />
+        ))}
+      </g>
+      {agents.map((agent, index) => {
+        const color =
+          agent.kind === "hunter"
+            ? "#fb7185"
+            : agent.kind === "recycler"
+              ? "#c4b5fd"
+              : "#67e8f9";
+        return (
+          <g
+            key={index}
+            transform={`translate(${agent.x} ${agent.y}) rotate(${agent.rotation})`}
+            fill={color}
+          >
+            <circle r={agent.r * 2.5} opacity=".14" filter="url(#biosphere-glow)" />
+            {agent.kind === "hunter" ? (
+              <path d={`M ${agent.r * 1.8} 0 L ${-agent.r} ${agent.r} L ${-agent.r} ${-agent.r} Z`} />
+            ) : agent.kind === "recycler" ? (
+              <rect x={-agent.r} y={-agent.r} width={agent.r * 2} height={agent.r * 2} />
+            ) : (
+              <circle r={agent.r} />
+            )}
+          </g>
+        );
+      })}
+      <g transform="translate(52 940)">
+        <circle r="4" fill="#67e8f9" />
+        <text x="14" y="4" fill="white" fillOpacity=".42" fontSize="11" letterSpacing="1.5">GRAZER</text>
+        <circle cx="128" r="4" fill="#fb7185" />
+        <text x="142" y="4" fill="white" fillOpacity=".42" fontSize="11" letterSpacing="1.5">HUNTER</text>
+        <rect x="260" y="-4" width="8" height="8" fill="#c4b5fd" />
+        <text x="278" y="4" fill="white" fillOpacity=".42" fontSize="11" letterSpacing="1.5">RECYCLER</text>
+      </g>
+    </svg>
+  );
+}

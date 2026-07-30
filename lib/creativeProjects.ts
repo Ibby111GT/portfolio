@@ -611,4 +611,61 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     image: null,
     accent: "blue",
   },
+  {
+    slug: "digital-biosphere",
+    number: "12",
+    title: "Digital Biosphere",
+    category: "Living systems",
+    group: "Generative systems",
+    description:
+      "Watch an autonomous ecology feed, hunt, reproduce, mutate, die, and recycle itself—then disturb its climate.",
+    interaction:
+      "Inspect a lineage, change the climate, introduce species, or trigger an ecological shock.",
+    purpose:
+      "Make artificial-life principles legible by exposing how local rules create population cycles, adaptation, collapse, and recovery.",
+    steps: [
+      "Let the ecosystem run and watch three species establish their own population rhythm.",
+      "Select an organism to inspect its energy, age, generation, and inherited genome.",
+      "Change rainfall or temperature, add a species, or trigger a drought, nutrient rain, or energy bloom.",
+    ],
+    reading: [
+      {
+        label: "Agents",
+        detail:
+          "Independent organisms sense nearby resources or prey and spend energy to move.",
+      },
+      {
+        label: "Genome",
+        detail:
+          "Speed, sensing, efficiency, fertility, and color mutate as traits pass to offspring.",
+      },
+      {
+        label: "Nutrient cycle",
+        detail:
+          "Death creates matter that recyclers return to the substrate, completing the food web.",
+      },
+    ],
+    architecture: [
+      "A deterministic agent engine updates sensing, steering, metabolism, predation, reproduction, mutation, aging, and decomposition every frame.",
+      "Climate variables alter resource growth and metabolic pressure while event controls introduce discrete ecological shocks.",
+      "Canvas rendering, lineage inspection, population history, accessibility fallbacks, and all state remain local to the browser.",
+    ],
+    evidenceMode: "Seeded agent-based artificial-life simulation",
+    capabilities: [
+      "Artificial life simulation",
+      "Agent-based modeling",
+      "Evolutionary systems",
+      "Canvas data visualization",
+    ],
+    decisions: [
+      "Use three interdependent trophic roles so population balance emerges from feedback rather than a scripted timeline.",
+      "Expose inherited genomes and generation numbers so evolution is visible instead of implied.",
+      "Let every corpse re-enter the resource cycle so death remains part of the system’s logic.",
+    ],
+    boundary:
+      "Artificial-life artwork and educational systems model. Species, genetics, ecology, and metrics are synthetic and are not biological forecasts.",
+    boundaryTone: "scope",
+    image: null,
+    accent: "blue",
+  },
 ];

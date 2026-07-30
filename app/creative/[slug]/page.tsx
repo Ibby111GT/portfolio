@@ -72,6 +72,10 @@ const EXPERIENCES: Record<
     () => import("@/components/creative/ContinuumEngine"),
     { loading: LoadingCreativeExperience },
   ),
+  "digital-biosphere": dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/DigitalBiosphere"),
+    { loading: LoadingCreativeExperience },
+  ),
 };
 
 export function generateStaticParams() {

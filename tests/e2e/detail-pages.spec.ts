@@ -98,3 +98,24 @@ test("Continuum Engine hydrates its field and responds to controls", async ({
   await expect(page.getByRole("button", { name: "Step frame" })).toBeEnabled();
   await expect(page.getByRole("button", { name: "Resume time" })).toBeVisible();
 });
+
+test("Digital Biosphere evolves and responds to ecological controls", async ({
+  page,
+}) => {
+  await page.goto("/creative/digital-biosphere");
+
+  const canvas = page.getByRole("img", {
+    name: "Autonomous digital biosphere with evolving organisms and resources",
+  });
+  await expect(canvas).toBeVisible();
+  await expect
+    .poll(() => canvas.evaluate((element) => (element as HTMLCanvasElement).width))
+    .toBeGreaterThan(300);
+
+  await page.getByRole("button", { name: "New ecosystem" }).click();
+  await expect(page.getByText("epoch 2")).toBeVisible();
+
+  await page.getByRole("button", { name: "Pause life" }).click();
+  await expect(page.getByRole("button", { name: "Resume life" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Nutrient rain" })).toBeEnabled();
+});
