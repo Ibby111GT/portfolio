@@ -30,9 +30,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `npm run start -- --hostname 127.0.0.1 --port ${port}`,
+    command: `sh -c "npm run build && npm run start -- --hostname 127.0.0.1 --port ${port}"`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    timeout: 300_000,
   },
 });
