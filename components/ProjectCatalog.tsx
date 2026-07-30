@@ -19,6 +19,45 @@ const ACCENT_DOT = {
   red: "bg-red-600 dark:bg-red-400",
 } as const;
 
+const PROJECT_USES: Record<string, string> = {
+  "agent-foundry":
+    "Prototype internal document agents, policy assistants, and auditable RAG workflows before production integration.",
+  "aegis-home":
+    "Evaluate privacy-preserving presence and room-change logic using consented or imported wireless telemetry.",
+  "soc-command-deck":
+    "Train security analysts and demonstrate alert prioritization, escalation, and SOC performance measurement.",
+  "security-checkup":
+    "Teach password risk without transmitting the password or relying on a remote service.",
+  "threat-hunt":
+    "Practice evidence selection and account-takeover investigations with a safe synthetic case.",
+  sentinelstream:
+    "Design resilient security-data pipelines that detect schema drift before it corrupts downstream analysis.",
+  ledgerpulse:
+    "Automate month-end reconciliation and route only genuine finance exceptions to reviewers.",
+  careflow:
+    "Unify clinical, claims, and lab records while demonstrating healthcare quality and privacy controls.",
+  threatlens:
+    "Perform fast offline triage of suspicious infrastructure when paid threat-intelligence APIs are unavailable.",
+  netrecon:
+    "Inventory exposed services on systems you are authorized to test and flag unnecessary network exposure.",
+  logsentry:
+    "Turn noisy application and server logs into a prioritized queue of explainable security detections.",
+  passaudit:
+    "Audit password-policy quality offline against length, pattern, and compromised-password evidence.",
+  webrecon:
+    "Review a public website’s headers, cookies, TLS posture, and expiring certificate risks.",
+  peptides:
+    "Govern a research-data registry with traceable sources, quality checks, comparisons, and reproducible exports.",
+  "private-ai-feasibility":
+    "Evaluate whether power, site, regulatory, and delivery constraints support a private AI infrastructure project.",
+  "ut-system-security":
+    "Operate large-scale security monitoring and incident response within a university system environment.",
+  "chief-technology-group":
+    "Deliver practical technology, data, and security improvements for organizational operations.",
+  "roomi-group":
+    "Translate business requirements into usable product and operational technology decisions.",
+};
+
 const GROUPS: Array<{
   kind: ProjectKind;
   id: string;
@@ -75,6 +114,7 @@ export default function ProjectCatalog() {
         project.plain,
         project.tagline,
         project.signal,
+        PROJECT_USES[project.slug] ?? "",
         ...project.stack,
       ]
         .join(" ")
@@ -234,7 +274,7 @@ function ProjectTile({
   return (
     <Link
       href={project.href}
-      className="group flex min-h-[280px] flex-col justify-between rounded-2xl border border-border bg-surface/40 p-6 transition-colors hover:border-fg/25 hover:bg-surface/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
+      className="group flex min-h-[330px] flex-col justify-between rounded-2xl border border-border bg-surface/40 p-6 transition-colors hover:border-fg/25 hover:bg-surface/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
     >
       <div>
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -254,6 +294,14 @@ function ProjectTile({
         <p className="mt-3 text-base leading-7 text-fg-muted">
           {project.tagline}
         </p>
+        <div className="mt-5 rounded-xl border border-border bg-bg/45 p-3.5">
+          <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-fg-muted">
+            Practical use
+          </p>
+          <p className="mt-2 text-xs leading-5 text-fg-muted">
+            {PROJECT_USES[project.slug] ?? project.plain}
+          </p>
+        </div>
       </div>
 
       <div className="mt-8 border-t border-border pt-4">

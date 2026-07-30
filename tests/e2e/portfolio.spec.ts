@@ -90,7 +90,7 @@ test("Creative projects are organized into three clear collections", async ({
   const projectLinks = page.locator('main a[href^="/creative/"]');
 
   await expect(collections.getByRole("link")).toHaveCount(3);
-  await expect(projectLinks).toHaveCount(10);
+  await expect(projectLinks).toHaveCount(12);
   await expect(page.locator("#design").locator('a[href^="/creative/"]')).toHaveCount(
     5,
   );
@@ -99,7 +99,7 @@ test("Creative projects are organized into three clear collections", async ({
   ).toHaveCount(3);
   await expect(
     page.locator("#generative").locator('a[href^="/creative/"]'),
-  ).toHaveCount(2);
+  ).toHaveCount(4);
   await expect(page.getByRole("link", { name: /Apex Hypercars/ })).toBeVisible();
 });
 
@@ -118,7 +118,7 @@ test("Projects are grouped into three paths and remain searchable", async ({
   ).toHaveCount(6);
   await expect(
     page.locator("#interactive-labs").locator('a[href^="/labs/"]'),
-  ).toHaveCount(6);
+  ).toHaveCount(8);
 
   await page
     .getByPlaceholder(/Search all \d+ entries by project, skill, or outcome/)

@@ -14,6 +14,7 @@ export const STATIC_ROUTES = [
   "/labs/soc-command-deck",
   "/labs/security-checkup",
   "/labs/aegis-home",
+  "/labs/agent-foundry",
   "/labs/data-systems/cybersecurity",
   "/labs/data-systems/finance",
   "/labs/data-systems/healthcare",

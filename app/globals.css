@@ -50,6 +50,20 @@ body {
   color: var(--fg);
 }
 
+/* Make the interaction contract visible: controls receive a pointer, while
+   explanatory cards and telemetry remain the default cursor. */
+a,
+button:not(:disabled),
+select,
+input[type="range"],
+label[for] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 body {
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;

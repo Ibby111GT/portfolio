@@ -22,6 +22,21 @@ export interface CatalogProject {
 
 export const PROJECTS: CatalogProject[] = [
   {
+    slug: "agent-foundry",
+    name: "Agent/Foundry",
+    kind: "lab",
+    category: "Applied AI",
+    filter: "data",
+    tagline:
+      "Turn local documents into a role-specific, citation-first agent and inspect every retrieval decision.",
+    plain:
+      "A working local retrieval pipeline: upload text files, build a chunk index, choose an agent role, ask questions, inspect ranked evidence, test refusal behavior, and export the final agent contract.",
+    href: "/labs/agent-foundry",
+    stack: ["TypeScript", "Local retrieval", "Agent architecture"],
+    signal: "Local ingestion · cited answers · manifest export",
+    accent: "blue",
+  },
+  {
     slug: "aegis-home",
     name: "Aegis/Home",
     kind: "lab",

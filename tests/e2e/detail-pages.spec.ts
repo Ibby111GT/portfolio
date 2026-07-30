@@ -143,4 +143,59 @@ test("Aegis Home explains and responds to synthetic RF anomalies", async ({
     page.getByRole("tab", { name: "Room-change map" }),
   ).toHaveAttribute("aria-selected", "true");
   await expect(page.getByText("Room baseline changed")).toBeVisible();
+
+  const beforeInspection = page.url();
+  await page.getByRole("button", { name: "Inspect Work laptop" }).click();
+  await expect(page.getByText("Work laptop", { exact: true })).toHaveCount(2);
+  expect(page.url()).toBe(beforeInspection);
+
+  await page
+    .getByLabel("Import authorized telemetry JSON")
+    .setInputFiles({
+      name: "authorized-home.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(
+        JSON.stringify([
+          {
+            label: "Owned office beacon",
+            kind: "ble",
+            state: "trusted",
+            zone: "office",
+            x: 18,
+            y: 65,
+            rssi: -48,
+            confidence: 95,
+          },
+        ]),
+      ),
+    });
+  await expect(
+    page.getByText(/1 authorized records loaded locally/),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Inspect Owned office beacon" }),
+  ).toBeVisible();
+});
+
+test("Agent Foundry builds, retrieves, refuses, and exports a grounded agent", async ({
+  page,
+}) => {
+  await page.goto("/labs/agent-foundry");
+
+  await expect(
+    page.getByRole("heading", { level: 1, name: /AGENT.*FOUNDRY/ }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Run grounded agent" }).click();
+  await expect(
+    page.getByRole("region", { name: "Grounded response" }),
+  ).toContainText("incident commander");
+  await expect(page.getByText("Match 1", { exact: false })).toBeVisible();
+
+  await page
+    .getByLabel("Question for the agent")
+    .fill("What is the office lunch menu?");
+  await page.getByRole("button", { name: "Run grounded agent" }).click();
+  await expect(
+    page.getByRole("region", { name: "Grounded response" }),
+  ).toContainText("could not find enough support");
 });
