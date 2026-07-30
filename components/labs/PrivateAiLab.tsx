@@ -108,7 +108,7 @@ const ALTERNATIVES: Alternative[] = [
 
 const MARK = {
   meets: { glyph: "meets", tone: "text-blue-300" },
-  partial: { glyph: "partial", tone: "text-red-300" },
+  partial: { glyph: "partial", tone: "text-white/50" },
   fails: { glyph: "fails", tone: "text-red-300" },
 } as const;
 

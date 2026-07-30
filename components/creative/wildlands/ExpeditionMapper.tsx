@@ -29,7 +29,6 @@ import {
   ROUTE_COLORS,
   ROUTE_LABELS,
   type Coordinate,
-  type ParkRoute,
   type RouteKind,
   type SpeciesCategory,
 } from "./parkData";
@@ -62,15 +61,37 @@ const ROUTE_ICONS: Record<RouteKind, typeof Car> = {
   water: Waves,
 };
 
-function elevationsForPoints(feature: ParkRoute, count: number) {
-  if (count === 0) return [];
-  const source = feature.properties.elevations;
-  if (count === source.length) return source;
-  return Array.from({ length: count }, (_, index) => {
-    const sourceIndex =
-      count === 1 ? 0 : Math.round((index / (count - 1)) * (source.length - 1));
-    return source[sourceIndex];
-  });
+/**
+ * Elevation for one coordinate, taken from the nearest vertex across ALL of
+ * the park's routes. Custom-built routes snap their waypoints to any visible
+ * trail, so sampling only the selected route's profile (the old approach)
+ * reported terrain from a trail the route never touched.
+ */
+function elevationForPoint(
+  park: (typeof PARKS)[number],
+  point: Coordinate,
+): number {
+  let best = 0;
+  let bestDistance = Infinity;
+  for (const route of park.routes) {
+    const coords = route.geometry.coordinates;
+    const profile = route.properties.elevations;
+    if (!coords.length || !profile.length) continue;
+    for (let index = 0; index < coords.length; index += 1) {
+      const deltaLng = coords[index][0] - point[0];
+      const deltaLat = coords[index][1] - point[1];
+      const distance = deltaLng * deltaLng + deltaLat * deltaLat;
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        const profileIndex =
+          coords.length === 1
+            ? 0
+            : Math.round((index / (coords.length - 1)) * (profile.length - 1));
+        best = profile[profileIndex] ?? 0;
+      }
+    }
+  }
+  return best;
 }
 
 function ElevationProfile({ elevations }: { elevations: number[] }) {
@@ -95,7 +116,7 @@ function ElevationProfile({ elevations }: { elevations: number[] }) {
       {elevations.map((elevation, index) => (
         <span
           key={`${elevation}-${index}`}
-          className="relative z-10 min-w-1 flex-1 rounded-t-sm bg-gradient-to-t from-amber-500/35 to-amber-300"
+          className="relative z-10 min-w-1 flex-1 rounded-t-sm bg-gradient-to-t from-blue-500/35 to-blue-300"
           style={{ height: `${20 + ((elevation - minimum) / range) * 62}%` }}
           title={`${elevation} m`}
         />
@@ -126,13 +147,14 @@ function ExportModal({
   const filename = slugify(name);
   const googleUrl = googleMapsUrl(points, mode);
   const appleUrl = appleMapsUrl(points, mode);
-  const unavailable = points.length < 2;
 
   useEffect(() => {
     const previouslyFocused =
       document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     closeButtonRef.current?.focus();
 
@@ -176,6 +198,7 @@ function ExportModal({
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
       previouslyFocused?.focus();
     };
   }, [onClose]);
@@ -197,7 +220,7 @@ function ExportModal({
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-300">
+            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-blue-300">
               Route export engine
             </p>
             <h3 id="export-title" className="mt-2 text-2xl font-semibold text-white">
@@ -207,8 +230,9 @@ function ExportModal({
               id="export-description"
               className="mt-2 text-sm leading-6 text-white/50"
             >
-              Send the current waypoints to a navigation app or save a portable
-              GPS track.
+              The GPX and KML downloads carry every waypoint. Map links are
+              approximations: Google Maps accepts the first 8 waypoints, Apple
+              Maps only the start and end.
             </p>
           </div>
           <button
@@ -224,40 +248,35 @@ function ExportModal({
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <a
-            href={unavailable ? undefined : googleUrl}
+            href={googleUrl}
             target="_blank"
             rel="noreferrer"
-            aria-disabled={unavailable}
-            className={`rounded-xl border p-4 transition-colors ${
-              unavailable
-                ? "pointer-events-none border-white/5 text-white/25"
-                : "border-white/10 text-white hover:border-emerald-400/50 hover:bg-emerald-400/5"
-            }`}
+            className="rounded-xl border border-white/10 p-4 text-white transition-colors hover:border-blue-400/50 hover:bg-blue-400/5"
           >
             <Navigation size={20} />
             <span className="mt-3 flex items-center justify-between text-sm font-medium">
               Google Maps <ExternalLink size={14} />
             </span>
+            <span className="mt-1 block font-mono text-[9px] uppercase tracking-wide text-white/35">
+              First 8 waypoints
+            </span>
           </a>
           <a
-            href={unavailable ? undefined : appleUrl}
+            href={appleUrl}
             target="_blank"
             rel="noreferrer"
-            aria-disabled={unavailable}
-            className={`rounded-xl border p-4 transition-colors ${
-              unavailable
-                ? "pointer-events-none border-white/5 text-white/25"
-                : "border-white/10 text-white hover:border-cyan-400/50 hover:bg-cyan-400/5"
-            }`}
+            className="rounded-xl border border-white/10 p-4 text-white transition-colors hover:border-blue-400/50 hover:bg-blue-400/5"
           >
             <MapPin size={20} />
             <span className="mt-3 flex items-center justify-between text-sm font-medium">
               Apple Maps <ExternalLink size={14} />
             </span>
+            <span className="mt-1 block font-mono text-[9px] uppercase tracking-wide text-white/35">
+              Start &amp; end only
+            </span>
           </a>
           <button
             type="button"
-            disabled={unavailable}
             onClick={() =>
               downloadTextFile(
                 `${filename}.gpx`,
@@ -265,16 +284,18 @@ function ExportModal({
                 "application/gpx+xml",
               )
             }
-            className="rounded-xl border border-white/10 p-4 text-left text-white transition-colors hover:border-amber-400/50 hover:bg-amber-400/5 disabled:cursor-not-allowed disabled:opacity-25"
+            className="rounded-xl border border-white/10 p-4 text-left text-white transition-colors hover:border-blue-400/50 hover:bg-blue-400/5"
           >
             <Download size={20} />
             <span className="mt-3 flex items-center justify-between text-sm font-medium">
               Download GPX <span className="font-mono text-[9px] text-white/35">GARMIN</span>
             </span>
+            <span className="mt-1 block font-mono text-[9px] uppercase tracking-wide text-white/35">
+              Every waypoint
+            </span>
           </button>
           <button
             type="button"
-            disabled={unavailable}
             onClick={() =>
               downloadTextFile(
                 `${filename}.kml`,
@@ -282,11 +303,14 @@ function ExportModal({
                 "application/vnd.google-earth.kml+xml",
               )
             }
-            className="rounded-xl border border-white/10 p-4 text-left text-white transition-colors hover:border-blue-400/50 hover:bg-blue-400/5 disabled:cursor-not-allowed disabled:opacity-25"
+            className="rounded-xl border border-white/10 p-4 text-left text-white transition-colors hover:border-blue-400/50 hover:bg-blue-400/5"
           >
             <Download size={20} />
             <span className="mt-3 flex items-center justify-between text-sm font-medium">
               Download KML <span className="font-mono text-[9px] text-white/35">EARTH</span>
+            </span>
+            <span className="mt-1 block font-mono text-[9px] uppercase tracking-wide text-white/35">
+              Every waypoint
             </span>
           </button>
         </div>
@@ -327,10 +351,19 @@ export default function ExpeditionMapper() {
     "all" | SpeciesCategory
   >("all");
   const [highlightedZone, setHighlightedZone] = useState<string | null>(null);
+  // Species interaction is layered: a click pins one species' habitat zone
+  // (tracked by species id, since zones are shared between species), a hover
+  // or focus previews without disturbing the pin, and the route-driven zone
+  // underneath remains the fallback.
+  const [pinnedSpecies, setPinnedSpecies] = useState<{
+    id: string;
+    zone: string;
+  } | null>(null);
+  const [hoverZone, setHoverZone] = useState<string | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
   const closeExport = useCallback(() => setExportOpen(false), []);
 
-  const handleParkChange = useCallback((nextParkId: string) => {
+  function handleParkChange(nextParkId: string) {
     const nextPark =
       PARKS.find((candidate) => candidate.id === nextParkId) ?? PARKS[0];
     const nextRoute =
@@ -342,22 +375,21 @@ export default function ExpeditionMapper() {
     setMovement(nextRoute.properties.kind);
     setBuildMode(false);
     setHighlightedZone(null);
-  }, []);
+    setPinnedSpecies(null);
+    setHoverZone(null);
+  }
 
-  const handleRouteSelect = useCallback(
-    (routeId: string) => {
-      const nextRoute = park.routes.find(
-        (candidate) => candidate.properties.id === routeId,
-      );
-      if (!nextRoute) return;
-      setSelectedRouteId(nextRoute.properties.id);
-      setRoutePoints(nextRoute.geometry.coordinates);
-      setMovement(nextRoute.properties.kind);
-      setBuildMode(false);
-      setHighlightedZone(nextRoute.properties.zone);
-    },
-    [park],
-  );
+  function handleRouteSelect(routeId: string) {
+    const nextRoute = park.routes.find(
+      (candidate) => candidate.properties.id === routeId,
+    );
+    if (!nextRoute) return;
+    setSelectedRouteId(nextRoute.properties.id);
+    setRoutePoints(nextRoute.geometry.coordinates);
+    setMovement(nextRoute.properties.kind);
+    setBuildMode(false);
+    setHighlightedZone(nextRoute.properties.zone);
+  }
 
   const handleWaypointAdd = useCallback((coordinate: Coordinate) => {
     setRoutePoints((previous) => {
@@ -375,7 +407,9 @@ export default function ExpeditionMapper() {
 
   const telemetry = useMemo(() => {
     const distance = routeDistanceMiles(routePoints);
-    const elevations = elevationsForPoints(selectedRoute, routePoints.length);
+    const elevations = routePoints.map((point) =>
+      elevationForPoint(park, point),
+    );
     const delta = elevationDelta(elevations);
     return {
       distance,
@@ -383,11 +417,12 @@ export default function ExpeditionMapper() {
       ...delta,
       duration: formatDuration(estimatedHours(distance, movement)),
     };
-  }, [movement, routePoints, selectedRoute]);
+  }, [movement, routePoints, park]);
 
   const filteredSpecies = park.species.filter(
     (species) => speciesFilter === "all" || species.category === speciesFilter,
   );
+  const displayedZone = hoverZone ?? pinnedSpecies?.zone ?? highlightedZone;
   const exportName = `${park.name} — ${selectedRoute.properties.name}`;
 
   return (
@@ -398,7 +433,7 @@ export default function ExpeditionMapper() {
       <div className="border-b border-white/10 px-5 py-5 md:px-7">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-emerald-300">
+            <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-blue-300">
               Spatial intelligence system · GIS-06
             </p>
             <h2 className="mt-2 text-3xl font-semibold tracking-[-0.035em] md:text-4xl">
@@ -416,7 +451,7 @@ export default function ExpeditionMapper() {
             <select
               value={parkId}
               onChange={(event) => handleParkChange(event.target.value)}
-              className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none focus:border-emerald-400/60"
+              className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none focus:border-blue-400/60"
             >
               {PARKS.map((candidate) => (
                 <option key={candidate.id} value={candidate.id} className="bg-[#111827]">
@@ -459,7 +494,7 @@ export default function ExpeditionMapper() {
             selectedRouteId={selectedRouteId}
             routePoints={routePoints}
             buildMode={buildMode}
-            highlightedZone={highlightedZone}
+            highlightedZone={displayedZone}
             onRouteSelect={handleRouteSelect}
             onWaypointAdd={handleWaypointAdd}
           />
@@ -581,7 +616,7 @@ export default function ExpeditionMapper() {
                 }}
                 className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-medium transition-colors ${
                   buildMode
-                    ? "border-amber-400/60 bg-amber-400/10 text-amber-200"
+                    ? "border-blue-400/60 bg-blue-400/10 text-blue-200"
                     : "border-white/10 text-white/60 hover:bg-white/[0.05]"
                 }`}
               >
@@ -667,13 +702,14 @@ export default function ExpeditionMapper() {
 
           <div className="border-b border-white/10 p-5 md:p-6">
             <div className="flex items-center gap-2">
-              <Trees size={15} className="text-emerald-300" />
+              <Trees size={15} className="text-blue-300" />
               <div>
                 <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
                   Ecosystem intelligence
                 </p>
                 <p className="mt-1 text-xs text-white/55">
-                  Hover a species to reveal its habitat zone.
+                  Hover a species to preview its habitat zone — click to pin
+                  it, click again to release.
                 </p>
               </div>
             </div>
@@ -687,7 +723,7 @@ export default function ExpeditionMapper() {
                   onClick={() => setSpeciesFilter(filter.id)}
                   className={`rounded-full border px-2.5 py-1.5 text-[10px] transition-colors ${
                     speciesFilter === filter.id
-                      ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-200"
+                      ? "border-blue-400/40 bg-blue-400/10 text-blue-200"
                       : "border-white/10 text-white/40 hover:text-white/70"
                   }`}
                 >
@@ -696,7 +732,18 @@ export default function ExpeditionMapper() {
               ))}
             </div>
 
-            <div className="mt-4 space-y-2">
+            <div
+              className="mt-4 space-y-2"
+              onBlur={(event) => {
+                // Clear the hover preview only when focus actually leaves the
+                // species list — focus moves between rows keep the preview.
+                if (
+                  !event.currentTarget.contains(event.relatedTarget as Node)
+                ) {
+                  setHoverZone(null);
+                }
+              }}
+            >
               {filteredSpecies.map((species) => {
                 const Icon =
                   species.category === "plants"
@@ -704,22 +751,30 @@ export default function ExpeditionMapper() {
                     : species.category === "bugs"
                       ? Bug
                       : PawPrint;
+                const pinned = pinnedSpecies?.id === species.id;
                 return (
                   <button
                     key={species.id}
                     type="button"
-                    aria-pressed={highlightedZone === species.zone}
-                    onClick={() => setHighlightedZone(species.zone)}
-                    onMouseEnter={() => setHighlightedZone(species.zone)}
-                    onMouseLeave={() =>
-                      setHighlightedZone(selectedRoute.properties.zone)
+                    aria-pressed={pinned}
+                    onClick={() =>
+                      setPinnedSpecies((current) =>
+                        current?.id === species.id
+                          ? null
+                          : { id: species.id, zone: species.zone },
+                      )
                     }
-                    onFocus={() => setHighlightedZone(species.zone)}
-                    onBlur={() => setHighlightedZone(selectedRoute.properties.zone)}
-                    className="group w-full rounded-xl border border-white/[0.07] p-3 text-left transition-colors hover:border-amber-400/30 hover:bg-amber-400/[0.04]"
+                    onMouseEnter={() => setHoverZone(species.zone)}
+                    onMouseLeave={() => setHoverZone(null)}
+                    onFocus={() => setHoverZone(species.zone)}
+                    className={`group w-full rounded-xl border p-3 text-left transition-colors hover:border-blue-400/30 hover:bg-blue-400/[0.04] ${
+                      pinned
+                        ? "border-blue-400/40 bg-blue-400/[0.06]"
+                        : "border-white/[0.07]"
+                    }`}
                   >
                     <span className="flex items-start gap-3">
-                      <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/[0.05] text-white/50 group-hover:text-amber-200">
+                      <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-white/[0.05] text-white/50 group-hover:text-blue-200">
                         <Icon size={13} />
                       </span>
                       <span className="min-w-0 flex-1">
@@ -730,8 +785,8 @@ export default function ExpeditionMapper() {
                               species.risk === "Caution"
                                 ? "bg-red-400/10 text-red-300"
                                 : species.risk === "Seasonal"
-                                  ? "bg-amber-400/10 text-amber-200"
-                                  : "bg-emerald-400/10 text-emerald-200"
+                                  ? "bg-blue-400/10 text-blue-200"
+                                  : "bg-white/10 text-white/60"
                             }`}
                           >
                             {species.risk}

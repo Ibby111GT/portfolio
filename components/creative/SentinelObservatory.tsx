@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
 import { hashSeed, mulberry32 } from "@/lib/seededRandom";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import type { CreativeProject } from "@/lib/creativeProjects";
 
 /**
@@ -126,12 +127,31 @@ export default function SentinelObservatory({
   project: CreativeProject;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Animation progress lives in refs so control changes (spin, auto-rotate,
+  // threat volume) never reset the globe's orientation or restart the sweep
+  // and ping phases — the canvas effect below does not re-run for them.
+  const yawRef = useRef(0);
+  const frameRef = useRef(0);
+  const sweepRef = useRef(0);
+  const repaintRef = useRef<(() => void) | null>(null);
   const [volume, setVolume] = useState(26);
   const [spin, setSpin] = useState(14);
   const [autoRotate, setAutoRotate] = useState(true);
   const [seed, setSeed] = useState(() => hashSeed("sentinel-observatory"));
+  const reduced = usePrefersReducedMotion();
 
   const threats = useMemo(() => buildThreats(seed, volume), [seed, volume]);
+
+  // Live control values for the render loop, read via ref so the canvas
+  // effect can stay mounted across control changes.
+  const paramsRef = useRef({ threats, autoRotate, spin });
+
+  useEffect(() => {
+    paramsRef.current = { threats, autoRotate, spin };
+    // Under reduced motion no loop is running, so ask for a single repaint;
+    // when the loop is live this just brings the next frame forward.
+    repaintRef.current?.();
+  }, [threats, autoRotate, spin]);
 
   // DOM-rendered telemetry (client-only, so no hydration mismatch).
   const feed = useMemo(() => {
@@ -178,16 +198,12 @@ export default function SentinelObservatory({
     const host: HTMLElement = hostEl;
     const ctx: CanvasRenderingContext2D = ctxEl;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const pitch = -0.41; // fixed axial tilt, radians
-    let yaw = 0;
     let width = 0;
     let height = 0;
     let radius = 0;
     let cx = 0;
     let cy = 0;
-    let frame = 0;
-    let sweep = 0;
     let dragging = false;
     let lastPointerX = 0;
 
@@ -209,6 +225,7 @@ export default function SentinelObservatory({
     }
 
     function project(v: Vec3): { x: number; y: number; front: boolean } {
+      const yaw = yawRef.current;
       // yaw about Y
       const x1 = v.x * Math.cos(yaw) + v.z * Math.sin(yaw);
       const z1 = -v.x * Math.sin(yaw) + v.z * Math.cos(yaw);
@@ -291,7 +308,7 @@ export default function SentinelObservatory({
         ctx.stroke();
       }
       // sweep wedge
-      const sweepAngle = sweep;
+      const sweepAngle = sweepRef.current;
       const conic = ctx as CanvasRenderingContext2D & {
         createConicGradient?: (
           startAngle: number,
@@ -370,7 +387,7 @@ export default function SentinelObservatory({
       ctx.fill();
       ctx.shadowBlur = 0;
       // ping ring
-      const pingRadius = size + ((frame * 0.6) % 22);
+      const pingRadius = size + ((frameRef.current * 0.6) % 22);
       ctx.beginPath();
       ctx.arc(p.x, p.y, pingRadius, 0, Math.PI * 2);
       ctx.strokeStyle = `${color}${pingRadius > 16 ? "10" : "33"}`;
@@ -379,6 +396,7 @@ export default function SentinelObservatory({
     }
 
     function render() {
+      const { threats, autoRotate, spin } = paramsRef.current;
       ctx.fillStyle = "#050608";
       ctx.fillRect(0, 0, width, height);
 
@@ -387,7 +405,7 @@ export default function SentinelObservatory({
       drawGraticule();
 
       threats.forEach((threat, index) => {
-        drawArc(threat, frame * threat.speed * 0.02 + threat.offset);
+        drawArc(threat, frameRef.current * threat.speed * 0.02 + threat.offset);
         if (index % 3 === 0) {
           drawNode(threat.origin, SEVERITY_META[threat.severity].color, 1.8);
         }
@@ -395,17 +413,24 @@ export default function SentinelObservatory({
 
       drawNode(HOME, "#f5f5f5", 3.4);
 
-      frame += 1;
+      frameRef.current += 1;
       if (autoRotate && !dragging) {
-        yaw += (spin / 10000) * 6;
+        yawRef.current += (spin / 10000) * 6;
       }
-      sweep += 0.02;
+      sweepRef.current += 0.02;
       if (!reduced) {
         animation = window.requestAnimationFrame(render);
       }
     }
 
     let animation = 0;
+
+    function repaintOnce() {
+      // Single-rAF repaint used when the loop is idle (reduced motion);
+      // cancel-then-request keeps at most one frame scheduled either way.
+      window.cancelAnimationFrame(animation);
+      animation = window.requestAnimationFrame(render);
+    }
 
     function onPointerDown(event: PointerEvent) {
       dragging = true;
@@ -415,10 +440,10 @@ export default function SentinelObservatory({
       if (!dragging) {
         return;
       }
-      yaw += (event.clientX - lastPointerX) * 0.006;
+      yawRef.current += (event.clientX - lastPointerX) * 0.006;
       lastPointerX = event.clientX;
       if (reduced) {
-        render();
+        repaintOnce();
       }
     }
     function onPointerUp() {
@@ -428,25 +453,31 @@ export default function SentinelObservatory({
     const observer = new ResizeObserver(() => {
       resize();
       if (reduced) {
-        render();
+        repaintOnce();
       }
     });
     observer.observe(host);
     canvas.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
+    // touch-pan-y lets the browser claim vertical swipes mid-drag, which
+    // surfaces as pointercancel rather than pointerup — treat it as release.
+    window.addEventListener("pointercancel", onPointerUp);
+    repaintRef.current = repaintOnce;
 
     resize();
     render();
 
     return () => {
+      repaintRef.current = null;
       observer.disconnect();
       canvas.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
       window.cancelAnimationFrame(animation);
     };
-  }, [threats, autoRotate, spin]);
+  }, [reduced]);
 
   function exportFrame() {
     const canvas = canvasRef.current;
@@ -468,7 +499,7 @@ export default function SentinelObservatory({
               <canvas
                 ref={canvasRef}
                 role="img"
-                className="absolute inset-0 h-full w-full touch-none"
+                className="absolute inset-0 h-full w-full touch-pan-y"
                 aria-label="Rotating wireframe globe showing simulated intrusion attempts converging on a home node"
               />
 

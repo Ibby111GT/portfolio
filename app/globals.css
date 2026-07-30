@@ -249,8 +249,8 @@ html.js .reveal-in {
 }
 
 .expedition-zone-tooltip {
-  border-color: rgba(245, 158, 11, 0.45) !important;
-  color: #fde68a !important;
+  border-color: rgba(96, 165, 250, 0.45) !important;
+  color: #bfdbfe !important;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
   letter-spacing: 0.08em;
   text-transform: uppercase;

@@ -2,13 +2,16 @@
 // sawtooth partials through a lowpass, pitch following rpm. The context is
 // created lazily inside setEnabled(true), which only ever runs from the
 // toggle button's click handler, so the browser autoplay policy is satisfied
-// and StrictMode's double-mount never constructs anything.
+// and StrictMode's double-mount never constructs anything. Gain follows a
+// single policy in applyGain(): audible only while enabled AND a run is in
+// progress, so toggling audio while idle stays silent and launches ramp in.
 
 export interface EngineAudio {
   setEnabled: (on: boolean) => void;
   isEnabled: () => boolean;
   update: (rpm: number) => void;
   onShift: () => void;
+  startRun: () => void;
   stopRun: () => void;
   dispose: () => void;
 }
@@ -25,6 +28,7 @@ export function createEngineAudio(): EngineAudio {
   let master: GainNode | null = null;
   let oscillators: Array<{ osc: OscillatorNode; multiple: number }> = [];
   let enabled = false;
+  let running = false;
   let disposed = false;
 
   function build() {
@@ -53,6 +57,15 @@ export function createEngineAudio(): EngineAudio {
     });
   }
 
+  // The one place gain policy lives: audible only while enabled AND running.
+  function applyGain() {
+    if (!context || !master || disposed) {
+      return;
+    }
+    const target = enabled && running ? MASTER_LEVEL : 0;
+    master.gain.setTargetAtTime(target, context.currentTime, 0.08);
+  }
+
   return {
     setEnabled(on: boolean) {
       if (disposed) {
@@ -62,14 +75,8 @@ export function createEngineAudio(): EngineAudio {
       if (on) {
         build();
         void context?.resume();
-        master?.gain.setTargetAtTime(
-          MASTER_LEVEL,
-          context?.currentTime ?? 0,
-          0.08,
-        );
-      } else if (context && master) {
-        master.gain.setTargetAtTime(0, context.currentTime, 0.08);
       }
+      applyGain();
     },
     isEnabled() {
       return enabled;
@@ -88,18 +95,26 @@ export function createEngineAudio(): EngineAudio {
       });
     },
     onShift() {
-      if (!enabled || !context || !master || disposed) {
+      if (!enabled || !running || !context || !master || disposed) {
         return;
       }
       const now = context.currentTime;
       master.gain.setTargetAtTime(MASTER_LEVEL * 0.3, now, 0.02);
       master.gain.setTargetAtTime(MASTER_LEVEL, now + 0.08, 0.03);
     },
-    stopRun() {
-      if (!context || !master || disposed) {
+    startRun() {
+      if (disposed) {
         return;
       }
-      master.gain.setTargetAtTime(0, context.currentTime, 0.12);
+      running = true;
+      applyGain();
+    },
+    stopRun() {
+      if (disposed) {
+        return;
+      }
+      running = false;
+      applyGain();
     },
     dispose() {
       if (disposed) {
@@ -107,6 +122,7 @@ export function createEngineAudio(): EngineAudio {
       }
       disposed = true;
       enabled = false;
+      running = false;
       oscillators.forEach(({ osc }) => {
         try {
           osc.stop();

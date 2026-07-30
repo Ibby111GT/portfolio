@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { mulberry32 } from "@/lib/seededRandom";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 /**
  * SOC Command Deck — an interactive security operations dashboard driven by a
@@ -78,15 +79,29 @@ const SEVERITY_META: Record<
 
 const SEVERITIES: Severity[] = ["critical", "high", "medium", "low"];
 
+const RNG_SEED = 0x50c1a1;
+
+/**
+ * Saturating-exponential risk curve. A raw weighted-severity sum maps onto
+ * 0–99 without ever pinning flat: an untriaged board asymptotically
+ * approaches 100 but each triage decision still visibly moves the index
+ * (a linear Math.min(100, raw) capped out ~30 seconds into a session).
+ */
+export function computeRiskIndex(raw: number): number {
+  return Math.floor(100 * (1 - Math.exp(-raw / 55)));
+}
+
 export default function SocCommandDeck() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [riskHistory, setRiskHistory] = useState<number[]>([]);
   const [running, setRunning] = useState(true);
   const [filter, setFilter] = useState<Severity | "all">("all");
   const [triaged, setTriaged] = useState(0);
+  const [minute, setMinute] = useState(0);
   const seqRef = useRef(0);
   const minuteRef = useRef(0);
-  const rngRef = useRef(mulberry32(0x50c1a1));
+  const rngRef = useRef(mulberry32(RNG_SEED));
+  const reduced = usePrefersReducedMotion();
 
   const makeAlert = useCallback((burst = false): Alert => {
     const rng = rngRef.current;
@@ -109,16 +124,21 @@ export default function SocCommandDeck() {
     };
   }, []);
 
-  // Seed an initial queue on mount (client-only — no hydration mismatch).
+  // Seed an initial queue on mount. This must stay an effect: seeding during
+  // the first render would make the client's initial markup differ from the
+  // server-rendered empty queue.
   useEffect(() => {
     const initial = Array.from({ length: 6 }, () => makeAlert());
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAlerts(initial.reverse());
+    setMinute(minuteRef.current);
   }, [makeAlert]);
 
   const pushAlerts = useCallback(
     (count: number, burst = false) => {
       setAlerts((current) => {
         const additions = Array.from({ length: count }, () => makeAlert(burst));
+        setMinute(minuteRef.current);
         const next = [...additions.reverse(), ...current];
         // Keep the board bounded: drop the oldest resolved rows first.
         if (next.length > 44) {
@@ -140,13 +160,10 @@ export default function SocCommandDeck() {
     [makeAlert],
   );
 
-  // Live stream clock.
+  // Live stream clock. Under reduced motion the ambient stream stays off and
+  // the analyst advances the shift manually instead.
   useEffect(() => {
-    if (!running) {
-      return;
-    }
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
+    if (!running || reduced) {
       return;
     }
     const timer = window.setInterval(() => {
@@ -156,7 +173,23 @@ export default function SocCommandDeck() {
       pushAlerts(rngRef.current() > 0.7 ? 2 : 1);
     }, 2600);
     return () => window.clearInterval(timer);
-  }, [running, pushAlerts]);
+  }, [running, reduced, pushAlerts]);
+
+  const advanceShift = useCallback(() => {
+    pushAlerts(rngRef.current() > 0.7 ? 2 : 1);
+  }, [pushAlerts]);
+
+  const resetShift = useCallback(() => {
+    rngRef.current = mulberry32(RNG_SEED);
+    seqRef.current = 0;
+    minuteRef.current = 0;
+    const initial = Array.from({ length: 6 }, () => makeAlert());
+    setAlerts(initial.reverse());
+    setMinute(minuteRef.current);
+    setTriaged(0);
+    setRiskHistory([]);
+    setFilter("all");
+  }, [makeAlert]);
 
   const activeAlerts = useMemo(
     () => alerts.filter((alert) => alert.status !== "resolved"),
@@ -169,16 +202,16 @@ export default function SocCommandDeck() {
         sum + SEVERITY_META[alert.severity].weight * (alert.status === "escalated" ? 1.5 : 1),
       0,
     );
-    return Math.min(100, Math.round(raw));
+    return computeRiskIndex(raw);
   }, [activeAlerts]);
 
-  // Sample the risk score onto the trend line whenever it moves.
-  useEffect(() => {
-    setRiskHistory((current) => {
-      const next = [...current, risk];
-      return next.slice(-48);
-    });
-  }, [risk]);
+  // Sample the risk score onto the trend line whenever it moves
+  // (render-phase adjustment — no effect round-trip).
+  const [sampledRisk, setSampledRisk] = useState<number | null>(null);
+  if (sampledRisk !== risk) {
+    setSampledRisk(risk);
+    setRiskHistory((current) => [...current, risk].slice(-48));
+  }
 
   const kpis = useMemo(() => {
     const open = activeAlerts.length;
@@ -223,10 +256,17 @@ export default function SocCommandDeck() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
         <div className="flex items-center gap-2">
           <span
-            className={`h-2.5 w-2.5 rounded-full ${running ? "bg-alert animate-pulse" : "bg-fg-muted"}`}
+            className={`h-2.5 w-2.5 rounded-full ${
+              reduced
+                ? "bg-accent"
+                : running
+                  ? "bg-alert animate-pulse"
+                  : "bg-fg-muted"
+            }`}
           />
           <span className="font-mono text-xs uppercase tracking-[0.18em] text-fg-muted">
-            {running ? "Live feed" : "Paused"} · shift +{minuteRef.current}m
+            {reduced ? "Manual feed" : running ? "Live feed" : "Paused"} · shift
+            +{minute}m
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -237,12 +277,29 @@ export default function SocCommandDeck() {
           >
             Inject attack burst
           </button>
+          {reduced ? (
+            <button
+              type="button"
+              onClick={advanceShift}
+              className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-fg transition-colors hover:border-fg/40"
+            >
+              Advance shift
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setRunning((value) => !value)}
+              className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-fg transition-colors hover:border-fg/40"
+            >
+              {running ? "Pause" : "Resume"}
+            </button>
+          )}
           <button
             type="button"
-            onClick={() => setRunning((value) => !value)}
-            className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-fg transition-colors hover:border-fg/40"
+            onClick={resetShift}
+            className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-fg-muted transition-colors hover:border-fg/40 hover:text-fg"
           >
-            {running ? "Pause" : "Resume"}
+            Reset shift
           </button>
         </div>
       </div>

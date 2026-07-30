@@ -47,7 +47,23 @@ export default function Verdant({ project }: { project: CreativeProject }) {
   const [planted, setPlanted] = useState(0);
   const [canopy, setCanopy] = useState(0);
   const paramRef = useRef({ rainfall, sunlight });
-  paramRef.current = { rainfall, sunlight };
+  // The mount effect stores its render closure here so handlers outside the
+  // effect (reset, the climate sliders) can repaint under reduced motion.
+  const renderRef = useRef<(() => void) | null>(null);
+  const loopRunningRef = useRef(false);
+  const repaintFrameRef = useRef(0);
+
+  // Schedule exactly one repaint when the continuous rAF loop is not running
+  // (reduced motion). When the loop is live it repaints every frame anyway.
+  function scheduleRepaint() {
+    if (loopRunningRef.current || repaintFrameRef.current !== 0) {
+      return;
+    }
+    repaintFrameRef.current = window.requestAnimationFrame(() => {
+      repaintFrameRef.current = 0;
+      renderRef.current?.();
+    });
+  }
 
   const carbon = useMemo(() => {
     // Illustrative: ~21 kg CO2/year per mature tree, scaled by canopy fill.
@@ -275,6 +291,9 @@ export default function Verdant({ project }: { project: CreativeProject }) {
     observer.observe(host);
     canvas.addEventListener("pointerdown", onPointerDown);
 
+    renderRef.current = render;
+    loopRunningRef.current = !reduced;
+
     resize();
     render();
 
@@ -282,6 +301,10 @@ export default function Verdant({ project }: { project: CreativeProject }) {
       observer.disconnect();
       canvas.removeEventListener("pointerdown", onPointerDown);
       window.cancelAnimationFrame(animation);
+      window.cancelAnimationFrame(repaintFrameRef.current);
+      repaintFrameRef.current = 0;
+      renderRef.current = null;
+      loopRunningRef.current = false;
     };
   }, []);
 
@@ -290,6 +313,7 @@ export default function Verdant({ project }: { project: CreativeProject }) {
     seedCounterRef.current = 1;
     setPlanted(0);
     setCanopy(0);
+    scheduleRepaint();
   }
 
   return (
@@ -301,7 +325,7 @@ export default function Verdant({ project }: { project: CreativeProject }) {
               <canvas
                 ref={canvasRef}
                 role="img"
-                className="absolute inset-0 h-full w-full touch-none"
+                className="absolute inset-0 h-full w-full touch-pan-y"
                 aria-label="A landscape where clicking the ground plants procedurally grown trees"
               />
               <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/60 to-transparent p-7 md:p-10">
@@ -321,7 +345,7 @@ export default function Verdant({ project }: { project: CreativeProject }) {
                 <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-white/40">
                   Estimated drawdown
                 </p>
-                <p className="mt-0.5 font-mono text-2xl text-emerald-300/90">
+                <p className="mt-0.5 font-mono text-2xl text-blue-300/90">
                   {carbon.perYear.toLocaleString()} kg CO₂
                   <span className="ml-1 text-sm text-white/40">/ year</span>
                 </p>
@@ -343,7 +367,12 @@ export default function Verdant({ project }: { project: CreativeProject }) {
                   min="10"
                   max="100"
                   value={rainfall}
-                  onChange={(event) => setRainfall(Number(event.target.value))}
+                  onChange={(event) => {
+                    const value = Number(event.target.value);
+                    setRainfall(value);
+                    paramRef.current = { ...paramRef.current, rainfall: value };
+                    scheduleRepaint();
+                  }}
                   className="mt-4 w-full accent-blue-500"
                 />
               </label>
@@ -358,8 +387,13 @@ export default function Verdant({ project }: { project: CreativeProject }) {
                   min="10"
                   max="100"
                   value={sunlight}
-                  onChange={(event) => setSunlight(Number(event.target.value))}
-                  className="mt-4 w-full accent-red-500"
+                  onChange={(event) => {
+                    const value = Number(event.target.value);
+                    setSunlight(value);
+                    paramRef.current = { ...paramRef.current, sunlight: value };
+                    scheduleRepaint();
+                  }}
+                  className="mt-4 w-full accent-blue-500"
                 />
               </label>
 
@@ -374,7 +408,7 @@ export default function Verdant({ project }: { project: CreativeProject }) {
                   <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
                     Lifetime CO₂
                   </p>
-                  <p className="mt-2 font-mono text-2xl text-emerald-300/90">
+                  <p className="mt-2 font-mono text-2xl text-blue-300/90">
                     {(carbon.lifetime / 1000).toFixed(1)}t
                   </p>
                 </div>

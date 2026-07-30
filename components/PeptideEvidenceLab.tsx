@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   PEPTIDE_RECORDS,
   type PeptideQuality,
@@ -70,14 +70,18 @@ export default function PeptideEvidenceLab() {
     selected.includes(record.id),
   );
 
-  useEffect(() => {
+  // Keep the active record valid as filters change — render-phase adjustment
+  // rather than an effect round-trip.
+  const [prevVisible, setPrevVisible] = useState(visible);
+  if (prevVisible !== visible) {
+    setPrevVisible(visible);
     setActiveRecord((current) => {
       if (current && visible.some((record) => record.id === current.id)) {
         return current;
       }
       return visible[0] ?? null;
     });
-  }, [visible]);
+  }
 
   function toggleSelected(id: string) {
     setSelected((current) => {

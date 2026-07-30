@@ -32,6 +32,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 export type BlueprintSystemId =
   | "cabinetry"
@@ -795,7 +796,7 @@ function WireMaterial({
     }),
     [color, opacity, scanning],
   );
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!ref.current) return;
     ref.current.uniforms.uTime.value += delta;
     ref.current.uniforms.uOpacity.value = MathUtils.damp(
@@ -804,12 +805,21 @@ function WireMaterial({
       8,
       delta,
     );
+    const scanTarget = scanning ? 1 : 0.18;
     ref.current.uniforms.uScan.value = MathUtils.damp(
       ref.current.uniforms.uScan.value,
-      scanning ? 1 : 0.18,
+      scanTarget,
       6,
       delta,
     );
+    // Under frameloop="demand" (reduced motion) keep requesting frames until
+    // the fades settle, then genuinely stop.
+    if (
+      Math.abs(ref.current.uniforms.uOpacity.value - opacity) > 0.005 ||
+      Math.abs(ref.current.uniforms.uScan.value - scanTarget) > 0.005
+    ) {
+      state.invalidate();
+    }
   });
   return (
     <shaderMaterial
@@ -900,8 +910,8 @@ function PartGroup({
 }) {
   const ref = useRef<Group>(null);
   const opacity = isolated && !selected ? 0.06 : selected ? 0.98 : 0.5;
-  const color = part.accent === "amber" ? "#ff9900" : "#00f3ff";
-  useFrame((_, delta) => {
+  const color = part.accent === "amber" ? "#f87171" : "#60a5fa";
+  useFrame((state, delta) => {
     if (!ref.current) return;
     ref.current.position.x = MathUtils.damp(
       ref.current.position.x,
@@ -921,6 +931,14 @@ function PartGroup({
       5,
       delta,
     );
+    // Keep the explode slide settling under frameloop="demand".
+    const gap =
+      Math.abs(ref.current.position.x - part.explode[0] * explode) +
+      Math.abs(ref.current.position.y - part.explode[1] * explode) +
+      Math.abs(ref.current.position.z - part.explode[2] * explode);
+    if (gap > 0.002) {
+      state.invalidate();
+    }
   });
   function select(event: ThreeEvent<MouseEvent>) {
     event.stopPropagation();
@@ -947,15 +965,15 @@ function PartGroup({
           }}
           className={`flex min-w-max items-center gap-2 rounded-full border px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] backdrop-blur-md transition-colors ${
             selected
-              ? "border-[#00f3ff]/70 bg-[#001b22]/90 text-white"
-              : "border-white/15 bg-black/70 text-white/55 hover:border-[#00f3ff]/50 hover:text-white"
+              ? "border-[#60a5fa]/70 bg-[#0a1220]/90 text-white"
+              : "border-white/15 bg-black/70 text-white/55 hover:border-[#60a5fa]/50 hover:text-white"
           }`}
         >
           <span
             className={`grid h-4 w-4 place-items-center rounded-full ${
               part.accent === "amber"
-                ? "bg-[#ff9900] text-black"
-                : "bg-[#00f3ff] text-black"
+                ? "bg-[#f87171] text-black"
+                : "bg-[#60a5fa] text-black"
             }`}
           >
             {part.number}
@@ -988,7 +1006,7 @@ function Dust() {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        color="#00f3ff"
+        color="#60a5fa"
         size={0.016}
         transparent
         opacity={0.25}
@@ -1005,11 +1023,16 @@ function CameraRig({ view }: { view: CameraView }) {
   useEffect(() => {
     moving.current = true;
   }, [view]);
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!moving.current) return;
     camera.position.lerp(target, 1 - Math.exp(-delta * 5));
     camera.lookAt(0, 0, 0);
-    if (camera.position.distanceTo(target) < 0.03) moving.current = false;
+    if (camera.position.distanceTo(target) < 0.03) {
+      moving.current = false;
+    } else {
+      // View switches must complete even under frameloop="demand".
+      state.invalidate();
+    }
   });
   return null;
 }
@@ -1022,6 +1045,7 @@ function Model({
   wireframe,
   scanning,
   autoRotate,
+  reduced,
   view,
   onSelect,
   modelRef,
@@ -1033,6 +1057,7 @@ function Model({
   wireframe: boolean;
   scanning: boolean;
   autoRotate: boolean;
+  reduced: boolean;
   view: CameraView;
   onSelect: (id: string) => void;
   modelRef: MutableRefObject<Group | null>;
@@ -1075,7 +1100,7 @@ function Model({
       </group>
       <OrbitControls
         makeDefault
-        enableDamping
+        enableDamping={!reduced}
         dampingFactor={0.08}
         minDistance={5}
         maxDistance={17}
@@ -1107,7 +1132,7 @@ function ControlButton({
       aria-pressed={active}
       className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-[11px] transition-colors disabled:cursor-wait disabled:opacity-40 ${
         active
-          ? "border-[#00f3ff]/45 bg-[#00f3ff]/10 text-white"
+          ? "border-[#60a5fa]/45 bg-[#60a5fa]/10 text-white"
           : "border-white/10 text-white/50 hover:border-white/20 hover:text-white"
       }`}
     >
@@ -1133,28 +1158,48 @@ export default function BlueprintSpatialViewer({
   const [scanProgress, setScanProgress] = useState(0);
   const [exporting, setExporting] = useState(false);
   const modelRef = useRef<Group | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const reduced = usePrefersReducedMotion();
+  const [visible, setVisible] = useState(true);
   const selected =
     system.parts.find((part) => part.id === selectedId) ?? system.parts[0];
 
+  // Stop rendering entirely while scrolled offscreen; render on demand only
+  // (interactions still invalidate frames) for reduced-motion visitors.
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setVisible(entry.isIntersecting);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const frameloop = !visible ? "never" : reduced ? "demand" : "always";
+
+  // Reset the inspection state when the system changes — render-phase
+  // adjustment rather than an effect round-trip.
+  const [prevSystem, setPrevSystem] = useState(system);
+  if (prevSystem !== system) {
+    setPrevSystem(system);
     setSelectedId(system.parts[0].id);
     setExplode(0);
     setIsolated(false);
-  }, [system]);
+  }
 
   useEffect(() => {
     if (!scan) return;
-    setScanProgress(0);
+    // Progress lives in the interval closure; the state updates are plain
+    // event-time sets (no side effects inside updater functions).
+    let progress = 0;
     const timer = window.setInterval(() => {
-      setScanProgress((previous) => {
-        const next = previous + 2;
-        if (next >= 100) {
-          window.clearInterval(timer);
-          setScan(false);
-          return 100;
-        }
-        return next;
-      });
+      progress = Math.min(100, progress + 2);
+      setScanProgress(progress);
+      if (progress >= 100) {
+        window.clearInterval(timer);
+        setScan(false);
+      }
     }, 35);
     return () => window.clearInterval(timer);
   }, [scan]);
@@ -1182,10 +1227,13 @@ export default function BlueprintSpatialViewer({
   }
 
   return (
-    <section className="overflow-hidden rounded-3xl border border-white/10 bg-[#04090c]">
+    <section
+      ref={sectionRef}
+      className="overflow-hidden rounded-3xl border border-white/10 bg-[#04090c]"
+    >
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 bg-[#071015] px-5 py-5 md:px-7">
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#00f3ff]/55">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#60a5fa]/55">
             3D construction review · {system.code}
           </p>
           <h2 className="mt-2 text-2xl font-semibold text-white">
@@ -1195,22 +1243,23 @@ export default function BlueprintSpatialViewer({
         </div>
         <div className="text-right font-mono text-[9px] uppercase tracking-[0.13em] text-white/30">
           <p>{system.dimensions}</p>
-          <p className="mt-1 text-[#00f3ff]/50">{system.discipline}</p>
+          <p className="mt-1 text-[#60a5fa]/50">{system.discipline}</p>
         </div>
       </div>
 
       <div className="grid xl:grid-cols-[minmax(0,1.65fr)_420px]">
-        <div className="relative min-h-[600px] overflow-hidden border-b border-white/10 bg-[radial-gradient(circle_at_50%_48%,rgba(0,243,255,0.08),transparent_34%),linear-gradient(rgba(0,243,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(0,243,255,0.025)_1px,transparent_1px)] bg-[size:auto,36px_36px,36px_36px] md:min-h-[720px] xl:border-b-0 xl:border-r">
+        <div className="relative min-h-[600px] overflow-hidden border-b border-white/10 bg-[radial-gradient(circle_at_50%_48%,rgba(96,165,250,0.08),transparent_34%),linear-gradient(rgba(96,165,250,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(96,165,250,0.025)_1px,transparent_1px)] bg-[size:auto,36px_36px,36px_36px] md:min-h-[720px] xl:border-b-0 xl:border-r">
           <Canvas
             camera={{ position: VIEW_POSITIONS.perspective, fov: 43 }}
             dpr={[1, 1.7]}
             gl={{ antialias: true, alpha: true }}
+            frameloop={frameloop}
             role="img"
             aria-label={`${system.title} interactive 3D assembly. Select a numbered component to inspect its construction specification.`}
           >
             <ambientLight intensity={0.14} />
-            <pointLight position={[5, 6, 6]} color="#00f3ff" intensity={1.1} />
-            <pointLight position={[-4, -3, 4]} color="#ff9900" intensity={0.65} />
+            <pointLight position={[5, 6, 6]} color="#60a5fa" intensity={1.1} />
+            <pointLight position={[-4, -3, 4]} color="#f87171" intensity={0.65} />
             <Model
               system={system}
               selectedId={selectedId}
@@ -1218,7 +1267,8 @@ export default function BlueprintSpatialViewer({
               isolated={isolated}
               wireframe={wireframe}
               scanning={scan}
-              autoRotate={autoRotate}
+              autoRotate={autoRotate && !reduced}
+              reduced={reduced}
               view={view}
               onSelect={setSelectedId}
               modelRef={modelRef}
@@ -1227,20 +1277,20 @@ export default function BlueprintSpatialViewer({
 
           <div className="pointer-events-none absolute inset-0">
             <div className="absolute left-1/2 top-1/2 aspect-square w-[38%] max-w-[340px] -translate-x-1/2 -translate-y-1/2">
-              <div className="h-full w-full rounded-full border border-dashed border-[#00f3ff]/10 animate-[hudSpin_22s_linear_infinite]" />
+              <div className="h-full w-full rounded-full border border-dashed border-[#60a5fa]/10 animate-[hudSpin_22s_linear_infinite]" />
             </div>
-            <span className="absolute left-1/2 top-1/2 h-24 w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-[#00f3ff]/35 to-transparent" />
-            <span className="absolute left-1/2 top-1/2 h-px w-24 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-[#00f3ff]/35 to-transparent" />
+            <span className="absolute left-1/2 top-1/2 h-24 w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-[#60a5fa]/35 to-transparent" />
+            <span className="absolute left-1/2 top-1/2 h-px w-24 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-[#60a5fa]/35 to-transparent" />
             {scan ? (
               <span
-                className="absolute inset-x-0 h-px bg-[#00f3ff] shadow-[0_0_18px_3px_rgba(0,243,255,0.7)] transition-[top] duration-75"
+                className="absolute inset-x-0 h-px bg-[#60a5fa] shadow-[0_0_18px_3px_rgba(96,165,250,0.7)] transition-[top] duration-75"
                 style={{ top: `${scanProgress}%` }}
               />
             ) : null}
           </div>
 
-          <div className="absolute left-4 top-4 z-10 max-w-[270px] rounded-xl border border-[#00f3ff]/15 bg-[#001017]/75 p-3 backdrop-blur-md md:left-6 md:top-6">
-            <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-[#00f3ff]/60">
+          <div className="absolute left-4 top-4 z-10 max-w-[270px] rounded-xl border border-[#60a5fa]/15 bg-[#0a1020]/75 p-3 backdrop-blur-md md:left-6 md:top-6">
+            <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-[#60a5fa]/60">
               What you are looking at
             </p>
             <p className="mt-2 text-[11px] leading-5 text-white/55">
@@ -1264,7 +1314,7 @@ export default function BlueprintSpatialViewer({
                   aria-pressed={view === cameraView}
                   className={`rounded-lg px-2.5 py-2 font-mono text-[8px] uppercase tracking-[0.1em] ${
                     view === cameraView
-                      ? "bg-[#00f3ff]/12 text-[#00f3ff]"
+                      ? "bg-[#60a5fa]/12 text-[#60a5fa]"
                       : "text-white/35 hover:text-white"
                   }`}
                 >
@@ -1286,7 +1336,7 @@ export default function BlueprintSpatialViewer({
                   Numbers match the 3D callouts
                 </p>
               </div>
-              <Boxes size={17} className="text-[#00f3ff]/55" />
+              <Boxes size={17} className="text-[#60a5fa]/55" />
             </div>
             <div className="mt-4 space-y-1.5">
               {system.parts.map((part) => (
@@ -1297,15 +1347,15 @@ export default function BlueprintSpatialViewer({
                   aria-pressed={selectedId === part.id}
                   className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left ${
                     selectedId === part.id
-                      ? "border-[#00f3ff]/35 bg-[#00f3ff]/[0.07]"
+                      ? "border-[#60a5fa]/35 bg-[#60a5fa]/[0.07]"
                       : "border-white/[0.06] hover:border-white/15"
                   }`}
                 >
                   <span
                     className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg font-mono text-[10px] font-bold ${
                       part.accent === "amber"
-                        ? "bg-[#ff9900]/12 text-[#ffb23e]"
-                        : "bg-[#00f3ff]/10 text-[#00f3ff]"
+                        ? "bg-[#f87171]/12 text-[#ffb23e]"
+                        : "bg-[#60a5fa]/10 text-[#60a5fa]"
                     }`}
                   >
                     {part.number}
@@ -1322,7 +1372,7 @@ export default function BlueprintSpatialViewer({
                     size={13}
                     className={
                       selectedId === part.id
-                        ? "text-[#00f3ff]"
+                        ? "text-[#60a5fa]"
                         : "text-white/15"
                     }
                   />
@@ -1334,7 +1384,7 @@ export default function BlueprintSpatialViewer({
           <div className="border-b border-white/10 p-5 md:p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.17em] text-[#00f3ff]/55">
+                <p className="font-mono text-[9px] uppercase tracking-[0.17em] text-[#60a5fa]/55">
                   Selected · {selected.number}
                 </p>
                 <h3 className="mt-2 text-xl font-semibold text-white">
@@ -1348,7 +1398,7 @@ export default function BlueprintSpatialViewer({
                 aria-label={isolated ? "Show full assembly" : "Isolate selected part"}
                 className={`rounded-lg border p-2 ${
                   isolated
-                    ? "border-[#00f3ff]/40 bg-[#00f3ff]/10 text-[#00f3ff]"
+                    ? "border-[#60a5fa]/40 bg-[#60a5fa]/10 text-[#60a5fa]"
                     : "border-white/10 text-white/35 hover:text-white"
                 }`}
               >
@@ -1362,7 +1412,7 @@ export default function BlueprintSpatialViewer({
               </span>
             ) : null}
 
-            <div className="mt-4 rounded-xl border border-[#ff9900]/15 bg-[#ff9900]/[0.035] p-4">
+            <div className="mt-4 rounded-xl border border-[#f87171]/15 bg-[#f87171]/[0.035] p-4">
               <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-[#ffb23e]/60">
                 In plain language
               </p>
@@ -1395,7 +1445,7 @@ export default function BlueprintSpatialViewer({
               <span className="font-mono text-[8px] uppercase tracking-[0.13em] text-white/30">
                 {selected.check}
               </span>
-              <span className="font-mono text-sm text-[#00f3ff]">
+              <span className="font-mono text-sm text-[#60a5fa]">
                 {selected.value}
               </span>
             </div>
@@ -1407,7 +1457,7 @@ export default function BlueprintSpatialViewer({
                 <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.15em] text-white/35">
                   <Layers3 size={12} /> Exploded assembly
                 </span>
-                <span className="font-mono text-[10px] text-[#00f3ff]">
+                <span className="font-mono text-[10px] text-[#60a5fa]">
                   {Math.round(explode * 100)}%
                 </span>
               </span>
@@ -1434,18 +1484,31 @@ export default function BlueprintSpatialViewer({
                 icon={<Box size={14} />}
                 onClick={() => setWireframe((value) => !value)}
               />
-              <ControlButton
-                active={autoRotate}
-                label={autoRotate ? "Pause orbit" : "Auto orbit"}
-                icon={autoRotate ? <Pause size={14} /> : <Play size={14} />}
-                onClick={() => setAutoRotate((value) => !value)}
-              />
+              {/* Auto-orbit needs a continuous frame loop, which reduced
+                  motion disables — hide the control rather than leave it dead. */}
+              {reduced ? null : (
+                <ControlButton
+                  active={autoRotate}
+                  label={autoRotate ? "Pause orbit" : "Auto orbit"}
+                  icon={autoRotate ? <Pause size={14} /> : <Play size={14} />}
+                  onClick={() => setAutoRotate((value) => !value)}
+                />
+              )}
               <ControlButton
                 active={scan}
                 label={scan ? `Scanning ${scanProgress}%` : "Scan model"}
                 icon={<ScanLine size={14} />}
                 onClick={() => {
-                  if (!scan) setScan(true);
+                  if (reduced) {
+                    // No animated sweep under reduced motion — the scan
+                    // completes instantly.
+                    setScanProgress(100);
+                    return;
+                  }
+                  if (!scan) {
+                    setScanProgress(0);
+                    setScan(true);
+                  }
                 }}
                 disabled={scan}
               />
@@ -1468,7 +1531,7 @@ export default function BlueprintSpatialViewer({
           ["04 · RELEASE", "Confirm tolerance and workflow gate."],
         ].map(([label, copy]) => (
           <div key={label} className="bg-[#050a0d] p-4">
-            <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#00f3ff]/55">
+            <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#60a5fa]/55">
               {label}
             </p>
             <p className="mt-2 text-[10px] leading-4 text-white/35">{copy}</p>

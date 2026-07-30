@@ -26,7 +26,7 @@ import {
   type Weather,
 } from "@/components/creative/wildlands/trailData";
 import { useRangerAudio } from "@/components/creative/wildlands/useRangerAudio";
-import { useRafLoop } from "@/lib/useRafLoop";
+import { useRafLoop, type RafLoop } from "@/lib/useRafLoop";
 import type { CreativeProject } from "@/lib/creativeProjects";
 
 const TRAILS = [
@@ -102,6 +102,9 @@ export default function AtlasImpossible({
   const rangerAudio = useRangerAudio(weather);
 
   useEffect(() => {
+    // localStorage is read once after hydration; reading it in a useState
+    // initializer would make the client's first render differ from the server's.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUnlockedNotes(loadUnlocked());
   }, []);
 
@@ -146,6 +149,10 @@ export default function AtlasImpossible({
     setProgressPct(100);
   }
 
+  // The frame callback stops the loop at completion; it reaches the handle
+  // through a ref because `loop` does not exist yet while the callback is
+  // being defined.
+  const loopRef = useRef<RafLoop | null>(null);
   const loop = useRafLoop((dt) => {
     const entries = entriesRef.current;
     const duration = durationRef.current;
@@ -183,12 +190,16 @@ export default function AtlasImpossible({
     }
 
     if (next >= 1) {
-      loop.stop();
+      loopRef.current?.stop();
       revealedRef.current = entries.length;
       setRevealedCount(entries.length);
       setCharBudget(Number.MAX_SAFE_INTEGER);
       completeRun();
     }
+  });
+
+  useEffect(() => {
+    loopRef.current = loop;
   });
 
   function resetRun() {
@@ -429,7 +440,7 @@ export default function AtlasImpossible({
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   {[
                     { label: "Midday", value: 12 },
-                    { label: "Dawn", value: 17 },
+                    { label: "Dawn", value: 6 },
                     { label: "Night", value: 22 },
                   ].map((preset) => (
                     <button

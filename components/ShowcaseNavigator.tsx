@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Reveal from "@/components/Reveal";
 
 type TrackId = "defend" | "data" | "infrastructure";
@@ -62,7 +62,7 @@ const TRACKS: ShowcaseTrack[] = [
     description:
       "Move raw records through ingestion, storage, transformation, analytics, and governance. Then inject a schema failure and watch the platform quarantine bad data instead of publishing a wrong answer.",
     proof:
-      "1.28 million security events processed through five observable data layers.",
+      "A simulated 1.28-million-event pipeline run across five observable data layers.",
     time: "4–6 minute live lab",
     primary: {
       href: "/labs/data-systems/cybersecurity",
@@ -95,8 +95,14 @@ const TRACKS: ShowcaseTrack[] = [
       label: "Open the feasibility study",
     },
     related: [
-      { href: "/projects/netrecon", label: "Audit network exposure" },
-      { href: "/projects/passaudit", label: "Test password resilience" },
+      {
+        href: "/work/chief-technology-group",
+        label: "See client cloud operations in practice",
+      },
+      {
+        href: "/work/roomi-group",
+        label: "Walk the identity lifecycle design",
+      },
     ],
     skills: [
       "Systems analysis",
@@ -112,6 +118,29 @@ export default function ShowcaseNavigator() {
   const [activeId, setActiveId] = useState<TrackId>("defend");
   const active = TRACKS.find((track) => track.id === activeId) ?? TRACKS[0];
   const isRed = active.tone === "red";
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  const onTabKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
+    let nextIndex: number | null = null;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = (index + 1) % TRACKS.length;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = (index - 1 + TRACKS.length) % TRACKS.length;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = TRACKS.length - 1;
+    }
+    if (nextIndex === null) {
+      return;
+    }
+    event.preventDefault();
+    setActiveId(TRACKS[nextIndex].id);
+    tabRefs.current[nextIndex]?.focus();
+  };
 
   return (
     <section
@@ -137,7 +166,7 @@ export default function ShowcaseNavigator() {
           role="tablist"
           aria-label="Choose a portfolio path"
         >
-          {TRACKS.map((track) => {
+          {TRACKS.map((track, index) => {
             const selected = track.id === active.id;
             const selectedTone =
               track.tone === "red"
@@ -147,12 +176,17 @@ export default function ShowcaseNavigator() {
             return (
               <button
                 key={track.id}
+                ref={(el) => {
+                  tabRefs.current[index] = el;
+                }}
                 id={`showcase-tab-${track.id}`}
                 type="button"
                 role="tab"
                 aria-selected={selected}
-                aria-controls={`showcase-panel-${track.id}`}
+                aria-controls="showcase-panel"
+                tabIndex={selected ? 0 : -1}
                 onClick={() => setActiveId(track.id)}
+                onKeyDown={(event) => onTabKeyDown(event, index)}
                 className={`flex min-h-16 items-center gap-4 rounded-xl border px-4 py-3 text-left transition-colors ${
                   selected
                     ? selectedTone
@@ -169,8 +203,9 @@ export default function ShowcaseNavigator() {
         </div>
 
         <div
-          id={`showcase-panel-${active.id}`}
+          id="showcase-panel"
           role="tabpanel"
+          tabIndex={0}
           aria-labelledby={`showcase-tab-${active.id}`}
           className="relative mt-6 overflow-hidden rounded-3xl border border-border bg-[#080808] text-white"
         >

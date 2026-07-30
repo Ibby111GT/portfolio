@@ -91,14 +91,14 @@ export function VerdantPoster() {
 /** Lumen City — a lit skyline against a night sky. */
 export function LumenCityPoster() {
   const rng = mulberry32(hashSeed("lumen-city"));
+  const buildings: Array<{ x: number; w: number; h: number }> = [];
   let cursor = 20;
-  const buildings = Array.from({ length: 12 }, () => {
+  for (let index = 0; index < 12; index += 1) {
     const w = 40 + rng() * 46;
     const h = 200 + rng() * 500;
-    const b = { x: cursor, w, h };
+    buildings.push({ x: cursor, w, h });
     cursor += w + 10 + rng() * 14;
-    return b;
-  });
+  }
   return (
     <svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" className={posterClass} aria-hidden="true">
       <defs>

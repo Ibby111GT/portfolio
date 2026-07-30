@@ -73,12 +73,15 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
     status: "balanced" as "surplus" | "balanced" | "deficit",
   });
 
-  const stateRef = useRef({ wind, solar, battery, weather });
-  stateRef.current = { wind, solar, battery, weather };
-  const batteryLevelRef = useRef(60);
-  const seed = useMemo(() => 0x5eed1234, []);
-
   const fossilPct = Math.max(0, 100 - wind - solar - battery);
+
+  const stateRef = useRef({ wind, solar, battery, weather, fossilPct });
+  const batteryLevelRef = useRef(60);
+  // Repaint hook for reduced motion: the canvas effect installs a one-frame
+  // painter here so control changes can refresh the paused canvas.
+  const repaintRef = useRef<(() => void) | null>(null);
+  const skipInitialRepaintRef = useRef(true);
+  const seed = useMemo(() => 0x5eed1234, []);
 
   useEffect(() => {
     const canvasEl = canvasRef.current;
@@ -120,7 +123,7 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
     }
 
     function simulate(hour: number) {
-      const { wind: w, solar: s, battery: b, weather: wx } = stateRef.current;
+      const { wind: w, solar: s, battery: b, weather: wx, fossilPct: f } = stateRef.current;
       const weatherMeta = WEATHER[wx];
       // Demand curve: morning + evening peaks, overnight trough (0..1).
       const demandCurve =
@@ -133,7 +136,7 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
       const daylight = Math.max(0, Math.sin(((hour - 6) / 12) * Math.PI));
       const solarOut = (s / 100) * daylight * weatherMeta.solar;
       const windOut = (w / 100) * weatherMeta.wind * (0.7 + 0.3 * Math.abs(Math.sin(hour)));
-      const fossil = fossilPct / 100;
+      const fossil = f / 100;
       const renewableSupply = solarOut + windOut;
 
       let batteryLevel = batteryLevelRef.current;
@@ -275,15 +278,45 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
     resize();
     render();
 
+    // Under reduced motion the loop never self-schedules, so control changes
+    // paint exactly one catch-up frame; cancelling first keeps rapid changes
+    // from stacking frames. While the loop is running this is a no-op — the
+    // next frame already reads live state through stateRef.
+    repaintRef.current = () => {
+      if (reduced) {
+        window.cancelAnimationFrame(animation);
+        animation = window.requestAnimationFrame(render);
+      }
+    };
+
     return () => {
+      repaintRef.current = null;
       observer.disconnect();
       window.cancelAnimationFrame(animation);
     };
-  }, [seed, fossilPct]);
+  }, [seed]);
+
+  // Publish control values for the frame loop (effects commit before rAF
+  // callbacks run), then repaint once per change while the loop is off
+  // (reduced motion); the mount frame is already drawn by the effect above.
+  useEffect(() => {
+    stateRef.current = {
+      wind,
+      solar,
+      battery,
+      weather,
+      fossilPct: Math.max(0, 100 - wind - solar - battery),
+    };
+    if (skipInitialRepaintRef.current) {
+      skipInitialRepaintRef.current = false;
+      return;
+    }
+    repaintRef.current?.();
+  }, [wind, solar, battery, weather]);
 
   const statusMeta = {
     surplus: { label: "Surplus — exporting", color: "text-accent", dot: "#60a5fa" },
-    balanced: { label: "Balanced", color: "text-emerald-300", dot: "#34d399" },
+    balanced: { label: "Balanced", color: "text-blue-300", dot: "#60a5fa" },
     deficit: { label: "Deficit — brown-out risk", color: "text-alert", dot: "#f87171" },
   }[reading.status];
 
@@ -333,8 +366,8 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
 
               {[
                 { label: "Wind", value: wind, set: setWind, accent: "accent-blue-500" },
-                { label: "Solar", value: solar, set: setSolar, accent: "accent-yellow-400" },
-                { label: "Battery", value: battery, set: setBattery, accent: "accent-emerald-400" },
+                { label: "Solar", value: solar, set: setSolar, accent: "accent-blue-400" },
+                { label: "Battery", value: battery, set: setBattery, accent: "accent-blue-300" },
               ].map((control) => (
                 <label key={control.label} className="mt-7 block">
                   <span className="flex justify-between text-xs text-white/50">
@@ -397,7 +430,7 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
                   <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
                     Battery
                   </p>
-                  <p className="mt-2 font-mono text-2xl text-emerald-300/90">
+                  <p className="mt-2 font-mono text-2xl text-blue-300/90">
                     {reading.batteryLevel}%
                   </p>
                 </div>

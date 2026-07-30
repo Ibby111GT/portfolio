@@ -25,9 +25,15 @@ export function useRafLoop(
   const elapsedRef = useRef(0);
   const runningRef = useRef(false);
 
-  onFrameRef.current = onFrame;
+  // Latest-callback pattern: the assignment happens post-render so the frame
+  // callback (which always fires after effects) sees the newest closure.
+  useEffect(() => {
+    onFrameRef.current = onFrame;
+  });
 
-  const tick = useCallback((now: number) => {
+  // Named function expression so the frame callback can re-schedule itself
+  // without a self-reference to the not-yet-declared const.
+  const tick = useCallback(function tickFrame(now: number) {
     if (!runningRef.current) {
       return;
     }
@@ -38,7 +44,7 @@ export function useRafLoop(
     elapsedRef.current += dt;
     onFrameRef.current(dt, elapsedRef.current);
     if (runningRef.current) {
-      rafIdRef.current = window.requestAnimationFrame(tick);
+      rafIdRef.current = window.requestAnimationFrame(tickFrame);
     }
   }, []);
 

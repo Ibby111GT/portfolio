@@ -34,15 +34,15 @@ const EVENTS: HuntEvent[] = [
 ];
 
 const SOURCE_STYLES: Record<Source, string> = {
-  identity: "border-blue-300/25 bg-blue-300/10 text-blue-200",
-  endpoint: "border-blue-300/25 bg-blue-300/10 text-blue-200",
-  cloud: "border-red-300/25 bg-red-300/10 text-red-200",
+  identity: "border-blue-300/25 bg-blue-300/15 text-blue-200",
+  endpoint: "border-blue-300/50 bg-transparent text-blue-200",
+  cloud: "border-white/25 bg-white/10 text-white/70",
 };
 
 const SEVERITY_DOTS = {
   info: "bg-slate-500",
   low: "bg-blue-400",
-  medium: "bg-red-400",
+  medium: "border border-red-400 bg-transparent",
   high: "bg-red-400",
   critical: "bg-red-500",
 };

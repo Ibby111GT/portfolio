@@ -313,7 +313,7 @@ export default function TenantControlPlane() {
                             : "text-blue-300"
                       }`}
                     >
-                      {!on ? "pipeline" : gaps.length ? `${gaps.length} gap` : "ready"}
+                      {!on ? "pipeline" : gaps.length ? `${gaps.length} gap${gaps.length === 1 ? "" : "s"}` : "ready"}
                     </span>
                   </div>
                 </li>

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
 import type { CreativeProject } from "@/lib/creativeProjects";
+import { mulberry32 } from "@/lib/seededRandom";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 type Palette = "Dual signal" | "Blue hour" | "Red shift";
 
@@ -25,6 +27,16 @@ export default function SignalBloom({
   const [velocity, setVelocity] = useState(12);
   const [palette, setPalette] = useState<Palette>("Dual signal");
   const [seed, setSeed] = useState(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Live parameters: the render loop reads these every frame, so velocity and
+  // palette changes retune the running field instead of rebuilding it.
+  const paramsRef = useRef({ velocity, palette });
+  const particlesRef = useRef<Particle[]>([]);
+  const sizeRef = useRef({ width: 0, height: 0 });
+  // Assigned by the canvas effect only under reduced motion, so parameter and
+  // field changes can request a single static repaint instead of a loop.
+  const repaintRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const canvasElement = canvasRef.current;
@@ -47,48 +59,18 @@ export default function SignalBloom({
     }
     const activeContext = drawingContext as CanvasRenderingContext2D;
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
     const pointer = { x: 0, y: 0, active: false };
-    let width = 0;
-    let height = 0;
     let animationFrame = 0;
-    let particles: Particle[] = [];
 
-    function createParticle(index: number): Particle {
-      return {
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.34,
-        vy: (Math.random() - 0.5) * 0.34,
-        radius: 0.8 + Math.random() * 2.1,
-        phase: index * 0.47 + Math.random() * 3,
-      };
-    }
-
-    function resize() {
-      const bounds = activeHost.getBoundingClientRect();
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
-      width = Math.max(320, bounds.width);
-      height = Math.max(520, bounds.height);
-      activeCanvas.width = Math.round(width * ratio);
-      activeCanvas.height = Math.round(height * ratio);
-      activeCanvas.style.width = `${width}px`;
-      activeCanvas.style.height = `${height}px`;
-      activeContext.setTransform(ratio, 0, 0, ratio, 0, 0);
-      particles = Array.from({ length: density }, (_, index) =>
-        createParticle(index),
-      );
-      activeContext.fillStyle = "#050507";
-      activeContext.fillRect(0, 0, width, height);
-    }
-
-    function particleColor(index: number, alpha: number) {
-      if (palette === "Blue hour") {
+    function particleColor(
+      activePalette: Palette,
+      index: number,
+      alpha: number,
+    ) {
+      if (activePalette === "Blue hour") {
         return `rgba(96,165,250,${alpha})`;
       }
-      if (palette === "Red shift") {
+      if (activePalette === "Red shift") {
         return `rgba(248,113,113,${alpha})`;
       }
       return index % 2 === 0
@@ -96,10 +78,15 @@ export default function SignalBloom({
         : `rgba(248,113,113,${alpha})`;
     }
 
-    function draw() {
-      activeContext.fillStyle = "rgba(5,5,7,0.13)";
+    function renderFrame(clearFully: boolean) {
+      const { width, height } = sizeRef.current;
+      const { velocity: liveVelocity, palette: livePalette } =
+        paramsRef.current;
+      const particles = particlesRef.current;
+
+      activeContext.fillStyle = clearFully ? "#050507" : "rgba(5,5,7,0.13)";
       activeContext.fillRect(0, 0, width, height);
-      const speed = velocity / 10;
+      const speed = liveVelocity / 10;
 
       particles.forEach((particle, index) => {
         if (pointer.active) {
@@ -125,8 +112,8 @@ export default function SignalBloom({
         if (particle.y > height + 20) particle.y = -20;
 
         activeContext.beginPath();
-        activeContext.fillStyle = particleColor(index, 0.8);
-        activeContext.shadowColor = particleColor(index, 0.95);
+        activeContext.fillStyle = particleColor(livePalette, index, 0.8);
+        activeContext.shadowColor = particleColor(livePalette, index, 0.95);
         activeContext.shadowBlur = 18;
         activeContext.arc(
           particle.x,
@@ -151,6 +138,7 @@ export default function SignalBloom({
           if (distance < 86) {
             activeContext.beginPath();
             activeContext.strokeStyle = particleColor(
+              livePalette,
               index + neighborIndex,
               (1 - distance / 86) * 0.19,
             );
@@ -161,10 +149,38 @@ export default function SignalBloom({
           }
         }
       });
+    }
 
-      if (!reducedMotion) {
-        animationFrame = window.requestAnimationFrame(draw);
+    function resize() {
+      const bounds = activeHost.getBoundingClientRect();
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const nextWidth = Math.max(320, bounds.width);
+      const nextHeight = Math.max(520, bounds.height);
+      const { width: previousWidth, height: previousHeight } = sizeRef.current;
+      activeCanvas.width = Math.round(nextWidth * ratio);
+      activeCanvas.height = Math.round(nextHeight * ratio);
+      activeCanvas.style.width = `${nextWidth}px`;
+      activeCanvas.style.height = `${nextHeight}px`;
+      activeContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+      // Remap the existing field to the new bounds instead of regenerating,
+      // so a resize never re-randomizes the composition.
+      if (previousWidth > 0 && previousHeight > 0) {
+        const scaleX = nextWidth / previousWidth;
+        const scaleY = nextHeight / previousHeight;
+        if (scaleX !== 1 || scaleY !== 1) {
+          particlesRef.current.forEach((particle) => {
+            particle.x *= scaleX;
+            particle.y *= scaleY;
+          });
+        }
       }
+      sizeRef.current = { width: nextWidth, height: nextHeight };
+      renderFrame(true);
+    }
+
+    function tick() {
+      renderFrame(false);
+      animationFrame = window.requestAnimationFrame(tick);
     }
 
     function updatePointer(event: PointerEvent) {
@@ -186,7 +202,11 @@ export default function SignalBloom({
     activeCanvas.addEventListener("pointerup", releasePointer);
 
     resize();
-    draw();
+    if (prefersReducedMotion) {
+      repaintRef.current = () => renderFrame(true);
+    } else {
+      tick();
+    }
 
     return () => {
       observer.disconnect();
@@ -195,8 +215,35 @@ export default function SignalBloom({
       activeCanvas.removeEventListener("pointerleave", releasePointer);
       activeCanvas.removeEventListener("pointerup", releasePointer);
       window.cancelAnimationFrame(animationFrame);
+      repaintRef.current = null;
     };
-  }, [density, palette, seed, velocity]);
+  }, [prefersReducedMotion]);
+
+  // Push parameter changes to the running loop; under reduced motion the loop
+  // is not running, so request one static repaint instead.
+  useEffect(() => {
+    paramsRef.current.velocity = velocity;
+    paramsRef.current.palette = palette;
+    repaintRef.current?.();
+  }, [palette, velocity]);
+
+  // The particle field is rebuilt only when the seed or density changes, and
+  // every random draw comes from the seeded PRNG so the same seed always
+  // reproduces the same composition.
+  useEffect(() => {
+    const random = mulberry32(seed);
+    const width = Math.max(sizeRef.current.width, 320);
+    const height = Math.max(sizeRef.current.height, 520);
+    particlesRef.current = Array.from({ length: density }, (_, index) => ({
+      x: random() * width,
+      y: random() * height,
+      vx: (random() - 0.5) * 0.34,
+      vy: (random() - 0.5) * 0.34,
+      radius: 0.8 + random() * 2.1,
+      phase: index * 0.47 + random() * 3,
+    }));
+    repaintRef.current?.();
+  }, [density, seed]);
 
   function exportFrame() {
     const canvas = canvasRef.current;
@@ -218,7 +265,7 @@ export default function SignalBloom({
               <canvas
                 ref={canvasRef}
                 role="img"
-                className="absolute inset-0 h-full w-full touch-none"
+                className="absolute inset-0 h-full w-full touch-pan-y"
                 aria-label="Interactive generative field of red and blue light particles"
               />
               <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/65 to-transparent p-7 pb-28 md:p-12 md:pb-32">

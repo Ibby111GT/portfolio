@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import BlueprintBoard from "@/components/creative/BlueprintBoard";
 import BlueprintSpatialViewer from "@/components/creative/BlueprintSpatialViewer";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
@@ -29,7 +29,7 @@ import {
   type RunSample,
   type RunState,
 } from "@/components/creative/testcell/physics";
-import { useRafLoop } from "@/lib/useRafLoop";
+import { useRafLoop, type RafLoop } from "@/lib/useRafLoop";
 import type { CreativeProject } from "@/lib/creativeProjects";
 
 const PAINTS = [
@@ -100,8 +100,15 @@ export default function VelocityAtelier({
   const paint = PAINTS[paintIndex];
   const spec = AERO_MODES[aero];
   // The physics model is the single source of truth for every displayed
-  // number, so the spec strip and the live run can never disagree.
-  const predicted = useMemo(() => simulateFull(aero, wheelSize), [aero, wheelSize]);
+  // number, so the spec strip and the live run can never disagree. The full
+  // sim is ~28,800 fixed steps, so it runs against deferred config values —
+  // the slider stays responsive and the prediction catches up a beat later.
+  const deferredAero = useDeferredValue(aero);
+  const deferredWheelSize = useDeferredValue(wheelSize);
+  const predicted = useMemo(
+    () => simulateFull(deferredAero, deferredWheelSize),
+    [deferredAero, deferredWheelSize],
+  );
 
   useEffect(() => {
     return () => {
@@ -110,6 +117,10 @@ export default function VelocityAtelier({
     };
   }, []);
 
+  // The frame callback stops the loop when the run completes; it reaches the
+  // handle through a ref because `loop` does not exist yet while the callback
+  // is being defined.
+  const loopRef = useRef<RafLoop | null>(null);
   const loop = useRafLoop((dt) => {
     const state = runStateRef.current;
     if (!state) {
@@ -146,7 +157,7 @@ export default function VelocityAtelier({
     }
 
     if (state.done) {
-      loop.stop();
+      loopRef.current?.stop();
       audioRef.current?.stopRun();
       const result = toResult(state);
       setLastResult(result);
@@ -159,6 +170,10 @@ export default function VelocityAtelier({
       });
       chartRef.current?.draw();
     }
+  });
+
+  useEffect(() => {
+    loopRef.current = loop;
   });
 
   function finishInstantly(result: RunResult) {
@@ -204,6 +219,7 @@ export default function VelocityAtelier({
     setRunPhase("running");
     setReadout({ mph: 0, rpm: IDLE_RPM, gear: 1 });
     readoutAccumRef.current = 0;
+    audioRef.current?.startRun();
     loop.start();
   }
 
@@ -230,6 +246,10 @@ export default function VelocityAtelier({
     const next = !soundOn;
     setSoundOn(next);
     audioRef.current.setEnabled(next);
+    // Enabling mid-run: a freshly created module missed launchRun's startRun.
+    if (next && loop.running) {
+      audioRef.current.startRun();
+    }
   }
 
   const statusText =

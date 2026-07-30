@@ -228,6 +228,15 @@ export default function DataPipelineLab({
     ]);
   }
 
+  function disarmFault() {
+    if (running || runStatus === "degraded") return;
+    setFault(false);
+    setActivity((current) => [
+      "Schema fault disarmed. The next run will publish normally.",
+      ...current,
+    ]);
+  }
+
   async function resolveFault() {
     if (running || runStatus !== "degraded") return;
     const token = runToken.current + 1;
@@ -347,7 +356,7 @@ export default function DataPipelineLab({
             >
               Inject schema fault
             </button>
-          ) : (
+          ) : runStatus === "degraded" || runStatus === "recovering" ? (
             <button
               type="button"
               onClick={resolveFault}
@@ -355,6 +364,15 @@ export default function DataPipelineLab({
               className="rounded-lg border border-red-300/40 bg-red-300/10 px-4 py-2 text-xs text-red-100 transition hover:bg-red-300/20 disabled:opacity-40"
             >
               Apply fix & replay
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={disarmFault}
+              disabled={running}
+              className="rounded-lg border border-red-300/40 px-4 py-2 text-xs text-red-100 transition hover:bg-red-300/10 disabled:opacity-40"
+            >
+              Disarm fault
             </button>
           )}
           <button
@@ -570,7 +588,7 @@ export default function DataPipelineLab({
               <p className="font-mono text-[10px] uppercase tracking-wider text-white/35">
                 Run activity
               </p>
-              <ol className="mt-4 space-y-3">
+              <ol role="log" aria-live="polite" className="mt-4 space-y-3">
                 {activity.slice(0, 5).map((item, index) => (
                   <li key={`${item}-${index}`} className="flex gap-3 text-[11px] leading-5 text-white/45">
                     <span className="font-mono text-white/20">
@@ -600,6 +618,11 @@ function StageIndicator({
   }
   if (state === "warning") {
     return <span className="h-2 w-2 rounded-full bg-red-300" />;
+  }
+  if (state === "blocked") {
+    return (
+      <span className="h-2 w-2 rounded-full border border-red-300/80 bg-transparent" />
+    );
   }
   if (state === "complete") {
     return <span className={`h-2 w-2 rounded-full ${accent}`} />;

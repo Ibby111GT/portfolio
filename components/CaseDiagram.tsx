@@ -17,7 +17,7 @@ export default function CaseDiagram({ diagram }: { diagram: Diagram }) {
       <div className="p-5 md:p-7">
         <ol className="flex flex-col gap-3 md:flex-row md:items-stretch md:gap-0">
           {diagram.stages.map((stage, index) => (
-            <li key={stage.label} className="flex min-w-0 flex-1 items-stretch">
+            <li key={stage.label} className="flex min-w-0 flex-1 flex-col items-stretch md:flex-row">
               <div
                 className={`min-w-0 flex-1 rounded-xl border p-4 ${
                   stage.tone === "alert"
@@ -43,7 +43,7 @@ export default function CaseDiagram({ diagram }: { diagram: Diagram }) {
               {index < diagram.stages.length - 1 ? (
                 <span
                   aria-hidden="true"
-                  className="flex shrink-0 items-center justify-center px-1 text-fg-muted md:px-2"
+                  className="flex shrink-0 items-center justify-center px-1 py-1 text-fg-muted md:px-2 md:py-0"
                 >
                   <span className="md:hidden">↓</span>
                   <span className="hidden md:inline">→</span>

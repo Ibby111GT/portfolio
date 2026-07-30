@@ -1,25 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 const QUERY = "(prefers-reduced-motion: reduce)";
 
+function subscribe(callback: () => void) {
+  const query = window.matchMedia(QUERY);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+
+function getSnapshot() {
+  return window.matchMedia(QUERY).matches;
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
 /**
- * SSR-safe reduced-motion preference. Returns false on the server and during
- * the first client render, then tracks the live media query. Use this in
- * components whose render output differs under reduced motion; point-in-time
- * checks inside event handlers can keep using matchMedia directly.
+ * SSR-safe reduced-motion preference. False on the server; the real value is
+ * available from the first client render and tracks live preference changes.
+ * Use this in components whose render output depends on the preference;
+ * point-in-time matchMedia reads inside event handlers are also fine.
  */
 export function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia(QUERY);
-    setReduced(query.matches);
-    const onChange = (event: MediaQueryListEvent) => setReduced(event.matches);
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-  }, []);
-
-  return reduced;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

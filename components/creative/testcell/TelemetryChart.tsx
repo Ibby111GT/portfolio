@@ -86,8 +86,17 @@ const TelemetryChart = forwardRef<
       context.stroke();
       context.textAlign = "right";
       context.fillText(`${mph}`, pad.left - 6, y + 3);
-      context.textAlign = "left";
-      context.fillText(`${(mph / MAX_MPH) * MAX_RPM / 1000}k`, pad.left + plotW + 6, y + 3);
+    }
+    // Right-hand rpm axis at its own clean 2k steps — instrument labels,
+    // never fractional k.
+    context.textAlign = "left";
+    for (let rpm = 0; rpm <= MAX_RPM; rpm += 2000) {
+      const y = yRpm(rpm);
+      context.fillText(
+        rpm === 0 ? "0" : `${rpm / 1000}k`,
+        pad.left + plotW + 6,
+        y + 3,
+      );
     }
     const timeStep = domain > 40 ? 10 : 5;
     for (let t = 0; t <= domain; t += timeStep) {

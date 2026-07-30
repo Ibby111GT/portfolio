@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { SandboxAsset } from "@/lib/types";
 import { actionLabelForAsset } from "@/lib/profile";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 interface TerminalConsoleProps {
   projectTitle: string;
@@ -14,7 +15,23 @@ interface TerminalConsoleProps {
 
 type TerminalPhase = "idle" | "streaming" | "complete";
 
+interface StreamProgress {
+  row: number;
+  chars: number;
+}
+
 const PROMPT = "hermes@sandbox:~$";
+
+function buildQueue(asset: SandboxAsset): string[] {
+  const prelude = [
+    `${PROMPT} init --task "${asset.title}"`,
+    `[info] type=${asset.type} runnable=${asset.runnable}`,
+    `[info] ${asset.description}`,
+    `[exec] streaming payload...`,
+    "",
+  ];
+  return [...prelude, ...asset.content.split("\n"), "", `[done] exit 0`];
+}
 
 export default function TerminalConsole({
   projectTitle,
@@ -24,10 +41,28 @@ export default function TerminalConsole({
   assets,
 }: TerminalConsoleProps) {
   const [activeAsset, setActiveAsset] = useState<SandboxAsset | null>(null);
-  const [lines, setLines] = useState<string[]>([]);
+  const [progress, setProgress] = useState<StreamProgress>({ row: 0, chars: 0 });
   const [phase, setPhase] = useState<TerminalPhase>("idle");
+  const prefersReducedMotion = usePrefersReducedMotion();
   const terminalRef = useRef<HTMLDivElement>(null);
   const streamRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const queue = useMemo(
+    () => (activeAsset ? buildQueue(activeAsset) : []),
+    [activeAsset],
+  );
+
+  // Visible output is derived by slicing the source queue, so rows keep stable
+  // identities and only the in-progress row changes per tick.
+  const visibleLines =
+    phase === "idle"
+      ? []
+      : phase === "complete" || progress.row >= queue.length
+        ? queue
+        : [
+            ...queue.slice(0, progress.row),
+            queue[progress.row].slice(0, progress.chars),
+          ];
 
   const scrollToBottom = useCallback(() => {
     const node = terminalRef.current;
@@ -38,73 +73,63 @@ export default function TerminalConsole({
 
   useEffect(() => {
     scrollToBottom();
-  }, [lines, phase, scrollToBottom]);
+  }, [progress, phase, scrollToBottom]);
+
+  const clearStream = useCallback(() => {
+    if (streamRef.current) {
+      clearInterval(streamRef.current);
+      streamRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
-    return () => {
-      if (streamRef.current) {
-        clearInterval(streamRef.current);
-      }
-    };
-  }, []);
+    return clearStream;
+  }, [clearStream]);
 
   const runAsset = useCallback(
     (asset: SandboxAsset) => {
-      if (streamRef.current) {
-        clearInterval(streamRef.current);
+      clearStream();
+      setActiveAsset(asset);
+
+      const nextQueue = buildQueue(asset);
+
+      if (prefersReducedMotion) {
+        // Reduced motion: print the full output at once, no typewriter.
+        setProgress({ row: nextQueue.length, chars: 0 });
+        setPhase("complete");
+        return;
       }
 
-      setActiveAsset(asset);
+      setProgress({ row: 0, chars: 0 });
       setPhase("streaming");
 
-      const prelude = [
-        `${PROMPT} init --task "${asset.title}"`,
-        `[info] type=${asset.type} runnable=${asset.runnable}`,
-        `[info] ${asset.description}`,
-        `[exec] streaming payload...`,
-        "",
-      ];
-
-      const contentLines = asset.content.split("\n");
-      const queue = [...prelude, ...contentLines, "", `[done] exit 0`];
-
-      setLines([]);
-
-      let index = 0;
-      let charIndex = 0;
-      let currentLine = "";
+      let row = 0;
+      let chars = 0;
 
       streamRef.current = setInterval(() => {
-        if (index >= queue.length) {
-          if (streamRef.current) {
-            clearInterval(streamRef.current);
-          }
+        if (row >= nextQueue.length) {
+          clearStream();
           setPhase("complete");
           return;
         }
 
-        const target = queue[index];
-
-        if (charIndex < target.length) {
-          currentLine += target[charIndex];
-          charIndex += 1;
-          setLines((prev) => {
-            const next = [...prev];
-            next[index] = currentLine;
-            return next;
-          });
+        if (chars < nextQueue[row].length) {
+          chars += 1;
         } else {
-          index += 1;
-          charIndex = 0;
-          currentLine = "";
-          if (index < queue.length) {
-            setLines((prev) => [...prev, ""]);
-          }
+          row += 1;
+          chars = 0;
         }
+        setProgress({ row, chars });
       }, 12);
     },
-    [],
+    [clearStream, prefersReducedMotion],
   );
+
+  const skipStream = useCallback(() => {
+    clearStream();
+    setProgress({ row: queue.length, chars: 0 });
+    setPhase("complete");
+  }, [clearStream, queue.length]);
 
   return (
     <section className="animate-fade-in space-y-6">
@@ -175,23 +200,29 @@ export default function TerminalConsole({
             <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
             <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
             <span className="ml-2">terminal.sandbox</span>
+            {phase === "streaming" ? (
+              <button
+                type="button"
+                onClick={skipStream}
+                className="ml-auto rounded border border-white/15 px-2 py-0.5 text-[10px] uppercase tracking-widest text-white/50 transition-colors duration-200 hover:border-white/30 hover:text-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+              >
+                Skip
+              </button>
+            ) : null}
           </div>
 
           <div
             ref={terminalRef}
             className="h-[360px] overflow-y-auto p-4 font-mono text-xs leading-6 text-white/70"
           >
-            {lines.length === 0 ? (
+            {visibleLines.length === 0 ? (
               <p className="text-white/40">
                 {PROMPT} awaiting task selection...
                 <span className="ml-1 inline-block h-4 w-2 animate-blink bg-blue-400/80 align-middle" />
               </p>
             ) : (
-              lines.map((line, index) => (
-                <div
-                  key={`${index}-${line.slice(0, 12)}`}
-                  className="whitespace-pre-wrap"
-                >
+              visibleLines.map((line, index) => (
+                <div key={index} className="whitespace-pre-wrap">
                   {line}
                 </div>
               ))
