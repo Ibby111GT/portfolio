@@ -6,9 +6,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    "https://ibrahim-hussain-labs.ibby111gt.chatgpt.site",
-  ),
+  metadataBase: new URL("https://portfolio-six-dusky-10.vercel.app"),
   title: "Ibrahim Hussain — Security & Data Engineering",
   description:
     "Working cybersecurity and data engineering labs across security, finance, and healthcare, plus production-minded Python security tools.",

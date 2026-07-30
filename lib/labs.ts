@@ -12,6 +12,26 @@ export interface LabDefinition {
 
 export const LABS: LabDefinition[] = [
   {
+    slug: "soc-command-deck",
+    eyebrow: "Security operations",
+    title: "SOC Command Deck",
+    description:
+      "Triage a streaming alert queue while the risk index, live KPIs, and MITRE ATT&CK heatmap respond to every analyst decision.",
+    skills: ["Alert triage", "MITRE ATT&CK", "Risk telemetry"],
+    accent: "red",
+    signal: "Live queue · 14 detection rules",
+  },
+  {
+    slug: "security-checkup",
+    eyebrow: "Identity security",
+    title: "Security Checkup",
+    description:
+      "Measure password entropy, breach exposure, and predictable patterns without transmitting or storing the password.",
+    skills: ["Privacy by design", "NIST guidance", "Entropy"],
+    accent: "red",
+    signal: "100% client-side · unit-tested",
+  },
+  {
     slug: "threat-hunt",
     eyebrow: "Detection engineering",
     title: "SignalTrace",

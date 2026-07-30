@@ -120,12 +120,6 @@ const sphere = (
   position: Vec3,
   scale?: Vec3,
 ): Shape => ({ kind: "sphere", args, position, scale });
-const torus = (
-  args: [number, number, number, number],
-  position: Vec3,
-  rotation?: Vec3,
-): Shape => ({ kind: "torus", args, position, rotation });
-
 const SYSTEMS: Record<BlueprintSystemId, BlueprintSystem> = {
   cabinetry: {
     id: "cabinetry",

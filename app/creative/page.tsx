@@ -72,21 +72,21 @@ export default function CreativePage() {
       <section className="relative mx-auto max-w-7xl px-6 pb-14 pt-36 md:px-8 md:pb-20 md:pt-44">
         <Reveal blur>
           <p className="font-mono text-xs uppercase tracking-[0.24em] text-fg-muted">
-            Ten playable ideas
+            Ten playable systems
           </p>
           <h1 className="mt-4 max-w-5xl text-5xl font-semibold leading-[0.96] tracking-[-0.045em] text-fg md:text-8xl">
-            Material, form,
+            Ideas you can operate,
             <br />
-            and measured craft.
+            not just observe.
           </h1>
         </Reveal>
         <Reveal delay={140}>
           <p className="mt-7 max-w-2xl text-base leading-7 text-fg-muted md:text-lg">
-            Ten interactive studies spanning security operations, a clean-energy
-            grid, a living forest, cabinetry, wall systems, wardrobes, wooden
-            objects, automotive form, a park simulation, and a generative field.
-            The blueprint-related projects share one interactive 3D
-            construction-review system.
+            Each study turns a complex system — from millwork construction and
+            automotive form to threat operations, ecology, and energy — into a
+            working interface you can change, test, and understand. The
+            blueprint projects share one interactive 3D construction-review
+            system.
           </p>
         </Reveal>
 

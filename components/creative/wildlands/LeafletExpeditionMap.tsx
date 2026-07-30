@@ -12,7 +12,6 @@ import {
   ROUTE_COLORS,
   type Coordinate,
   type ParkPreset,
-  type RouteKind,
 } from "./parkData";
 
 interface LayerVisibility {

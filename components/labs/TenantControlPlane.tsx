@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 /**
  * The operating layer the feasibility study stops short of: once the facility
@@ -130,15 +130,21 @@ const TENANTS: Tenant[] = [
   },
 ];
 
+const gapKey = (tenantId: string, control: ControlId) =>
+  `${tenantId}:${control}`;
+
 export default function TenantControlPlane() {
   const [admitted, setAdmitted] = useState<Set<string>>(new Set(["northline"]));
   const [remediated, setRemediated] = useState<Set<string>>(new Set());
   const [focus, setFocus] = useState<string>("northline");
 
-  const gapKey = (tenantId: string, control: ControlId) => `${tenantId}:${control}`;
-
-  const openGaps = (t: Tenant) =>
-    t.gaps.filter((g) => !remediated.has(gapKey(t.id, g)));
+  const openGaps = useCallback(
+    (tenant: Tenant) =>
+      tenant.gaps.filter(
+        (control) => !remediated.has(gapKey(tenant.id, control)),
+      ),
+    [remediated],
+  );
 
   const state = useMemo(() => {
     const live = TENANTS.filter((t) => admitted.has(t.id));
@@ -161,7 +167,7 @@ export default function TenantControlPlane() {
       blocked,
       readyToServe: blocked.length === 0 && committedMw <= PILOT_CAPACITY_MW && live.length > 0,
     };
-  }, [admitted, remediated]);
+  }, [admitted, openGaps]);
 
   const focused = TENANTS.find((t) => t.id === focus)!;
   const focusedGaps = openGaps(focused);

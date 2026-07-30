@@ -54,4 +54,10 @@ describe("analyzePassword", () => {
     expect(a).toEqual(b);
     expect(["strong", "excellent"]).toContain(a.verdict);
   });
+
+  it("pluralizes centuries correctly in the crack-time explanation", () => {
+    const result = analyzePassword("Summer2024!");
+    expect(result.crackTime).toContain("centuries");
+    expect(result.crackTime).not.toContain("centurys");
+  });
 });

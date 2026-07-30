@@ -49,11 +49,12 @@ npm run dev      # http://localhost:3000
 | `npm run build` | Production build — type-checks and statically compiles every route |
 | `npm start` | Serve the production build |
 | `npm test` | Run the Vitest unit suite |
-| `npm run lint` | Lint the codebase |
+| `npm run lint` | Run ESLint with Next.js Core Web Vitals rules |
+| `npm run test:e2e` | Run the Playwright browser smoke suite |
 
 ## Testing
 
-Pure logic and catalog data integrity are covered by Vitest (`tests/*.test.ts`) — password-strength scoring, the seeded PRNGs behind the generative pieces, and the invariants of the project catalogs (unique slugs, valid routes, known filters). `npm run build` acts as the route-level smoke test: it type-checks the whole project and statically renders every page, so a broken route fails the build. Continuous integration runs both on every push and pull request.
+Pure logic and catalog data integrity are covered by Vitest (`tests/*.test.ts`) — password-strength scoring, the seeded PRNGs behind the generative pieces, and the invariants of the project catalogs (unique slugs, valid routes, known filters). Playwright (`tests/e2e/*.spec.ts`) opens the production build at desktop and mobile widths and exercises the two security demos. `npm run build` type-checks and statically renders every page, so a broken route fails the build. Continuous integration runs lint, unit tests, the production build, and browser smoke tests on every push and pull request.
 
 ## Design system
 

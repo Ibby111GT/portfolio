@@ -264,14 +264,18 @@ export default function SocCommandDeck() {
         ))}
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-[1.5fr_1fr]">
+      <div className="mt-4 grid min-w-0 gap-4 lg:grid-cols-[1.5fr_1fr]">
         {/* Alert feed */}
-        <div className="rounded-xl border border-border bg-bg/40 p-4">
+        <div className="min-w-0 rounded-xl border border-border bg-bg/40 p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-fg-muted">
               Alert queue
             </p>
-            <div className="flex gap-1" role="group" aria-label="Filter by severity">
+            <div
+              className="flex max-w-full flex-wrap gap-1"
+              role="group"
+              aria-label="Filter by severity"
+            >
               {(["all", ...SEVERITIES] as const).map((option) => (
                 <button
                   key={option}
@@ -288,7 +292,7 @@ export default function SocCommandDeck() {
             </div>
           </div>
 
-          <ul className="mt-3 max-h-[460px] space-y-2 overflow-y-auto pr-1">
+          <ul className="mt-3 min-w-0 max-h-[460px] space-y-2 overflow-y-auto pr-1">
             {visible.length === 0 ? (
               <li className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-fg-muted">
                 No alerts at this severity. The queue is clear.
@@ -297,7 +301,7 @@ export default function SocCommandDeck() {
             {visible.map((alert) => (
               <li
                 key={alert.id}
-                className={`rounded-lg border p-3 transition-colors ${
+                className={`min-w-0 rounded-lg border p-3 transition-colors ${
                   alert.status === "resolved"
                     ? "border-border/60 bg-surface/30 opacity-55"
                     : alert.status === "escalated"

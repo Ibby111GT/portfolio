@@ -36,7 +36,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-border pb-24 md:pb-0">
       <div className="max-w-5xl mx-auto px-6 md:px-8 py-20 md:py-24 flex flex-col items-center text-center gap-6">
         <h2 className="text-3xl md:text-5xl font-bold text-fg tracking-tight">
           Let&apos;s build something secure together.

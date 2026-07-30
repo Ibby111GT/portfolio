@@ -105,7 +105,9 @@ function humanizeTime(seconds: number): string {
   }
   const rounded = value >= 100 ? Math.round(value) : Math.round(value * 10) / 10;
   if (rounded > 1e6) return "effectively forever";
-  return `${rounded.toLocaleString()} ${label}${rounded === 1 ? "" : "s"}`;
+  const displayLabel =
+    rounded === 1 ? label : label === "century" ? "centuries" : `${label}s`;
+  return `${rounded.toLocaleString()} ${displayLabel}`;
 }
 
 export function analyzePassword(password: string): StrengthResult {

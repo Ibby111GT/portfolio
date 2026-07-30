@@ -35,10 +35,13 @@ export default function SecurityCheckup() {
         </p>
       </div>
 
-      <label className="mt-5 block">
-        <span className="text-sm font-medium text-fg">Test a password</span>
+      <div className="mt-5">
+        <label htmlFor="security-checkup-password" className="text-sm font-medium text-fg">
+          Test a password
+        </label>
         <div className="mt-2 flex gap-2">
           <input
+            id="security-checkup-password"
             type={reveal ? "text" : "password"}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
@@ -51,12 +54,14 @@ export default function SecurityCheckup() {
           <button
             type="button"
             onClick={() => setReveal((value) => !value)}
+            aria-controls="security-checkup-password"
+            aria-pressed={reveal}
             className="shrink-0 rounded-lg border border-border px-3 text-xs font-medium text-fg-muted transition-colors hover:text-fg"
           >
             {reveal ? "Hide" : "Show"}
           </button>
         </div>
-      </label>
+      </div>
 
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <span className="text-[11px] text-fg-muted">Try:</span>

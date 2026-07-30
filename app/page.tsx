@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import HeroCanvas from "@/components/HeroCanvas";
 import ProjectCard from "@/components/ProjectCard";
@@ -173,12 +174,12 @@ function HomeView({
             </Reveal>
             <Reveal delay={500}>
               <div className="flex items-center gap-3">
-                <a
+                <Link
                   href="/projects"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-fg text-bg text-sm font-medium shadow-[0_0_0_0.5px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] hover:bg-fg/70 transition-all duration-200"
                 >
                   View All Projects
-                </a>
+                </Link>
                 <a
                   href="/resume.pdf"
                   target="_blank"
@@ -213,8 +214,8 @@ function HomeView({
       <section className="border-y border-border bg-surface/35 px-6 py-6 md:px-8">
         <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-border md:grid-cols-4">
           {[
-            ["14", "Working projects"],
-            ["4", "Live browser labs"],
+            ["16", "Catalog entries"],
+            ["6", "Live browser labs"],
             ["4", "Professional case studies"],
             ["0", "API keys needed to explore"],
           ].map(([value, label]) => (
@@ -276,12 +277,12 @@ function HomeView({
                 can download — each one with a plain-English walkthrough.
               </p>
             </div>
-            <a
+            <Link
               href="/projects"
               className="text-sm font-medium text-fg-muted transition-colors hover:text-fg"
             >
               See all projects -&gt;
-            </a>
+            </Link>
           </Reveal>
           <div className="grid gap-6 lg:grid-cols-3">
             {LABS.map((lab, index) => (
