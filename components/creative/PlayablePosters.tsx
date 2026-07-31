@@ -4,13 +4,15 @@ type PlayableVariant =
   | "blocktown-stories"
   | "slipstream-circuit"
   | "lantern-vale"
-  | "frameforge";
+  | "frameforge"
+  | "echo-maze";
 
 const TITLES: Record<PlayableVariant, string> = {
   "blocktown-stories": "BLOCKTOWN STORIES",
   "slipstream-circuit": "SLIPSTREAM CIRCUIT",
   "lantern-vale": "LANTERN VALE",
   frameforge: "FRAMEFORGE",
+  "echo-maze": "ECHO MAZE",
 };
 
 function PlayablePoster({ variant }: { variant: PlayableVariant }) {
@@ -75,6 +77,30 @@ function PlayablePoster({ variant }: { variant: PlayableVariant }) {
         </div>
       ) : null}
 
+      {variant === "echo-maze" ? (
+        <div className="absolute inset-x-[8%] bottom-[15%] top-[30%] overflow-hidden">
+          {Array.from({ length: 9 }, (_, index) => {
+            const depth = index / 8;
+            const inset = depth * 34;
+            return (
+              <span
+                key={index}
+                className="absolute border border-blue-300/40"
+                style={{
+                  left: `${inset}%`,
+                  right: `${inset}%`,
+                  top: `${inset * 0.9}%`,
+                  bottom: `${inset * 0.9}%`,
+                  opacity: 0.25 + depth * 0.6,
+                }}
+              />
+            );
+          })}
+          <span className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400 shadow-[0_0_22px_rgba(96,165,250,.9)]" />
+          <span className="absolute left-[30%] top-[58%] h-3 w-3 rotate-45 bg-red-400 shadow-[0_0_14px_rgba(248,113,113,.7)]" />
+        </div>
+      ) : null}
+
       {variant === "blocktown-stories"
         ? blocks.map((block) => (
             <span
@@ -115,4 +141,8 @@ export function LanternValePoster() {
 
 export function FrameforgePoster() {
   return <PlayablePoster variant="frameforge" />;
+}
+
+export function EchoMazePoster() {
+  return <PlayablePoster variant="echo-maze" />;
 }
