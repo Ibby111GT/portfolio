@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { POSTERS } from "../components/creative/posterMap";
 import { CREATIVE_PROJECTS } from "../lib/creativeProjects";
 import { ALL_CATALOG_ENTRIES, PROJECTS, WORK_PROJECTS } from "../lib/projects";
 
@@ -42,6 +43,20 @@ describe("creative projects catalog", () => {
     expect(slugs).toContain("slipstream-circuit");
     expect(slugs).toContain("lantern-vale");
     expect(slugs).toContain("frameforge");
+  });
+
+  it("has a generated poster for every imageless entry", () => {
+    // The gallery renders POSTERS[slug] for image: null projects. A missing
+    // entry used to silently fall back to another project's poster; this test
+    // makes that a build-time failure instead.
+    for (const project of CREATIVE_PROJECTS) {
+      if (project.image === null) {
+        expect(
+          POSTERS[project.slug],
+          `${project.slug} has image: null but no POSTERS entry`,
+        ).toBeTruthy();
+      }
+    }
   });
 
   it("keeps every explanation complete and free of draft copy", () => {

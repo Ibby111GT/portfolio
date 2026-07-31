@@ -34,7 +34,7 @@ Everything interactive is deterministic (seeded PRNGs, fixed physics steps) and 
 
 **Work** — professional case studies (`/work/[slug]`): UT System security, a private-AI feasibility capstone, cloud engineering, and identity/access management.
 
-**Creative** — ten interactive studies (`/creative` and `/creative/[slug]`): a security threat globe, a clean-energy grid, a generative forest, a WebGL cabinetry/automotive blueprint viewer, a Leaflet expedition mapper, and a generative signal field.
+**Creative** — an expanding collection of interactive studies (`/creative` and `/creative/[slug]`) organized into design and fabrication, playable worlds, interactive simulations, and generative systems. The collection includes a block-built neighborhood simulation, an arcade circuit, a compact RPG quest, a procedural character-animation lab, a security threat globe, a clean-energy grid, WebGL product studies, an expedition mapper, and living algorithm experiments.
 
 ## Getting started
 

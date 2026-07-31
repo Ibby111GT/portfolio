@@ -84,7 +84,7 @@ test("Continuum Engine hydrates its field and responds to controls", async ({
   await page.goto("/creative/continuum-engine");
 
   const canvas = page.getByRole("img", {
-    name: "Interactive generative topology field with flowing luminous particles",
+    name: /generative topology field.*flowing luminous/i,
   });
   await expect(canvas).toBeVisible();
   await expect
@@ -128,10 +128,10 @@ test("Aegis Home explains and responds to synthetic RF anomalies", async ({
   await expect(
     page.getByRole("heading", { level: 1, name: /AEGIS.*HOME/ }),
   ).toBeVisible();
+  // The floor plan is a group, not an image: every room, the router, and each
+  // marker inside it is an interactive control that must reach assistive tech.
   await expect(
-    page.getByRole("img", {
-      name: "Interactive floor plan showing deterministic wireless signals",
-    }),
+    page.getByRole("group", { name: /Interactive floor plan/ }),
   ).toBeVisible();
 
   await page.getByRole("button", { name: "Unknown signal arrives" }).click();
@@ -226,6 +226,17 @@ test("new generative systems hydrate and expose working controls", async ({
       )
       .toBeGreaterThan(300);
     await canvas.click({ position: { x: 220, y: 260 } });
+
+    if (slug === "load-path") {
+      // The truss solves synchronously, so it has no clock to pause; changing
+      // the load must move the solved peak force instead.
+      const peak = page.getByText("Peak force", { exact: true }).locator("..");
+      const before = await peak.innerText();
+      await page.getByLabel("Applied load").fill("95");
+      await expect.poll(async () => peak.innerText()).not.toBe(before);
+      continue;
+    }
+
     await page.getByRole("button", { name: "Pause" }).click();
     await expect(page.getByRole("button", { name: "Resume" })).toBeVisible();
   }
@@ -234,22 +245,33 @@ test("new generative systems hydrate and expose working controls", async ({
 test("algorithm labs compute routes, reroute flow, and evolve drivers", async ({
   page,
 }) => {
+  // Pathfinder: stepping the search synchronously must expand real cells.
   await page.goto("/labs/pathfinder-arena");
-  await page.getByRole("button", { name: "Run algorithm" }).click();
-  await expect(
-    page.getByText("Path length", { exact: true }).locator(".."),
-  ).not.toContainText("0");
-
-  await page.goto("/labs/flowline");
-  await page.getByRole("button", { name: "Toggle bottleneck" }).click();
+  await page.getByRole("button", { name: "Advance search ×60" }).click();
   await expect
     .poll(async () =>
-      page.getByText("Failed machines", { exact: true }).locator("..").innerText(),
+      page.getByText("Explored", { exact: true }).locator("..").innerText(),
+    )
+    .not.toMatch(/Explored\s*0\b/);
+
+  // Flowline: failing a station must register it and offer the repair action.
+  await page.goto("/labs/flowline");
+  await page.getByRole("button", { name: "Fail Process A" }).click();
+  await expect(
+    page.getByRole("button", { name: "Repair Process A" }),
+  ).toBeVisible();
+  await expect
+    .poll(async () =>
+      page
+        .getByText("Failed machines", { exact: true })
+        .locator("..")
+        .innerText(),
     )
     .toContain("1");
 
+  // Neuro drivers: completing a generation must advance the counter.
   await page.goto("/labs/neuro-drivers");
-  await page.getByRole("button", { name: "Evolve now" }).click();
+  await page.getByRole("button", { name: "Run 1 generation" }).click();
   await expect
     .poll(async () =>
       page.getByText("Generation", { exact: true }).locator("..").innerText(),
@@ -288,4 +310,31 @@ test("playable worlds expose real game and animation controls", async ({
   await expect(
     page.getByRole("button", { name: "Inspect frame 4" }),
   ).toHaveAttribute("aria-pressed", "true");
+});
+
+test("echo maze renders a playable first-person run", async ({ page }) => {
+  await page.goto("/creative/echo-maze");
+  await expect(
+    page.getByRole("img", {
+      name: /Raycast first-person render of the maze/,
+    }),
+  ).toBeVisible();
+
+  // Firing the pulse produces a live status announcement.
+  await page.getByRole("button", { name: "Fire stun pulse" }).click();
+  await expect(page.getByRole("status")).toContainText(/Pulse fired/);
+
+  // Moving via the focused stage advances the move counter.
+  await page.getByRole("application").click();
+  await page.keyboard.down("w");
+  await expect
+    .poll(async () =>
+      page.getByText("Moves", { exact: true }).locator("..").innerText(),
+    )
+    .not.toContain("Moves\n0");
+  await page.keyboard.up("w");
+
+  // A new maze re-seeds the run and updates the header stat.
+  await page.getByRole("button", { name: "New maze" }).click();
+  await expect(page.getByText("maze 02", { exact: false })).toBeVisible();
 });

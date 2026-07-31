@@ -11,7 +11,8 @@ export type CreativeCategory =
   | "Life simulation"
   | "Arcade driving"
   | "RPG systems"
-  | "Character animation";
+  | "Character animation"
+  | "First-person exploration";
 
 export type CreativeGroup =
   | "Design & fabrication"
@@ -576,7 +577,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
       "Turn abstract vector mathematics into a tactile instrument where deterministic rules, emergence, and human intervention remain visible at the same time.",
     steps: [
       "Choose a field recipe or build one from topology, turbulence, symmetry, and velocity controls.",
-      "Move or drag through the canvas to inject a temporary gravitational attractor.",
+      "Bend the field with your pointer, or switch the attractor on and steer it with the X and Y sliders.",
       "Freeze and step through time, regenerate from a named seed, or export the current universe.",
     ],
     reading: [
@@ -596,7 +597,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     architecture: [
       "A seeded particle engine initializes up to 3,200 reproducible tracers and recycles them across finite lifetimes.",
       "Three continuous vector functions combine polar coordinates, lattice waves, rotational symmetry, and time-varying turbulence.",
-      "Pointer gravity, live telemetry, reduced-motion rendering, frame stepping, and canvas export operate entirely client-side.",
+      "Pointer or keyboard attractor gravity, live telemetry, a resize-stable composition, reduced-motion static rendering with frame stepping, and PNG export all run client-side.",
     ],
     evidenceMode: "Seeded real-time vector-field synthesis",
     capabilities: [
@@ -653,7 +654,7 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     architecture: [
       "A deterministic agent engine updates sensing, steering, metabolism, predation, reproduction, mutation, aging, and decomposition every frame.",
       "Climate variables alter resource growth and metabolic pressure while event controls introduce discrete ecological shocks.",
-      "Canvas rendering, lineage inspection, population history, accessibility fallbacks, and all state remain local to the browser.",
+      "Canvas rendering, lineage inspection, population history, reduced-motion time stepping, keyboard lineage cycling, and live status announcements all remain local to the browser.",
     ],
     evidenceMode: "Seeded agent-based artificial-life simulation",
     capabilities: [
@@ -767,16 +768,16 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
       "Increase the load and watch member color and thickness respond.",
     ],
     reading: [
-      { label: "Blue members", detail: "Illustrative tension increases with color intensity." },
-      { label: "Red members", detail: "Illustrative compression increases with color intensity." },
+      { label: "Blue members", detail: "Axial tension from the joint-equilibrium solve; intensity tracks force." },
+      { label: "Red members", detail: "Axial compression from the same solve; intensity tracks force." },
       { label: "Load arrow", detail: "The applied point force driving the current distribution." },
     ],
     architecture: [
-      "A parametric node-and-member graph produces three frame topologies.",
-      "Member response is recomputed from load magnitude, position, span, and connectivity.",
-      "Canvas rendering maps sign and magnitude to a consistent blue/red visual language.",
+      "Three hand-authored determinate topologies — bridge, cantilever, and tower — each with its own supports.",
+      "Member forces come from a method-of-joints equilibrium solve, recomputed by Gaussian elimination on every control change.",
+      "Canvas rendering maps force sign and magnitude to a consistent blue/red visual language with support glyphs.",
     ],
-    evidenceMode: "Interactive structural-force approximation",
+    evidenceMode: "Interactive method-of-joints truss solver",
     capabilities: ["Graph modeling", "Vector forces", "Engineering visualization", "Parametric systems"],
     decisions: [
       "Separate tension and compression by both hue and thickness.",
@@ -1052,5 +1053,62 @@ export const CREATIVE_PROJECTS: CreativeProject[] = [
     boundaryTone: "scope",
     image: null,
     accent: "red",
+  },
+  {
+    slug: "echo-maze",
+    number: "21",
+    title: "Echo Maze",
+    category: "First-person exploration",
+    group: "Playable worlds",
+    description:
+      "Escape a first-person maze: collect glowing echo cores, stun patrol drones with a pulse, and find the exit gate.",
+    interaction:
+      "Move with the keyboard or touch controls, fire the stun pulse, toggle the minimap, and generate new mazes.",
+    purpose:
+      "Show that a convincing 3D world can be built from pure mathematics — one ray of trigonometry per screen column — with no 3D engine, no textures, and no external libraries.",
+    steps: [
+      "Click the view to focus it, then move with WASD or the arrow keys.",
+      "Collect all five blue echo cores while avoiding the red patrol drones, or stun them with the Space-bar pulse.",
+      "Find the white gate to finish the run, then try a larger maze or a new seed.",
+    ],
+    reading: [
+      {
+        label: "Raycast walls",
+        detail:
+          "Every vertical strip of wall is one ray traced through the maze grid; distance sets its height and light falloff.",
+      },
+      {
+        label: "Echo cores and drones",
+        detail:
+          "Sprites are projected into the same perspective and hidden correctly behind walls using a per-column depth buffer.",
+      },
+      {
+        label: "Minimap",
+        detail:
+          "A live top-down view of the same world state, drawn into a corner of the canvas for orientation.",
+      },
+    ],
+    architecture: [
+      "A seeded recursive-backtracker generates each maze, ranks dead-ends by breadth-first distance, and places the exit, echoes, and patrols deterministically.",
+      "A DDA raycaster renders walls column by column with a depth buffer that also occludes billboard sprites.",
+      "Keyboard input is scoped to the focused stage, touch controls mirror it, and reduced motion switches the whole game to turn-based stepping.",
+    ],
+    evidenceMode: "Seeded first-person raycasting engine",
+    capabilities: [
+      "Raycasting mathematics",
+      "Game-loop architecture",
+      "Procedural level generation",
+      "Accessible game input",
+    ],
+    decisions: [
+      "Render with grid raycasting instead of WebGL so the entire 3D illusion stays readable in a few hundred lines of plain TypeScript.",
+      "Make reduced motion a turn-based mode — every press moves the world one beat — rather than disabling the game.",
+      "Score runs in moves, not seconds, so keyboard, touch, and turn-based players compete on the same measure.",
+    ],
+    boundary:
+      "Original game prototype. The renderer favors clarity over texture detail, and progress resets with each new maze seed.",
+    boundaryTone: "scope",
+    image: null,
+    accent: "blue",
   },
 ];

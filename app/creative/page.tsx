@@ -3,26 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
-import SignalBloomPoster from "@/components/creative/SignalBloomPoster";
-import {
-  AutomataPoster,
-  LoadPathPoster,
-  MurmurationPoster,
-  TerraformPoster,
-} from "@/components/creative/SystemPosters";
-import {
-  BlocktownPoster,
-  FrameforgePoster,
-  LanternValePoster,
-  SlipstreamPoster,
-} from "@/components/creative/PlayablePosters";
-import {
-  BiospherePoster,
-  ContinuumPoster,
-  LumenCityPoster,
-  SentinelPoster,
-  VerdantPoster,
-} from "@/components/creative/GenerativePosters";
+import { POSTERS } from "@/components/creative/posterMap";
 import {
   CREATIVE_PROJECTS,
   type CreativeGroup,
@@ -50,7 +31,7 @@ const COLLECTIONS: Array<{
     number: "02",
     title: "Playable worlds",
     description:
-      "Small indie-style systems you can inhabit: run a neighborhood, drive a circuit, finish an RPG quest, or direct a blocky character rig.",
+      "Small indie-style systems you can inhabit: run a neighborhood, drive a circuit, finish an RPG quest, direct a blocky character rig, or escape a first-person maze.",
   },
   {
     group: "Interactive simulations",
@@ -78,36 +59,10 @@ function CreativePreview({
   priority?: boolean;
 }) {
   if (project.image === null) {
-    switch (project.slug) {
-      case "sentinel-observatory":
-        return <SentinelPoster />;
-      case "verdant":
-        return <VerdantPoster />;
-      case "lumen-city":
-        return <LumenCityPoster />;
-      case "continuum-engine":
-        return <ContinuumPoster />;
-      case "digital-biosphere":
-        return <BiospherePoster />;
-      case "murmuration":
-        return <MurmurationPoster />;
-      case "automata-atlas":
-        return <AutomataPoster />;
-      case "load-path":
-        return <LoadPathPoster />;
-      case "terraform":
-        return <TerraformPoster />;
-      case "blocktown-stories":
-        return <BlocktownPoster />;
-      case "slipstream-circuit":
-        return <SlipstreamPoster />;
-      case "lantern-vale":
-        return <LanternValePoster />;
-      case "frameforge":
-        return <FrameforgePoster />;
-      default:
-        return <SignalBloomPoster />;
-    }
+    // Every imageless project must have a POSTERS entry — enforced by
+    // tests/catalog.test.ts, so an unknown slug can only mean a failing test.
+    const Poster = POSTERS[project.slug];
+    return Poster ? <Poster /> : null;
   }
 
   return (

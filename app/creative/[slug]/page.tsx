@@ -16,7 +16,7 @@ function LoadingCreativeExperience() {
     <main className="grid min-h-screen place-items-center bg-[#050505] px-6 text-white">
       <div className="text-center">
         <span className="mx-auto block h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-white" />
-        <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+        <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
           Loading interactive system
         </p>
       </div>
@@ -106,6 +106,10 @@ const EXPERIENCES: Record<
   ),
   frameforge: dynamic<CreativeExperienceProps>(
     () => import("@/components/creative/PlayableWorlds"),
+    { loading: LoadingCreativeExperience },
+  ),
+  "echo-maze": dynamic<CreativeExperienceProps>(
+    () => import("@/components/creative/EchoMaze"),
     { loading: LoadingCreativeExperience },
   ),
 };
