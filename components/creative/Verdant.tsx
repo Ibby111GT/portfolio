@@ -2,6 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
+import {
+  ControlRange,
+  StageButton,
+  StageHeader,
+  StatStrip,
+} from "@/components/creative/stage/controls";
 import { mulberry32 } from "@/lib/seededRandom";
 import type { CreativeProject } from "@/lib/creativeProjects";
 
@@ -319,103 +325,74 @@ export default function Verdant({ project }: { project: CreativeProject }) {
   return (
     <CreativeProjectShell project={project}>
       <section className="mx-auto max-w-7xl px-6 pb-24 md:px-8">
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#070b08]">
+        <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#050609]">
+          <StageHeader
+            eyebrow="Verdant · generative reforestation"
+            stats={[{ label: "trees", value: String(planted) }]}
+          />
           <div className="grid lg:grid-cols-[1fr_360px]">
-            <div className="relative min-h-[760px] cursor-crosshair overflow-hidden">
-              <canvas
-                ref={canvasRef}
-                role="img"
-                className="absolute inset-0 h-full w-full touch-pan-y"
-                aria-label="A landscape where clicking the ground plants procedurally grown trees"
+            <div>
+              <div className="relative min-h-[760px] cursor-crosshair overflow-hidden">
+                <canvas
+                  ref={canvasRef}
+                  role="img"
+                  className="absolute inset-0 h-full w-full touch-pan-y"
+                  aria-label="A landscape where clicking the ground plants procedurally grown trees"
+                />
+              </div>
+              <StatStrip
+                items={[
+                  { label: "Trees planted", value: String(planted) },
+                  {
+                    label: "Drawdown / year",
+                    value: `${carbon.perYear.toLocaleString()} kg CO₂`,
+                  },
+                  {
+                    label: "Lifetime CO₂",
+                    value: `${(carbon.lifetime / 1000).toFixed(1)}t`,
+                  },
+                ]}
               />
-              <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/60 to-transparent p-7 md:p-10">
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">
-                  Verdant · generative reforestation
-                </p>
-                <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
-                  Plant a forest
-                </h2>
-                <p className="mt-4 max-w-md text-sm leading-6 text-white/60">
-                  Click the ground to plant a seed. Rainfall and sunlight shape
-                  how each tree branches — then watch the canopy, and the carbon
-                  it draws down, add up.
-                </p>
-              </div>
-              <div className="pointer-events-none absolute bottom-7 left-7 rounded-xl border border-white/10 bg-black/40 px-4 py-3 backdrop-blur-sm">
-                <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-white/40">
-                  Estimated drawdown
-                </p>
-                <p className="mt-0.5 font-mono text-2xl text-blue-300/90">
-                  {carbon.perYear.toLocaleString()} kg CO₂
-                  <span className="ml-1 text-sm text-white/40">/ year</span>
-                </p>
-              </div>
             </div>
 
             <aside className="border-t border-white/10 p-7 md:p-9 lg:border-l lg:border-t-0">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
                 Climate
               </p>
+              <p className="mt-3 text-xs leading-6 text-white/55">
+                Click the ground to plant a seed. Rainfall and sunlight shape
+                how each tree branches — then watch the canopy, and the carbon
+                it draws down, add up.
+              </p>
 
-              <label className="mt-8 block">
-                <span className="flex justify-between text-xs text-white/50">
-                  <span>Rainfall</span>
-                  <span className="font-mono">{rainfall}%</span>
-                </span>
-                <input
-                  type="range"
-                  min="10"
-                  max="100"
-                  value={rainfall}
-                  onChange={(event) => {
-                    const value = Number(event.target.value);
-                    setRainfall(value);
-                    paramRef.current = { ...paramRef.current, rainfall: value };
-                    scheduleRepaint();
-                  }}
-                  className="mt-4 w-full accent-blue-500"
-                />
-              </label>
+              <ControlRange
+                label="Rainfall"
+                value={rainfall}
+                min={10}
+                max={100}
+                display={`${rainfall}%`}
+                onChange={(value) => {
+                  setRainfall(value);
+                  paramRef.current = { ...paramRef.current, rainfall: value };
+                  scheduleRepaint();
+                }}
+              />
 
-              <label className="mt-8 block">
-                <span className="flex justify-between text-xs text-white/50">
-                  <span>Sunlight</span>
-                  <span className="font-mono">{sunlight}%</span>
-                </span>
-                <input
-                  type="range"
-                  min="10"
-                  max="100"
-                  value={sunlight}
-                  onChange={(event) => {
-                    const value = Number(event.target.value);
-                    setSunlight(value);
-                    paramRef.current = { ...paramRef.current, sunlight: value };
-                    scheduleRepaint();
-                  }}
-                  className="mt-4 w-full accent-blue-500"
-                />
-              </label>
+              <ControlRange
+                label="Sunlight"
+                value={sunlight}
+                min={10}
+                max={100}
+                display={`${sunlight}%`}
+                onChange={(value) => {
+                  setSunlight(value);
+                  paramRef.current = { ...paramRef.current, sunlight: value };
+                  scheduleRepaint();
+                }}
+              />
 
-              <div className="mt-8 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                  <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
-                    Trees planted
-                  </p>
-                  <p className="mt-2 font-mono text-2xl text-white/90">{planted}</p>
-                </div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                  <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
-                    Lifetime CO₂
-                  </p>
-                  <p className="mt-2 font-mono text-2xl text-blue-300/90">
-                    {(carbon.lifetime / 1000).toFixed(1)}t
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.025] p-5">
-                <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+              <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.025] p-5">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-white/55">
                   What you are seeing
                 </p>
                 <p className="mt-3 text-sm leading-6 text-white/55">
@@ -426,13 +403,13 @@ export default function Verdant({ project }: { project: CreativeProject }) {
                 </p>
               </div>
 
-              <button
-                type="button"
+              <StageButton
+                variant="ghost"
+                className="mt-8 w-full"
                 onClick={reset}
-                className="mt-8 w-full rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white/70 transition-colors hover:text-white"
               >
                 Clear the land
-              </button>
+              </StageButton>
             </aside>
           </div>
         </div>

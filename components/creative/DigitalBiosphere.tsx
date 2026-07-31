@@ -3,11 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
 import {
+  ControlRange,
+  StageButton,
   StageHeader,
   StatStrip,
 } from "@/components/creative/stage/controls";
 import type { CreativeProject } from "@/lib/creativeProjects";
 import { hashSeed, mulberry32 } from "@/lib/seededRandom";
+import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 
 type Species = "grazer" | "hunter" | "scavenger";
 interface Genome { speed: number; sense: number; efficiency: number; fertility: number; hue: number }
@@ -35,7 +38,7 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
   const organismsRef = useRef<Organism[]>([]);
   const nutrientsRef = useRef<Nutrient[]>([]);
   const corpsesRef = useRef<Corpse[]>([]);
-  const commandRef = useRef<{ reset?: () => void; repaint?: () => void; event?: (type: "rain" | "drought" | "bloom") => void; add?: (species: Species) => void }>({});
+  const commandRef = useRef<{ reset?: () => void; repaint?: () => void; event?: (type: "rain" | "drought" | "bloom") => void; add?: (species: Species) => void; advance?: () => void; cycle?: () => void }>({});
   const selectedRef = useRef<number | null>(null);
   const climateRef = useRef({ rainfall: 62, temperature: 48, timeScale: 10, paused: false });
   const [rainfall, setRainfall] = useState(62);
@@ -46,6 +49,8 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
   const [snapshot, setSnapshot] = useState<Snapshot>({ grazers: 42, hunters: 8, scavengers: 12, nutrients: 90, births: 0, deaths: 0, generation: 1, diversity: 0.5 });
   const [history, setHistory] = useState<Array<{ g: number; h: number; s: number }>>([]);
   const [selected, setSelected] = useState<Organism | null>(null);
+  const [status, setStatus] = useState("Ecosystem 1 seeded and running.");
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     climateRef.current = { rainfall, temperature, timeScale, paused };
@@ -61,7 +66,7 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
     const surface: HTMLCanvasElement = canvas;
     const container: HTMLDivElement = host;
     const drawing: CanvasRenderingContext2D = context;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = reducedMotion;
     let width = 900, height = 760, horizon = 0, frame = 0, animation = 0;
     let nextId = 1, births = 0, deaths = 0;
     let random = mulberry32(hashSeed(`biosphere-${epoch}`));
@@ -74,7 +79,10 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
           : { speed: 0.92, sense: 74, efficiency: 0.86, fertility: 0.42, hue: 215 };
       if (!parent) return { ...base, speed: base.speed * (0.85 + random() * 0.3), sense: base.sense * (0.82 + random() * 0.36), efficiency: base.efficiency * (0.9 + random() * 0.2), fertility: base.fertility * (0.84 + random() * 0.32), hue: base.hue + (random() - 0.5) * 18 };
       const mutate = (value: number, spread: number) => Math.max(0.05, value * (1 + (random() - 0.5) * spread));
-      return { speed: mutate(parent.speed, 0.22), sense: mutate(parent.sense, 0.2), efficiency: Math.min(1.15, mutate(parent.efficiency, 0.12)), fertility: Math.min(0.9, mutate(parent.fertility, 0.18)), hue: parent.hue + (random() - 0.5) * 10 };
+      // Hue drift stays clamped inside the species family (blue or red) so
+      // mutation shows as shade variation without leaving the palette.
+      const driftedHue = Math.max(base.hue - 14, Math.min(base.hue + 14, parent.hue + (random() - 0.5) * 10));
+      return { speed: mutate(parent.speed, 0.22), sense: mutate(parent.sense, 0.2), efficiency: Math.min(1.15, mutate(parent.efficiency, 0.12)), fertility: Math.min(0.9, mutate(parent.fertility, 0.18)), hue: driftedHue };
     }
     function create(species: Species, x = random() * width, y = horizon + random() * (height - horizon), parent?: Organism): Organism {
       const genes = genome(species, parent?.genome);
@@ -107,11 +115,11 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
       }
       paint();
     }
-    function nearest<T extends { x: number; y: number }>(agent: Organism, items: T[], radius: number, predicate?: (item: T) => boolean) {
+    function nearest<T extends { x: number; y: number }>(origin: { x: number; y: number }, items: T[], radius: number, predicate?: (item: T) => boolean) {
       let result: T | undefined, best = radius * radius;
       for (const item of items) {
         if (predicate && !predicate(item)) continue;
-        const dx = item.x - agent.x, dy = item.y - agent.y, distance = dx * dx + dy * dy;
+        const dx = item.x - origin.x, dy = item.y - origin.y, distance = dx * dx + dy * dy;
         if (distance < best) { best = distance; result = item; }
       }
       return result;
@@ -202,28 +210,65 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
     function publish() {
       const agents = organismsRef.current;
       const count = (species: Species) => agents.filter((agent) => agent.species === species).length;
-      const genes = agents.map((agent) => agent.genome.hue);
-      const diversity = genes.length ? Math.min(1, (Math.max(...genes) - Math.min(...genes)) / 180) : 0;
+      // Honest metric: mean coefficient of variation across the four heritable
+      // traits — actual genetic spread, not merely which species are alive.
+      const traitDiversity = (read: (genome: Genome) => number) => {
+        if (agents.length < 2) return 0;
+        const values = agents.map((agent) => read(agent.genome));
+        const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+        if (mean === 0) return 0;
+        const variance = values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length;
+        return Math.sqrt(variance) / Math.abs(mean);
+      };
+      const diversity = Math.min(1, (traitDiversity((genome) => genome.speed) + traitDiversity((genome) => genome.sense) + traitDiversity((genome) => genome.efficiency) + traitDiversity((genome) => genome.fertility)) / 4 * 3);
       const data = { grazers: count("grazer"), hunters: count("hunter"), scavengers: count("scavenger"), nutrients: nutrientsRef.current.length, births, deaths, generation: Math.max(1, ...agents.map((agent) => agent.generation)), diversity };
       setSnapshot(data);
       setHistory((current) => [...current, { g: data.grazers, h: data.hunters, s: data.scavengers }].slice(-42));
       const chosen = agents.find((agent) => agent.id === selectedRef.current); if (chosen) setSelected({ ...chosen, genome: { ...chosen.genome } });
     }
     function loop() {
-      if (!climateRef.current.paused) update(); paint(); frame += 1;
-      if (frame % 30 === 0) publish();
+      // A paused ecosystem does no physics and no painting — the last frame
+      // simply persists until Resume, a click, or a command repaints it.
+      if (!climateRef.current.paused) {
+        update();
+        paint();
+        frame += 1;
+        if (frame % 30 === 0) publish();
+      }
       animation = requestAnimationFrame(loop);
     }
     function select(event: PointerEvent) {
       const rect = surface.getBoundingClientRect(), x = event.clientX - rect.left, y = event.clientY - rect.top;
-      const found = nearest({ x, y, genome: { sense: 24 } } as Organism, organismsRef.current, 24);
-      if (found) { selectedRef.current = found.id; setSelected({ ...found, genome: { ...found.genome } }); }
-      else { for (let i = 0; i < 9; i += 1) nutrientsRef.current.push(nutrient(x + random() * 24 - 12, y + random() * 24 - 12)); }
+      const found = nearest({ x, y }, organismsRef.current, 24);
+      if (found) {
+        selectedRef.current = found.id;
+        setSelected({ ...found, genome: { ...found.genome } });
+        setStatus(`Inspecting ${SPECIES[found.species].label} #${found.id}, generation ${found.generation}.`);
+      } else {
+        for (let i = 0; i < 9; i += 1) nutrientsRef.current.push(nutrient(x + random() * 24 - 12, y + random() * 24 - 12));
+        setStatus("Nutrients added to the substrate.");
+      }
       paint();
       publish();
     }
     commandRef.current.reset = reset;
     commandRef.current.repaint = paint;
+    commandRef.current.advance = () => {
+      for (let i = 0; i < 60; i += 1) update();
+      paint();
+      publish();
+    };
+    commandRef.current.cycle = () => {
+      const agents = organismsRef.current;
+      if (!agents.length) return;
+      const currentIndex = agents.findIndex((agent) => agent.id === selectedRef.current);
+      const next = agents[(currentIndex + 1) % agents.length];
+      selectedRef.current = next.id;
+      setSelected({ ...next, genome: { ...next.genome } });
+      setStatus(`Inspecting ${SPECIES[next.species].label} #${next.id}, generation ${next.generation}.`);
+      paint();
+      publish();
+    };
     commandRef.current.add = (species) => {
       for (let i = 0; i < (species === "hunter" ? 3 : 7); i += 1) organismsRef.current.push(create(species));
       paint(); publish();
@@ -237,7 +282,7 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
     const observer = new ResizeObserver(resize); observer.observe(container); surface.addEventListener("pointerdown", select); resize();
     if (reduced) { for (let i = 0; i < 120; i += 1) update(); paint(); publish(); } else animation = requestAnimationFrame(loop);
     return () => { observer.disconnect(); surface.removeEventListener("pointerdown", select); cancelAnimationFrame(animation); commandRef.current = {}; };
-  }, [epoch]);
+  }, [epoch, reducedMotion]);
 
   const maxHistory = Math.max(1, ...history.flatMap((item) => [item.g, item.h, item.s]));
   const polyline = (key: "g" | "h" | "s") => history.map((item, index) => `${(index / Math.max(1, history.length - 1)) * 100},${48 - (item[key] / maxHistory) * 44}`).join(" ");
@@ -257,28 +302,37 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
           />
           <div className="grid xl:grid-cols-[minmax(0,1fr)_390px]">
             <div ref={hostRef} className="relative min-h-[760px] overflow-hidden bg-[#06100d] md:min-h-[900px]">
-              <canvas ref={canvasRef} role="img" aria-label="Autonomous digital biosphere with evolving organisms and resources" className="absolute inset-0 h-full w-full cursor-crosshair touch-none" />
+              <canvas ref={canvasRef} role="img" aria-label="Autonomous digital biosphere with evolving organisms and resources" className="absolute inset-0 h-full w-full cursor-crosshair touch-pan-y" />
             </div>
             <aside className="border-t border-white/10 bg-[#080c0b] p-6 md:p-8 xl:border-l xl:border-t-0">
-              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">Environmental pressure</p>
-              <Range label="Rainfall" value={rainfall} suffix="%" onChange={setRainfall} />
-              <Range label="Temperature" value={temperature} suffix="°" onChange={setTemperature} />
-              <Range label="Time scale" value={timeScale} min={2} max={24} suffix={`${(timeScale / 10).toFixed(1)}×`} displayValue onChange={setTimeScale} />
-              <div className="mt-7 grid grid-cols-3 gap-2">{(["rain", "drought", "bloom"] as const).map((event) => <button key={event} type="button" onClick={() => commandRef.current.event?.(event)} className="min-h-14 rounded-xl border border-white/10 px-2 text-[10px] capitalize text-white/55 hover:border-blue-300/35 hover:bg-blue-300/[0.05]">{event === "rain" ? "Nutrient rain" : event === "drought" ? "Drought" : "Energy bloom"}</button>)}</div>
+              <p className="sr-only" role="status" aria-live="polite">{status}</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/55">Environmental pressure</p>
+              <ControlRange label="Rainfall" value={rainfall} min={0} max={100} display={`${rainfall}%`} onChange={setRainfall} />
+              <ControlRange label="Temperature" value={temperature} min={0} max={100} display={`${temperature}°`} onChange={setTemperature} />
+              <ControlRange label="Time scale" value={timeScale} min={2} max={24} display={`${(timeScale / 10).toFixed(1)}×`} onChange={setTimeScale} />
+              <div className="mt-7 grid grid-cols-3 gap-2">{(["rain", "drought", "bloom"] as const).map((event) => <button key={event} type="button" onClick={() => { commandRef.current.event?.(event); setStatus(event === "rain" ? "Nutrient rain soaked the substrate." : event === "drought" ? "Drought removed most nutrients." : "Energy bloom recharged every organism."); }} className="min-h-14 rounded-xl border border-white/10 px-2 text-[10px] capitalize text-white/60 transition-colors hover:border-accent/40 hover:bg-accent-soft">{event === "rain" ? "Nutrient rain" : event === "drought" ? "Drought" : "Energy bloom"}</button>)}</div>
               <div className="mt-7 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                <div className="flex items-center justify-between"><p className="font-mono text-[9px] uppercase tracking-[0.17em] text-white/35">Population memory</p><span className="font-mono text-[9px] text-white/25">{snapshot.births} born / {snapshot.deaths} lost</span></div>
+                <div className="flex items-center justify-between"><p className="font-mono text-[10px] uppercase tracking-[0.17em] text-white/55">Population memory</p><span className="font-mono text-[10px] text-white/55">{snapshot.births} born / {snapshot.deaths} lost</span></div>
                 <svg viewBox="0 0 100 52" className="mt-4 h-24 w-full" aria-label="Population history chart">
-                  <polyline points={polyline("g")} fill="none" stroke="#67e8f9" strokeWidth="1.2" />
-                  <polyline points={polyline("h")} fill="none" stroke="#fb7185" strokeWidth="1.2" />
-                  <polyline points={polyline("s")} fill="none" stroke="#c4b5fd" strokeWidth="1.2" />
+                  <polyline points={polyline("g")} fill="none" stroke="#60a5fa" strokeWidth="1.2" />
+                  <polyline points={polyline("h")} fill="none" stroke="#f87171" strokeWidth="1.2" />
+                  <polyline points={polyline("s")} fill="none" stroke="#dbeafe" strokeWidth="1.2" />
                 </svg>
               </div>
-              <p className="mt-7 font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">Introduce organisms</p>
-              <div className="mt-3 space-y-2">{(Object.keys(SPECIES) as Species[]).map((species) => <button key={species} type="button" onClick={() => commandRef.current.add?.(species)} className="flex w-full items-center justify-between rounded-xl border border-white/10 px-4 py-3 text-left hover:bg-white/[0.04]"><span><span className="block text-xs font-semibold text-white/70">{SPECIES[species].label}</span><span className="mt-1 block text-[10px] text-white/35">{SPECIES[species].role}</span></span><span style={{ background: SPECIES[species].color }} className="h-2 w-2 rounded-full" /></button>)}</div>
-              <div className="mt-7 grid grid-cols-2 gap-2"><button type="button" onClick={() => setPaused((value) => !value)} className="rounded-full border border-white/12 px-4 py-3 text-xs font-semibold text-white/65">{paused ? "Resume life" : "Pause life"}</button><button type="button" onClick={() => setEpoch((value) => value + 1)} className="rounded-full bg-blue-300 px-4 py-3 text-xs font-semibold text-black">New ecosystem</button></div>
+              <p className="mt-7 font-mono text-[10px] uppercase tracking-[0.18em] text-white/55">Introduce organisms</p>
+              <div className="mt-3 space-y-2">{(Object.keys(SPECIES) as Species[]).map((species) => <button key={species} type="button" onClick={() => { commandRef.current.add?.(species); setStatus(`${SPECIES[species].label} introduced into the biosphere.`); }} className="flex w-full items-center justify-between rounded-xl border border-white/10 px-4 py-3 text-left transition-colors hover:bg-white/[0.04]"><span><span className="block text-xs font-semibold text-white/75">{SPECIES[species].label}</span><span className="mt-1 block text-[10px] text-white/55">{SPECIES[species].role}</span></span><span style={{ background: SPECIES[species].color }} className="h-2 w-2 rounded-full" /></button>)}</div>
+              <div className="mt-7 grid grid-cols-2 gap-2">
+                {reducedMotion ? (
+                  <StageButton variant="ghost" onClick={() => { commandRef.current.advance?.(); setStatus("Advanced sixty ticks of ecosystem time."); }}>Advance time</StageButton>
+                ) : (
+                  <StageButton variant="ghost" pressed={paused} onClick={() => { setPaused((value) => !value); setStatus(paused ? "Life resumed." : "Life paused."); }}>{paused ? "Resume life" : "Pause life"}</StageButton>
+                )}
+                <StageButton variant="primary" onClick={() => { setEpoch((value) => value + 1); setStatus(`Ecosystem ${epoch + 1} seeded.`); }}>New ecosystem</StageButton>
+              </div>
+              <StageButton variant="ghost" className="mt-2 w-full" onClick={() => commandRef.current.cycle?.()}>Inspect next organism</StageButton>
               <div className="mt-7 min-h-40 rounded-2xl border border-white/10 bg-black/20 p-4">
-                <p className="font-mono text-[9px] uppercase tracking-[0.17em] text-white/35">Selected lineage</p>
-                {selected ? <div className="mt-4"><div className="flex items-center justify-between"><p className="text-sm font-semibold" style={{ color: SPECIES[selected.species].color }}>{SPECIES[selected.species].label} #{selected.id}</p><span className="font-mono text-[9px] text-white/35">gen {selected.generation}</span></div><dl className="mt-4 grid grid-cols-2 gap-3 text-[10px]"><Gene label="Energy" value={selected.energy.toFixed(1)} /><Gene label="Age" value={selected.age.toFixed(1)} /><Gene label="Speed" value={selected.genome.speed.toFixed(2)} /><Gene label="Sense" value={selected.genome.sense.toFixed(0)} /><Gene label="Efficiency" value={selected.genome.efficiency.toFixed(2)} /><Gene label="Fertility" value={selected.genome.fertility.toFixed(2)} /></dl></div> : <p className="mt-4 text-xs leading-6 text-white/35">Select a moving organism to inspect its inherited traits. Click empty substrate to add nutrients.</p>}
+                <p className="font-mono text-[10px] uppercase tracking-[0.17em] text-white/55">Selected lineage</p>
+                {selected ? <div className="mt-4"><div className="flex items-center justify-between"><p className="text-sm font-semibold" style={{ color: SPECIES[selected.species].color }}>{SPECIES[selected.species].label} #{selected.id}</p><span className="font-mono text-[10px] text-white/55">gen {selected.generation}</span></div><dl className="mt-4 grid grid-cols-2 gap-3 text-[11px]"><Gene label="Energy" value={selected.energy.toFixed(1)} /><Gene label="Age" value={selected.age.toFixed(1)} /><Gene label="Speed" value={selected.genome.speed.toFixed(2)} /><Gene label="Sense" value={selected.genome.sense.toFixed(0)} /><Gene label="Efficiency" value={selected.genome.efficiency.toFixed(2)} /><Gene label="Fertility" value={selected.genome.fertility.toFixed(2)} /></dl></div> : <p className="mt-4 text-xs leading-6 text-white/55">Select a moving organism to inspect its inherited traits, or use “Inspect next organism”. Click empty substrate to add nutrients.</p>}
               </div>
             </aside>
           </div>
@@ -296,9 +350,6 @@ export default function DigitalBiosphere({ project }: { project: CreativeProject
   );
 }
 
-function Range({ label, value, min = 0, max = 100, suffix, displayValue = false, onChange }: { label: string; value: number; min?: number; max?: number; suffix: string; displayValue?: boolean; onChange: (value: number) => void }) {
-  return <label className="mt-6 block"><span className="flex justify-between font-mono text-[9px] uppercase tracking-[0.16em] text-white/35"><span>{label}</span><span>{displayValue ? suffix : `${value}${suffix}`}</span></span><input type="range" min={min} max={max} value={value} onChange={(event) => onChange(Number(event.target.value))} className="mt-3 w-full accent-blue-300" /></label>;
-}
 function Gene({ label, value }: { label: string; value: string }) {
-  return <div><dt className="text-white/30">{label}</dt><dd className="mt-1 font-mono text-white/65">{value}</dd></div>;
+  return <div><dt className="text-white/55">{label}</dt><dd className="mt-1 font-mono text-white/70">{value}</dd></div>;
 }

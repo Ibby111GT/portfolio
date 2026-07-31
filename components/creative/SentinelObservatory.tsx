@@ -2,6 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
+import {
+  ControlRange,
+  StageButton,
+  StageHeader,
+  StatStrip,
+} from "@/components/creative/stage/controls";
 import { hashSeed, mulberry32 } from "@/lib/seededRandom";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
 import type { CreativeProject } from "@/lib/creativeProjects";
@@ -493,93 +499,58 @@ export default function SentinelObservatory({
   return (
     <CreativeProjectShell project={project}>
       <section className="mx-auto max-w-7xl px-6 pb-24 md:px-8">
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#050608]">
+        <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#050609]">
+          <StageHeader
+            eyebrow="Sentinel observatory · live tactical picture"
+            stats={[{ label: "threats", value: String(threats.length) }]}
+          />
           <div className="grid lg:grid-cols-[1fr_360px]">
-            <div className="relative min-h-[760px] overflow-hidden">
-              <canvas
-                ref={canvasRef}
-                role="img"
-                className="absolute inset-0 h-full w-full touch-pan-y"
-                aria-label="Rotating wireframe globe showing simulated intrusion attempts converging on a home node"
-              />
-
-              {/* Corner crosshairs */}
-              <div className="pointer-events-none absolute left-6 top-6 h-6 w-6 border-l border-t border-white/25" />
-              <div className="pointer-events-none absolute right-6 top-6 h-6 w-6 border-r border-t border-white/25" />
-              <div className="pointer-events-none absolute bottom-6 left-6 h-6 w-6 border-b border-l border-white/25" />
-              <div className="pointer-events-none absolute bottom-6 right-6 h-6 w-6 border-b border-r border-white/25" />
-
-              <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/70 to-transparent p-7 md:p-10">
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">
-                  Sentinel Observatory · live tactical picture
-                </p>
-                <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
-                  Threat globe
-                </h2>
-                <p className="mt-4 max-w-md text-sm leading-6 text-white/55">
-                  Every arc is a simulated intrusion attempt tracing a great
-                  circle toward the home node. Drag to rotate. All synthetic,
-                  all in your browser.
-                </p>
+            <div>
+              <div className="relative min-h-[760px] overflow-hidden">
+                <canvas
+                  ref={canvasRef}
+                  role="img"
+                  className="absolute inset-0 h-full w-full touch-pan-y"
+                  aria-label="Rotating wireframe globe showing simulated intrusion attempts converging on a home node"
+                />
               </div>
-
-              {/* HUD vitals — glassmorphism */}
-              <div className="pointer-events-none absolute bottom-7 left-7 flex flex-wrap gap-2 md:gap-3">
-                {[
-                  { label: "Threats tracked", value: threats.length },
+              <StatStrip
+                items={[
+                  { label: "Threats tracked", value: String(threats.length) },
                   { label: "Auto-mitigated", value: `${stats.mitigation}%` },
-                  { label: "Active", value: stats.active },
-                  { label: "Critical", value: stats.critical },
-                ].map((tile) => (
-                  <div
-                    key={tile.label}
-                    className="rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2 backdrop-blur-sm"
-                  >
-                    <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-white/40">
-                      {tile.label}
-                    </p>
-                    <p className="mt-0.5 font-mono text-lg text-white/90">
-                      {tile.value}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                  { label: "Active", value: String(stats.active) },
+                  { label: "Critical", value: String(stats.critical) },
+                ]}
+              />
             </div>
 
             <aside className="border-t border-white/10 p-7 md:p-9 lg:border-l lg:border-t-0">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
                 Console
               </p>
+              <p className="mt-3 text-xs leading-6 text-white/55">
+                Every arc is a simulated intrusion attempt tracing a great
+                circle toward the home node. Drag to rotate. All synthetic,
+                all in your browser.
+              </p>
 
-              <label className="mt-8 block">
-                <span className="flex justify-between text-xs text-white/50">
-                  <span>Threat volume</span>
-                  <span className="font-mono">{volume}</span>
-                </span>
-                <input
-                  type="range"
-                  min="8"
-                  max="48"
-                  value={volume}
-                  onChange={(event) => setVolume(Number(event.target.value))}
-                  className="mt-4 w-full accent-blue-500"
-                />
-              </label>
+              <ControlRange
+                label="Threat volume"
+                value={volume}
+                min={8}
+                max={48}
+                onChange={setVolume}
+              />
 
-              <label className="mt-8 block">
-                <span className="flex justify-between text-xs text-white/50">
-                  <span>Rotation speed</span>
-                  <span className="font-mono">{(spin / 10).toFixed(1)}×</span>
-                </span>
-                <input
-                  type="range"
-                  min="0"
-                  max="40"
-                  value={spin}
-                  onChange={(event) => setSpin(Number(event.target.value))}
-                  className="mt-4 w-full accent-blue-500"
-                />
-              </label>
+              <ControlRange
+                label="Rotation speed"
+                value={spin}
+                min={0}
+                max={40}
+                display={autoRotate ? `${(spin / 10).toFixed(1)}×` : "auto-rotate off"}
+                disabled={!autoRotate}
+                onChange={setSpin}
+              />
 
               <button
                 type="button"
@@ -588,7 +559,7 @@ export default function SentinelObservatory({
                 className={`mt-6 flex w-full items-center justify-between rounded-xl border px-4 py-3 text-sm transition-colors ${
                   autoRotate
                     ? "border-accent/55 bg-accent-soft text-white"
-                    : "border-white/10 text-white/50 hover:text-white"
+                    : "border-white/10 text-white/55 hover:text-white"
                 }`}
               >
                 Auto-rotate
@@ -598,7 +569,7 @@ export default function SentinelObservatory({
               </button>
 
               <div className="mt-8">
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/55">
                   Incident feed
                 </p>
                 <ul className="mt-3 space-y-2">
@@ -619,12 +590,12 @@ export default function SentinelObservatory({
                             {incident.id}
                           </span>
                         </span>
-                        <span className="mt-1 block truncate text-[11px] text-white/40">
+                        <span className="mt-1 block truncate text-[11px] text-white/55">
                           {incident.origin} · {incident.tactic}
                         </span>
                       </span>
                       <span
-                        className={`shrink-0 font-mono text-[9px] uppercase tracking-[0.12em] ${
+                        className={`shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] ${
                           incident.blocked ? "text-accent" : "text-alert"
                         }`}
                       >
@@ -635,22 +606,22 @@ export default function SentinelObservatory({
                 </ul>
               </div>
 
-              <button
-                type="button"
+              <StageButton
+                variant="primary"
+                className="mt-8 w-full"
                 onClick={() => setSeed((value) => (value + 0x1000193) >>> 0)}
-                className="mt-8 w-full rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
               >
                 Run a new sweep
-              </button>
-              <button
-                type="button"
+              </StageButton>
+              <StageButton
+                variant="ghost"
+                className="mt-3 w-full"
                 onClick={exportFrame}
-                className="mt-3 w-full rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white/70 transition-colors hover:text-white"
               >
                 Export this frame
-              </button>
+              </StageButton>
 
-              <p className="mt-8 text-[11px] leading-5 text-white/35">
+              <p className="mt-8 text-[11px] leading-5 text-white/55">
                 Synthetic data only. No live feeds, no network calls, no real
                 targets — a visualization of how a SOC watches the world.
               </p>

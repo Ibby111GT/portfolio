@@ -2,6 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
+import {
+  ControlRange,
+  StageButton,
+  StageHeader,
+  StatStrip,
+} from "@/components/creative/stage/controls";
 import type { CreativeProject } from "@/lib/creativeProjects";
 import { mulberry32 } from "@/lib/seededRandom";
 import { usePrefersReducedMotion } from "@/lib/useReducedMotion";
@@ -259,78 +265,59 @@ export default function SignalBloom({
   return (
     <CreativeProjectShell project={project}>
       <section className="mx-auto max-w-7xl px-6 pb-24 md:px-8">
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#080808]">
+        <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#050609]">
+          <StageHeader
+            eyebrow="Signal bloom · pointer-reactive field"
+            stats={[{ label: "signals", value: String(density) }]}
+          />
           <div className="grid lg:grid-cols-[1fr_360px]">
-            <div className="relative min-h-[760px] overflow-hidden">
-              <canvas
-                ref={canvasRef}
-                role="img"
-                className="absolute inset-0 h-full w-full touch-pan-y"
-                aria-label="Interactive generative field of red and blue light particles"
+            <div>
+              <div className="relative min-h-[680px] overflow-hidden">
+                <canvas
+                  ref={canvasRef}
+                  role="img"
+                  className="absolute inset-0 h-full w-full touch-pan-y"
+                  aria-label="Interactive generative field of red and blue light particles"
+                />
+              </div>
+              <StatStrip
+                items={[
+                  { label: "Signals", value: String(density) },
+                  { label: "Velocity", value: `${(velocity / 10).toFixed(1)}×` },
+                  { label: "Spectrum", value: palette },
+                ]}
               />
-              <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/65 to-transparent p-7 pb-28 md:p-12 md:pb-32">
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">
-                  Generative canvas · pointer reactive
-                </p>
-                <h2 className="mt-4 text-5xl font-semibold leading-[0.92] tracking-[-0.045em] md:text-8xl">
-                  Signal
-                  <br />
-                  Bloom
-                </h2>
-                <p className="mt-6 max-w-lg text-sm leading-7 text-white/55 md:text-base">
-                  Move through the field. Nearby signals bend toward you,
-                  connect, and leave a fading trace. No two frames are the same.
-                </p>
-              </div>
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-black/80 to-transparent p-7 pt-28 md:p-10 md:pt-32">
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
-                  Drag or move your pointer through the field
-                </p>
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
-                  {density} signals
-                </p>
-              </div>
             </div>
 
             <aside className="border-t border-white/10 p-7 md:p-9 lg:border-l lg:border-t-0">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
                 Field controls
               </p>
+              <p className="mt-3 text-xs leading-6 text-white/55">
+                Drag or move your pointer through the field — nearby signals
+                bend toward you, connect, and leave a fading trace.
+              </p>
 
-              <label className="mt-8 block">
-                <span className="flex justify-between text-xs text-white/50">
-                  <span>Signal density</span>
-                  <span className="font-mono">{density}</span>
-                </span>
-                <input
-                  type="range"
-                  min="30"
-                  max="110"
-                  value={density}
-                  onChange={(event) => setDensity(Number(event.target.value))}
-                  className="mt-4 w-full accent-blue-500"
-                />
-              </label>
+              <ControlRange
+                label="Signal density"
+                value={density}
+                min={30}
+                max={110}
+                onChange={setDensity}
+              />
 
-              <label className="mt-8 block">
-                <span className="flex justify-between text-xs text-white/50">
-                  <span>Field velocity</span>
-                  <span className="font-mono">
-                    {(velocity / 10).toFixed(1)}×
-                  </span>
-                </span>
-                <input
-                  type="range"
-                  min="4"
-                  max="24"
-                  value={velocity}
-                  onChange={(event) => setVelocity(Number(event.target.value))}
-                  className="mt-4 w-full accent-red-500"
-                />
-              </label>
+              <ControlRange
+                label="Field velocity"
+                value={velocity}
+                min={4}
+                max={24}
+                display={`${(velocity / 10).toFixed(1)}×`}
+                tone="alert"
+                onChange={setVelocity}
+              />
 
               <div className="mt-8">
-                <p className="text-xs text-white/50">Light spectrum</p>
+                <p className="text-xs text-white/55">Light spectrum</p>
                 <div className="mt-3 space-y-2">
                   {(["Dual signal", "Blue hour", "Red shift"] as Palette[]).map(
                     (option) => (
@@ -344,7 +331,7 @@ export default function SignalBloom({
                             ? option === "Red shift"
                               ? "border-alert/55 bg-alert-soft"
                               : "border-accent/55 bg-accent-soft"
-                            : "border-white/10 text-white/50 hover:text-white"
+                            : "border-white/10 text-white/60 hover:text-white"
                         }`}
                       >
                         {option}
@@ -364,29 +351,29 @@ export default function SignalBloom({
               </div>
 
               <div className="mt-10 rounded-2xl border border-white/10 bg-white/[0.025] p-5">
-                <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-white/55">
                   Live composition
                 </p>
-                <p className="mt-3 text-sm leading-6 text-white/55">
+                <p className="mt-3 text-sm leading-6 text-white/60">
                   Every point has its own velocity. Lines appear only when two
                   signals come close enough to influence each other.
                 </p>
               </div>
 
-              <button
-                type="button"
+              <StageButton
+                variant="primary"
+                className="mt-8 w-full"
                 onClick={() => setSeed((current) => current + 1)}
-                className="mt-8 w-full rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
               >
                 Create a new field
-              </button>
-              <button
-                type="button"
+              </StageButton>
+              <StageButton
+                variant="ghost"
+                className="mt-3 w-full"
                 onClick={exportFrame}
-                className="mt-3 w-full rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white/70 transition-colors hover:text-white"
               >
                 Export this frame
-              </button>
+              </StageButton>
             </aside>
           </div>
         </div>

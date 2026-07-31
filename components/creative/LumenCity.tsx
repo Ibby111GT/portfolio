@@ -2,8 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import CreativeProjectShell from "@/components/creative/CreativeProjectShell";
-import { mulberry32 } from "@/lib/seededRandom";
+import {
+  ControlRange,
+  StageHeader,
+  StatStrip,
+} from "@/components/creative/stage/controls";
 import type { CreativeProject } from "@/lib/creativeProjects";
+import { mulberry32 } from "@/lib/seededRandom";
 
 /**
  * Lumen City — a playable clean-energy grid. You set how much wind, solar, and
@@ -314,79 +319,80 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
     repaintRef.current?.();
   }, [wind, solar, battery, weather]);
 
-  const statusMeta = {
-    surplus: { label: "Surplus — exporting", color: "text-accent", dot: "#60a5fa" },
-    balanced: { label: "Balanced", color: "text-blue-300", dot: "#60a5fa" },
-    deficit: { label: "Deficit — brown-out risk", color: "text-alert", dot: "#f87171" },
+  const statusLabel = {
+    surplus: "Surplus — exporting",
+    balanced: "Balanced",
+    deficit: "Deficit — brown-out risk",
   }[reading.status];
 
   return (
     <CreativeProjectShell project={project}>
       <section className="mx-auto max-w-7xl px-6 pb-24 md:px-8">
-        <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#05060a]">
+        <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#050609]">
+          <StageHeader
+            eyebrow="Lumen city · grid conductor"
+            stats={[
+              { label: "weather", value: WEATHER[weather].label },
+              { label: "renewable", value: `${reading.renewablePct}%` },
+            ]}
+          />
           <div className="grid lg:grid-cols-[1fr_360px]">
-            <div className="relative min-h-[760px] overflow-hidden">
-              <canvas
-                ref={canvasRef}
-                role="img"
-                className="absolute inset-0 h-full w-full"
-                aria-label="A city skyline that brightens or dims as the power grid moves between surplus and deficit"
-              />
-              <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-black/65 to-transparent p-7 md:p-10">
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">
-                  Lumen City · grid conductor
-                </p>
-                <h2 className="mt-4 text-4xl font-semibold leading-[0.95] tracking-[-0.04em] md:text-6xl">
-                  Keep the lights on
-                </h2>
-                <p className="mt-4 max-w-md text-sm leading-6 text-white/60">
-                  Balance wind, solar, and battery against a city that wakes,
-                  works, and sleeps. Get it right and the skyline glows; fall
-                  short and it browns out.
-                </p>
-              </div>
-              <div className="pointer-events-none absolute bottom-7 left-7 flex items-center gap-3 rounded-xl border border-white/10 bg-black/40 px-4 py-3 backdrop-blur-sm">
-                <span
-                  className="h-2.5 w-2.5 rounded-full"
-                  style={{ background: statusMeta.dot }}
+            <div>
+              <div className="relative min-h-[760px] overflow-hidden">
+                <canvas
+                  ref={canvasRef}
+                  role="img"
+                  className="absolute inset-0 h-full w-full touch-pan-y"
+                  aria-label="A city skyline that brightens or dims as the power grid moves between surplus and deficit"
                 />
-                <span className={`font-mono text-sm ${statusMeta.color}`}>
-                  {statusMeta.label}
-                </span>
-                <span className="font-mono text-xs text-white/40">
-                  {String(reading.hour).padStart(2, "0")}:00
-                </span>
               </div>
+              <StatStrip
+                items={[
+                  {
+                    label: "Grid status",
+                    value: statusLabel,
+                    alert: reading.status === "deficit",
+                  },
+                  {
+                    label: "City clock",
+                    value: `${String(reading.hour).padStart(2, "0")}:00`,
+                  },
+                  {
+                    label: "Supply / demand",
+                    value: `${reading.supply} / ${reading.demand}`,
+                  },
+                ]}
+              />
             </div>
 
             <aside className="border-t border-white/10 p-7 md:p-9 lg:border-l lg:border-t-0">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/55">
                 Generation mix
+              </p>
+              <p className="mt-3 text-xs leading-6 text-white/55">
+                Balance wind, solar, and battery against a city that wakes,
+                works, and sleeps. Get it right and the skyline glows; fall
+                short and it browns out.
               </p>
 
               {[
-                { label: "Wind", value: wind, set: setWind, accent: "accent-blue-500" },
-                { label: "Solar", value: solar, set: setSolar, accent: "accent-blue-400" },
-                { label: "Battery", value: battery, set: setBattery, accent: "accent-blue-300" },
+                { label: "Wind", value: wind, set: setWind },
+                { label: "Solar", value: solar, set: setSolar },
+                { label: "Battery", value: battery, set: setBattery },
               ].map((control) => (
-                <label key={control.label} className="mt-7 block">
-                  <span className="flex justify-between text-xs text-white/50">
-                    <span>{control.label}</span>
-                    <span className="font-mono">{control.value}%</span>
-                  </span>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={control.value}
-                    onChange={(event) => control.set(Number(event.target.value))}
-                    className={`mt-3 w-full ${control.accent}`}
-                  />
-                </label>
+                <ControlRange
+                  key={control.label}
+                  label={control.label}
+                  value={control.value}
+                  min={0}
+                  max={100}
+                  display={`${control.value}%`}
+                  onChange={control.set}
+                />
               ))}
 
               <div className="mt-6 flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3">
-                <span className="text-xs text-white/50">Fossil backup</span>
+                <span className="text-xs text-white/55">Fossil backup</span>
                 <span
                   className={`font-mono text-sm ${
                     fossilPct > 40 ? "text-alert" : "text-white/70"
@@ -397,7 +403,7 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
               </div>
 
               <div className="mt-8">
-                <p className="text-xs text-white/50">Weather</p>
+                <p className="text-xs text-white/55">Weather</p>
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   {(Object.keys(WEATHER) as Weather[]).map((option) => (
                     <button
@@ -408,7 +414,7 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
                       className={`rounded-xl border px-2 py-2.5 text-xs transition-colors ${
                         weather === option
                           ? "border-accent/55 bg-accent-soft text-white"
-                          : "border-white/10 text-white/50 hover:text-white"
+                          : "border-white/10 text-white/60 hover:text-white"
                       }`}
                     >
                       {WEATHER[option].label}
@@ -419,7 +425,7 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
 
               <div className="mt-8 grid grid-cols-2 gap-3">
                 <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                  <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+                  <p className="text-[10px] uppercase tracking-[0.16em] text-white/55">
                     Renewable
                   </p>
                   <p className="mt-2 font-mono text-2xl text-accent">
@@ -427,16 +433,16 @@ export default function LumenCity({ project }: { project: CreativeProject }) {
                   </p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
-                  <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+                  <p className="text-[10px] uppercase tracking-[0.16em] text-white/55">
                     Battery
                   </p>
-                  <p className="mt-2 font-mono text-2xl text-blue-300/90">
+                  <p className="mt-2 font-mono text-2xl text-accent">
                     {reading.batteryLevel}%
                   </p>
                 </div>
               </div>
 
-              <p className="mt-6 text-[11px] leading-5 text-white/40">
+              <p className="mt-6 text-xs leading-6 text-white/55">
                 Demand rises at breakfast and after work and dips overnight.
                 Solar needs daylight; wind climbs in storms; the battery bridges
                 the gaps. Watch the windows dim the moment supply falls behind.
