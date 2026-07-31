@@ -50,7 +50,7 @@ export default function CreativeProjectShell({
               project.accent === "red" ? "bg-alert" : "bg-accent"
             }`}
           />
-          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
             {project.number} · {project.category}
           </span>
         </div>
@@ -78,7 +78,7 @@ export default function CreativeProjectShell({
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#090909]">
           <div className="grid lg:grid-cols-[0.78fr_1.22fr]">
             <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/65">
                 Start here · In plain English
               </p>
               <h1
@@ -91,7 +91,7 @@ export default function CreativeProjectShell({
                 {project.description}
               </p>
               <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.025] p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                   Why it matters
                 </p>
                 <p className="mt-3 text-sm leading-7 text-white/65">
@@ -102,13 +102,13 @@ export default function CreativeProjectShell({
 
             <div className="grid gap-0 md:grid-cols-2">
               <div className="border-b border-white/10 p-7 md:border-b-0 md:border-r md:p-10">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                   Try it in order
                 </p>
                 <ol className="mt-5 space-y-5">
                   {project.steps.map((step, index) => (
                     <li key={step} className="flex gap-4">
-                      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-white/12 font-mono text-[10px] text-white/45">
+                      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-white/12 font-mono text-[10px] text-white/65">
                         {index + 1}
                       </span>
                       <span className="text-sm leading-6 text-white/65">
@@ -119,7 +119,7 @@ export default function CreativeProjectShell({
                 </ol>
               </div>
               <div className="p-7 md:p-10">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                   What you are looking at
                 </p>
                 <dl className="mt-5 space-y-5">
@@ -151,7 +151,7 @@ export default function CreativeProjectShell({
       >
         <div className="grid gap-10 border-t border-white/10 pt-12 lg:grid-cols-[0.72fr_1.28fr]">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/40">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/65">
               Technical deep dive
             </p>
             <h2
@@ -165,7 +165,7 @@ export default function CreativeProjectShell({
               separates the implementation evidence from the visual concept.
             </p>
 
-            <p className="mt-9 font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+            <p className="mt-9 font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
               Skills demonstrated
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -182,7 +182,7 @@ export default function CreativeProjectShell({
 
           <div className="space-y-9">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                 System structure
               </p>
               <ol className="mt-4 space-y-3">
@@ -191,7 +191,7 @@ export default function CreativeProjectShell({
                     key={item}
                     className="flex gap-4 rounded-xl border border-white/[0.08] bg-white/[0.025] p-4"
                   >
-                    <span className="font-mono text-[10px] text-white/30">
+                    <span className="font-mono text-[10px] text-white/60">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span className="text-sm leading-6 text-white/65">
@@ -204,7 +204,7 @@ export default function CreativeProjectShell({
 
             <div className="grid gap-5 md:grid-cols-2">
               <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                   Evidence and data
                 </p>
                 <p className="mt-3 text-sm leading-6 text-white/65">
@@ -231,7 +231,7 @@ export default function CreativeProjectShell({
                   className={`font-mono text-[10px] uppercase tracking-[0.18em] ${
                     project.boundaryTone === "safety"
                       ? "text-alert"
-                      : "text-white/35"
+                      : "text-white/60"
                   }`}
                 >
                   Scope and limits
@@ -243,7 +243,7 @@ export default function CreativeProjectShell({
             </div>
 
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                 Key technical decisions
               </p>
               <div className="mt-4 grid gap-3 md:grid-cols-2">
@@ -252,7 +252,7 @@ export default function CreativeProjectShell({
                     key={decision}
                     className="rounded-xl border border-white/[0.08] p-4"
                   >
-                    <span className="font-mono text-[10px] text-white/30">
+                    <span className="font-mono text-[10px] text-white/60">
                       Decision {String(index + 1).padStart(2, "0")}
                     </span>
                     <p className="mt-2 text-sm leading-6 text-white/65">
@@ -273,7 +273,7 @@ export default function CreativeProjectShell({
             href={collectionHref}
             className="group rounded-2xl border border-white/10 bg-white/[0.025] p-5 transition-colors hover:bg-white/[0.06]"
           >
-            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
               Collection
             </span>
             <span className="mt-2 block text-lg font-medium text-white/80 group-hover:text-white">
@@ -285,7 +285,7 @@ export default function CreativeProjectShell({
             prefetch={false}
             className="group rounded-2xl border border-white/10 bg-white/[0.025] p-5 text-left transition-colors hover:bg-white/[0.06] sm:text-right"
           >
-            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
               {next
                 ? `Next in this collection · ${projectIndex + 2} of ${collection.length}`
                 : "Collection complete"}

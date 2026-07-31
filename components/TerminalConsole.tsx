@@ -195,7 +195,7 @@ export default function TerminalConsole({
         </aside>
 
         <div className="overflow-hidden rounded-2xl bg-[#050505] shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
-          <div className="flex items-center gap-2 border-b border-white/10 px-4 py-2.5 font-mono text-xs text-white/40">
+          <div className="flex items-center gap-2 border-b border-white/10 px-4 py-2.5 font-mono text-xs text-white/65">
             <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
             <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
             <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
@@ -216,7 +216,7 @@ export default function TerminalConsole({
             className="h-[360px] overflow-y-auto p-4 font-mono text-xs leading-6 text-white/70"
           >
             {visibleLines.length === 0 ? (
-              <p className="text-white/40">
+              <p className="text-white/65">
                 {PROMPT} awaiting task selection...
                 <span className="ml-1 inline-block h-4 w-2 animate-blink bg-blue-400/80 align-middle" />
               </p>

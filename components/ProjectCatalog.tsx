@@ -284,7 +284,7 @@ function ProjectTile({
     >
       <div>
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <span className="rounded-full border border-border bg-bg/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-fg-muted">
+          <span className="rounded-full border border-border bg-bg/70 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-fg-muted">
             {typeLabel}
           </span>
           <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-fg-muted">
@@ -301,7 +301,7 @@ function ProjectTile({
           {project.tagline}
         </p>
         <div className="mt-5 rounded-xl border border-border bg-bg/45 p-3.5">
-          <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-fg-muted">
+          <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-fg-muted">
             Practical use
           </p>
           <p className="mt-2 text-xs leading-5 text-fg-muted">

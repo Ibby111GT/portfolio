@@ -14,7 +14,7 @@
   --surface: #f0f0f0;
   --fg: #111111;
   --fg-muted: #555555;
-  --border: #e2e2e2;
+  --border: #d4d4d4;
   --accent: #1d4ed8; /* blue-700 — readable on white */
   --accent-soft: rgba(29, 78, 216, 0.1);
   --alert: #c81e1e; /* red-700 */
@@ -27,7 +27,7 @@
   --surface: #141414;
   --fg: #f5f5f5;
   --fg-muted: #888888;
-  --border: #2a2a2a;
+  --border: #343434;
   --accent: #60a5fa; /* blue-400 — readable on near-black */
   --accent-soft: rgba(96, 165, 250, 0.12);
   --alert: #f87171; /* red-400 */

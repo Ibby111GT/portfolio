@@ -196,7 +196,7 @@ export default function TenantControlPlane() {
     >
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-5 py-4">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/65">
             Edge Tier operations
           </p>
           <p className="mt-0.5 text-sm font-medium">Tenant &amp; capacity control plane</p>
@@ -246,10 +246,10 @@ export default function TenantControlPlane() {
       <div className="grid lg:grid-cols-[minmax(0,1fr)_320px]">
         {/* Tenant pipeline -------------------------------------------------- */}
         <div className="min-w-0 border-b border-white/10 p-5 lg:border-b-0 lg:border-r">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
             Prospective tenants
           </p>
-          <p className="mt-1.5 text-xs leading-5 text-white/45">
+          <p className="mt-1.5 text-xs leading-5 text-white/65">
             Admit tenants into the pilot. Each one consumes capacity and brings its
             own compliance obligations.
           </p>
@@ -274,7 +274,7 @@ export default function TenantControlPlane() {
                       className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border font-mono text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${
                         on
                           ? "border-blue-300 bg-blue-300 text-black"
-                          : "border-white/20 text-white/30 hover:border-blue-300/60"
+                          : "border-white/20 text-white/60 hover:border-blue-300/60"
                       }`}
                     >
                       {on ? "+" : ""}
@@ -290,12 +290,12 @@ export default function TenantControlPlane() {
                           {t.name}
                         </span>
                         {t.anchor ? (
-                          <span className="rounded border border-blue-300/30 bg-blue-300/10 px-1.5 py-0.5 font-mono text-[9px] uppercase text-blue-200">
+                          <span className="rounded border border-blue-300/30 bg-blue-300/10 px-1.5 py-0.5 font-mono text-[10px] uppercase text-blue-200">
                             anchor
                           </span>
                         ) : null}
                       </span>
-                      <span className="mt-0.5 block font-mono text-[10px] text-white/35">
+                      <span className="mt-0.5 block font-mono text-[10px] text-white/60">
                         {t.sector} · {t.regime}
                       </span>
                     </button>
@@ -307,7 +307,7 @@ export default function TenantControlPlane() {
                     <span
                       className={`w-20 text-right font-mono text-[10px] uppercase ${
                         !on
-                          ? "text-white/25"
+                          ? "text-white/55"
                           : gaps.length
                             ? "text-red-300"
                             : "text-blue-300"
@@ -348,11 +348,11 @@ export default function TenantControlPlane() {
         {/* Control detail --------------------------------------------------- */}
         <aside className="flex flex-col gap-5 bg-white/[0.02] p-5">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
               Controls modeled for tenant
             </p>
             <p className="mt-2 text-sm font-medium">{focused.name}</p>
-            <p className="font-mono text-[10px] text-white/35">{focused.regime}</p>
+            <p className="font-mono text-[10px] text-white/60">{focused.regime}</p>
 
             <ul className="mt-4 space-y-2">
               {focused.controls.map((c) => {
@@ -376,7 +376,7 @@ export default function TenantControlPlane() {
                     </div>
                     {open ? (
                       <>
-                        <p className="mt-1.5 text-[10px] leading-4 text-white/40">
+                        <p className="mt-1.5 text-[10px] leading-4 text-white/65">
                           {CONTROL_WHY[c]}
                         </p>
                         <button
@@ -395,10 +395,10 @@ export default function TenantControlPlane() {
           </div>
 
           <div className="mt-auto border-t border-white/10 pt-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
               Why this layer matters
             </p>
-            <p className="mt-2 text-[11px] leading-5 text-white/45">
+            <p className="mt-2 text-[11px] leading-5 text-white/65">
               The study proves the facility can be built. This is the part that decides
               whether it can be sold: capacity and compliance are one decision, not two.
               A tenant you cannot lawfully serve is not revenue, and a megawatt promised
@@ -428,7 +428,7 @@ function Meter({
     tone === "bad" ? "bg-red-400" : tone === "warn" ? "bg-red-300" : "bg-blue-300";
   return (
     <div className="bg-[#08070d] px-5 py-4">
-      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
         {label}
       </p>
       <p className="mt-1 text-xl font-semibold tabular-nums">{value}</p>
@@ -438,7 +438,7 @@ function Meter({
           style={{ width: `${Math.max(0, Math.min(100, pct))}%` }}
         />
       </div>
-      <p className="mt-1.5 text-[10px] leading-4 text-white/40">{note}</p>
+      <p className="mt-1.5 text-[10px] leading-4 text-white/65">{note}</p>
     </div>
   );
 }

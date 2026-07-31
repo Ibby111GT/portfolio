@@ -23,7 +23,7 @@ export default function FieldNotes({
   return (
     <div className="rounded-3xl border border-white/10 bg-[#080808] p-6 md:p-8">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
           Field notes
         </p>
         <p
@@ -33,7 +33,7 @@ export default function FieldNotes({
           {count} of {FIELD_NOTES.length} recovered
         </p>
       </div>
-      <p className="mt-2 text-xs text-white/45">
+      <p className="mt-2 text-xs text-white/65">
         Every trail × weather combination files a different note. Change the
         conditions and run it again.
       </p>
@@ -52,7 +52,7 @@ export default function FieldNotes({
                   : "border-white/10 bg-white/[0.02]"
               }`}
             >
-              <p className="flex items-center justify-between font-mono text-[8px] uppercase tracking-[0.14em] text-white/35">
+              <p className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-white/60">
                 <span>{trailNames[note.trail] ?? note.trail}</span>
                 <span>
                   {WEATHER_GLYPH[note.weather]} {note.weather}
@@ -72,7 +72,7 @@ export default function FieldNotes({
                   </p>
                 </>
               ) : (
-                <p className="mt-2 text-lg text-white/25">?</p>
+                <p className="mt-2 text-lg text-white/55">?</p>
               )}
             </div>
           );

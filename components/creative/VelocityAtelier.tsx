@@ -285,12 +285,12 @@ export default function VelocityAtelier({
         <section className="overflow-hidden rounded-3xl border border-white/10 bg-[#080808]">
           <div className="grid lg:grid-cols-[1fr_0.9fr]">
             <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                 Design configuration
               </p>
 
               <div className="mt-7">
-                <p className="text-xs text-white/45">Paint system</p>
+                <p className="text-xs text-white/65">Paint system</p>
                 <div className="mt-3 flex flex-wrap gap-3">
                   {PAINTS.map((option, index) => (
                     <button
@@ -312,13 +312,13 @@ export default function VelocityAtelier({
                     </button>
                   ))}
                 </div>
-                <p className="mt-2 text-[10px] text-white/35">
+                <p className="mt-2 text-[10px] text-white/60">
                   Paint retints the render view on the technical board above.
                 </p>
               </div>
 
               <div className="mt-8">
-                <p className="text-xs text-white/45">Active aero map</p>
+                <p className="text-xs text-white/65">Active aero map</p>
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   {(Object.keys(AERO_MODES) as AeroMode[]).map((mode) => (
                     <button
@@ -349,7 +349,7 @@ export default function VelocityAtelier({
               </div>
 
               <label className="mt-8 block">
-                <span className="flex justify-between text-xs text-white/45">
+                <span className="flex justify-between text-xs text-white/65">
                   <span>Wheel diameter</span>
                   <span className="font-mono text-white/70">{wheelSize} in</span>
                 </span>
@@ -364,18 +364,18 @@ export default function VelocityAtelier({
                   }}
                   className="mt-4 w-full accent-red-500"
                 />
-                <span className="mt-2 block text-[10px] text-white/35">
+                <span className="mt-2 block text-[10px] text-white/60">
                   Larger wheels add rotational inertia — watch the splits move.
                 </span>
               </label>
 
               <div className="mt-8 rounded-2xl border border-white/10 bg-black/25 p-5">
-                <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-white/60">
                   Predicted by the model
                 </p>
                 <div className="mt-3 grid grid-cols-3 gap-3 font-mono text-sm text-white/75">
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.14em] text-white/35">
+                    <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">
                       0–60
                     </p>
                     <p className="mt-1">
@@ -385,7 +385,7 @@ export default function VelocityAtelier({
                     </p>
                   </div>
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.14em] text-white/35">
+                    <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">
                       ¼ mile
                     </p>
                     <p className="mt-1">
@@ -395,7 +395,7 @@ export default function VelocityAtelier({
                     </p>
                   </div>
                   <div>
-                    <p className="text-[9px] uppercase tracking-[0.14em] text-white/35">
+                    <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">
                       Top speed
                     </p>
                     <p className="mt-1">{predicted.topSpeedMph} mph</p>
@@ -407,7 +407,7 @@ export default function VelocityAtelier({
             <aside className="bg-white/[0.025] p-7 md:p-10">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                     Test cell
                   </p>
                   <p className="mt-2 text-sm text-white/60">{statusText}</p>
@@ -416,10 +416,10 @@ export default function VelocityAtelier({
                   type="button"
                   onClick={toggleSound}
                   aria-pressed={soundOn}
-                  className={`rounded-full border px-4 py-2 font-mono text-[9px] uppercase tracking-[0.14em] transition-colors ${
+                  className={`rounded-full border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
                     soundOn
                       ? "border-accent/60 bg-accent-soft text-white"
-                      : "border-white/15 text-white/45 hover:text-white"
+                      : "border-white/15 text-white/65 hover:text-white"
                   }`}
                 >
                   {soundOn ? "Engine audio on" : "Engine audio off"}
@@ -432,19 +432,19 @@ export default function VelocityAtelier({
 
               <div className="mt-4 grid grid-cols-3 gap-2 font-mono text-center text-xs text-white/70">
                 <div className="rounded-lg border border-white/10 bg-black/25 p-2">
-                  <p className="text-[8px] uppercase tracking-[0.14em] text-white/35">
+                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">
                     Speed
                   </p>
                   <p className="mt-1">{readout.mph} mph</p>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-black/25 p-2">
-                  <p className="text-[8px] uppercase tracking-[0.14em] text-white/35">
+                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">
                     Engine
                   </p>
                   <p className="mt-1">{readout.rpm} rpm</p>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-black/25 p-2">
-                  <p className="text-[8px] uppercase tracking-[0.14em] text-white/35">
+                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">
                     Gear
                   </p>
                   <p className="mt-1">{readout.gear}</p>
@@ -452,11 +452,11 @@ export default function VelocityAtelier({
               </div>
 
               <div className="mt-6 min-h-[104px] rounded-2xl border border-white/10 bg-black/25 p-4">
-                <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-white/60">
                   Timing splits
                 </p>
                 {milestones.length === 0 ? (
-                  <p className="mt-3 text-xs text-white/40">
+                  <p className="mt-3 text-xs text-white/65">
                     {runPhase === "running"
                       ? "Waiting for the first split…"
                       : "Launch a run to capture splits."}
@@ -468,7 +468,7 @@ export default function VelocityAtelier({
                         key={milestone.id}
                         className="flex items-baseline justify-between gap-3 border-b border-white/5 pb-1"
                       >
-                        <span className="text-white/45">{milestone.label}</span>
+                        <span className="text-white/65">{milestone.label}</span>
                         <span className="text-white">{milestone.value}</span>
                       </li>
                     ))}
@@ -490,7 +490,7 @@ export default function VelocityAtelier({
               </button>
 
               {bestResult?.quarterMileS ? (
-                <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+                <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-white/65">
                   Best ¼ mile this session · {bestResult.quarterMileS.toFixed(1)}
                   s ({bestResult.config.aero}, {bestResult.config.wheelSize}
                   ″)
@@ -501,10 +501,10 @@ export default function VelocityAtelier({
 
           <div className="border-t border-white/10 p-5 md:p-8">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                 Live telemetry
               </p>
-              <div className="flex flex-wrap items-center gap-4 font-mono text-[9px] uppercase tracking-[0.12em] text-white/40">
+              <div className="flex flex-wrap items-center gap-4 font-mono text-[10px] uppercase tracking-[0.12em] text-white/65">
                 <span className="flex items-center gap-2">
                   <span className="h-0.5 w-6 bg-accent" /> Speed
                 </span>

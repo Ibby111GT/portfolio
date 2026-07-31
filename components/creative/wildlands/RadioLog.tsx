@@ -38,7 +38,7 @@ export default function RadioLog({
         className="max-h-44 space-y-2 overflow-y-auto pr-1 font-mono text-xs leading-5"
       >
         {visible.length === 0 ? (
-          <p className="text-white/40">
+          <p className="text-white/65">
             Channel open. Launch an expedition to hear the team.
           </p>
         ) : (
@@ -51,7 +51,7 @@ export default function RadioLog({
                 key={`${entry.time}-${index}`}
                 className={entry.advisory ? "text-alert" : "text-white/75"}
               >
-                <span className="text-white/40">{entry.time}</span>{" "}
+                <span className="text-white/65">{entry.time}</span>{" "}
                 <span>{text}</span>
                 {!done ? (
                   <span className="ml-0.5 inline-block h-3 w-1.5 translate-y-0.5 animate-blink bg-white/70" />

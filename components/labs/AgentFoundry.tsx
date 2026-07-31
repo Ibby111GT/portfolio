@@ -277,7 +277,7 @@ export default function AgentFoundry() {
       <div className="mx-auto max-w-[1450px]">
         <Link
           href="/projects#interactive-labs"
-          className="font-mono text-xs uppercase tracking-[0.18em] text-white/45 hover:text-white"
+          className="font-mono text-xs uppercase tracking-[0.18em] text-white/65 hover:text-white"
         >
           &lt;- All projects
         </Link>
@@ -303,7 +303,7 @@ export default function AgentFoundry() {
             </p>
           </div>
           <div className="rounded-2xl border border-blue-300/20 bg-blue-300/[0.04] p-5">
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/30">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
               Practical use
             </p>
             <p className="mt-3 text-sm leading-6 text-white/60">
@@ -318,7 +318,7 @@ export default function AgentFoundry() {
           <aside className="border-b border-white/10 p-5 md:p-7 xl:border-b-0 xl:border-r">
             <SectionLabel icon={<Bot size={14} />} text="1 · Define the agent" />
             <label className="mt-5 block">
-              <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/35">
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/60">
                 Agent role
               </span>
               <select
@@ -338,10 +338,10 @@ export default function AgentFoundry() {
               </select>
             </label>
             <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
-              <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-white/28">
+              <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/55">
                 System instruction
               </p>
-              <p className="mt-2 text-[11px] leading-5 text-white/45">
+              <p className="mt-2 text-[11px] leading-5 text-white/65">
                 {role.instruction}
               </p>
             </div>
@@ -379,7 +379,7 @@ export default function AgentFoundry() {
                   <span className="min-w-0 flex-1 truncate text-[11px] text-white/50">
                     {source.name}
                   </span>
-                  <span className="font-mono text-[8px] text-white/22">
+                  <span className="font-mono text-[10px] text-white/55">
                     {source.text.length}c
                   </span>
                 </div>
@@ -415,7 +415,7 @@ export default function AgentFoundry() {
             <p
               role="status"
               aria-live="polite"
-              className="mt-4 font-mono text-[9px] text-blue-200/55"
+              className="mt-4 font-mono text-[10px] text-blue-200/55"
             >
               {status}
             </p>
@@ -427,7 +427,7 @@ export default function AgentFoundry() {
             >
               <div className="flex items-center gap-2">
                 <ShieldCheck size={15} className="text-blue-300" />
-                <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/60">
                   Grounded response
                 </p>
               </div>
@@ -444,14 +444,14 @@ export default function AgentFoundry() {
                   className="rounded-2xl border border-white/10 bg-white/[0.02] p-4"
                 >
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-blue-200/60">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-blue-200/60">
                       Match {index + 1} · {match.source}
                     </p>
-                    <span className="rounded-full border border-white/10 px-2 py-1 font-mono text-[8px] text-white/38">
+                    <span className="rounded-full border border-white/10 px-2 py-1 font-mono text-[10px] text-white/60">
                       {match.score}% relevance
                     </span>
                   </div>
-                  <p className="mt-3 text-xs leading-6 text-white/42">
+                  <p className="mt-3 text-xs leading-6 text-white/65">
                     {match.text}
                   </p>
                 </article>
@@ -472,7 +472,7 @@ export default function AgentFoundry() {
             </dl>
 
             <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4">
-              <p className="font-mono text-[9px] uppercase tracking-[0.15em] text-white/30">
+              <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/60">
                 Pipeline
               </p>
               <ol className="mt-4 space-y-4">
@@ -487,14 +487,14 @@ export default function AgentFoundry() {
                     key={title}
                     className="grid grid-cols-[24px_1fr] gap-3"
                   >
-                    <span className="font-mono text-[9px] text-blue-200/55">
+                    <span className="font-mono text-[10px] text-blue-200/55">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
                       <p className="text-xs font-semibold text-white/65">
                         {title}
                       </p>
-                      <p className="mt-1 text-[10px] leading-5 text-white/30">
+                      <p className="mt-1 text-[10px] leading-5 text-white/60">
                         {detail}
                       </p>
                     </div>
@@ -510,7 +510,7 @@ export default function AgentFoundry() {
             >
               <Download size={13} /> Export agent manifest
             </button>
-            <p className="mt-4 text-[10px] leading-5 text-white/28">
+            <p className="mt-4 text-[10px] leading-5 text-white/55">
               This browser lab uses deterministic retrieval and extractive
               synthesis so every result is inspectable. A production deployment
               could replace those stages with embeddings and an LLM while
@@ -534,7 +534,7 @@ function SectionLabel({
 }) {
   return (
     <div
-      className={`flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.18em] text-white/38 ${className}`}
+      className={`flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/60 ${className}`}
     >
       <span className="text-blue-200/55">{icon}</span>
       {text}
@@ -545,7 +545,7 @@ function SectionLabel({
 function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
-      <dt className="font-mono text-[8px] uppercase tracking-[0.13em] text-white/28">
+      <dt className="font-mono text-[10px] uppercase tracking-[0.13em] text-white/55">
         {label}
       </dt>
       <dd className="mt-2 font-mono text-sm text-white/70">{value}</dd>

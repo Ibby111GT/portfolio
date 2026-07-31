@@ -108,7 +108,7 @@ export default function WoodObjectIndex({
 
         <section className="grid overflow-hidden rounded-3xl border border-white/10 bg-[#080808] lg:grid-cols-[1fr_360px]">
           <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/40">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
               Product registry
             </p>
             <h2 className="mt-3 text-3xl font-semibold">Inspect the collection</h2>
@@ -123,10 +123,10 @@ export default function WoodObjectIndex({
                   className={`rounded-xl border p-4 text-left transition-colors ${
                     objectIndex === index
                       ? "border-alert/50 bg-alert-soft"
-                      : "border-white/10 text-white/45 hover:text-white"
+                      : "border-white/10 text-white/65 hover:text-white"
                   }`}
                 >
-                  <span className="font-mono text-[8px] uppercase tracking-[0.16em] opacity-55">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] opacity-55">
                     O-{String(index + 1).padStart(2, "0")} · {item.type}
                   </span>
                   <span className="mt-2 block text-sm font-semibold">{item.name}</span>
@@ -135,7 +135,7 @@ export default function WoodObjectIndex({
             </div>
 
             <div className="mt-9">
-              <p className="text-xs text-white/45">Material edition</p>
+              <p className="text-xs text-white/65">Material edition</p>
               <div className="mt-3 grid gap-2 sm:grid-cols-3">
                 {WOODS.map((option, index) => (
                   <button
@@ -146,7 +146,7 @@ export default function WoodObjectIndex({
                     className={`rounded-full border px-4 py-3 text-xs ${
                       woodIndex === index
                         ? "border-accent/50 bg-accent-soft"
-                        : "border-white/10 text-white/40"
+                        : "border-white/10 text-white/65"
                     }`}
                   >
                     {option.name}
@@ -157,7 +157,7 @@ export default function WoodObjectIndex({
 
             <div className="mt-9 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.025] p-5 md:grid-cols-[1fr_auto] md:items-end">
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-accent">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
                   O-{String(objectIndex + 1).padStart(2, "0")} · {object.type}
                 </p>
                 <h3 className="mt-2 text-3xl font-semibold">{object.name}</h3>
@@ -183,7 +183,7 @@ export default function WoodObjectIndex({
           </div>
 
           <aside className="p-7 md:p-9">
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
               Selected specification
             </p>
             <h3 className="mt-3 text-2xl font-semibold">{object.name}</h3>
@@ -198,7 +198,7 @@ export default function WoodObjectIndex({
                   key={label}
                   className="flex items-center justify-between gap-4 bg-[#080808] px-4 py-3"
                 >
-                  <dt className="text-[10px] text-white/35">{label}</dt>
+                  <dt className="text-[10px] text-white/60">{label}</dt>
                   <dd className="text-xs font-medium">{value}</dd>
                 </div>
               ))}
@@ -207,7 +207,7 @@ export default function WoodObjectIndex({
             <div className="mt-6 rounded-2xl border border-accent/35 bg-accent-soft p-5">
               <div className="flex items-end justify-between gap-4">
                 <div>
-                  <p className="text-[9px] uppercase tracking-[0.16em] text-white/40">
+                  <p className="text-[10px] uppercase tracking-[0.16em] text-white/65">
                     Curated set
                   </p>
                   <p className="mt-2 font-mono text-3xl">{collection.length}/6</p>

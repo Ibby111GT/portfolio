@@ -82,7 +82,7 @@ export default function WardrobeAtelier({
 
         <section className="grid overflow-hidden rounded-3xl border border-white/10 bg-[#080808] lg:grid-cols-[1fr_360px]">
           <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/40">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
               Module planner
             </p>
             <div className="mt-3 flex flex-wrap items-end justify-between gap-5">
@@ -97,7 +97,7 @@ export default function WardrobeAtelier({
             </div>
 
             <label className="mt-8 block">
-              <span className="flex justify-between text-xs text-white/45">
+              <span className="flex justify-between text-xs text-white/65">
                 <span>Available wall width</span>
                 <span className="font-mono">{availableWidth} in</span>
               </span>
@@ -122,11 +122,11 @@ export default function WardrobeAtelier({
                   className={`rounded-xl border p-4 text-left transition-colors ${
                     active[index]
                       ? "border-accent/55 bg-accent-soft"
-                      : "border-white/10 text-white/40"
+                      : "border-white/10 text-white/65"
                   }`}
                 >
                   <span className="block text-sm font-semibold">{module.name}</span>
-                  <span className="mt-2 block font-mono text-[9px] text-white/35">
+                  <span className="mt-2 block font-mono text-[10px] text-white/60">
                     {module.width} in · {module.capacity} items
                   </span>
                 </button>
@@ -135,7 +135,7 @@ export default function WardrobeAtelier({
 
             <div className="mt-8 grid gap-6 md:grid-cols-[1fr_0.7fr]">
               <div>
-                <p className="text-xs text-white/45">Door treatment</p>
+                <p className="text-xs text-white/65">Door treatment</p>
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   {DOORS.map((door) => (
                     <button
@@ -146,7 +146,7 @@ export default function WardrobeAtelier({
                       className={`rounded-lg border px-3 py-3 text-[11px] ${
                         doorStyle === door
                           ? "border-alert/50 bg-alert-soft"
-                          : "border-white/10 text-white/40"
+                          : "border-white/10 text-white/65"
                       }`}
                     >
                       {door}
@@ -161,7 +161,7 @@ export default function WardrobeAtelier({
                 className={`self-end rounded-full border px-4 py-3 text-xs font-semibold ${
                   lighting
                     ? "border-accent/50 bg-accent-soft"
-                    : "border-white/10 text-white/40"
+                    : "border-white/10 text-white/65"
                 }`}
               >
                 Shelf lighting · {lighting ? "On" : "Off"}
@@ -172,7 +172,7 @@ export default function WardrobeAtelier({
           <aside className="p-7 md:p-9">
             <div className="flex items-center justify-between gap-5">
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                   Layout status
                 </p>
                 <h3 className="mt-3 text-2xl font-semibold">
@@ -213,7 +213,7 @@ export default function WardrobeAtelier({
                   key={label}
                   className="flex items-center justify-between gap-4 bg-[#080808] px-4 py-3"
                 >
-                  <dt className="text-[10px] text-white/35">{label}</dt>
+                  <dt className="text-[10px] text-white/60">{label}</dt>
                   <dd className="text-xs font-medium">{value}</dd>
                 </div>
               ))}

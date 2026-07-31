@@ -369,7 +369,7 @@ export default function SocCommandDeck() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className={`rounded border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider ${SEVERITY_META[alert.severity].chip}`}>
+                      <span className={`rounded border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider ${SEVERITY_META[alert.severity].chip}`}>
                         {SEVERITY_META[alert.severity].label}
                       </span>
                       <span className="font-mono text-[11px] text-fg-muted">{alert.id}</span>

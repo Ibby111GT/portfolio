@@ -27,7 +27,7 @@ export default function CaseDiagram({ diagram }: { diagram: Diagram }) {
                       : "border-border bg-bg/60"
                 }`}
               >
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-fg-muted">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-muted">
                   {String(index + 1).padStart(2, "0")}
                 </p>
                 <p className="mt-2 text-sm font-medium leading-5 text-fg">

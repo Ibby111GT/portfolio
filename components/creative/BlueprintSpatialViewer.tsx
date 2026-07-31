@@ -963,7 +963,7 @@ function PartGroup({
             event.stopPropagation();
             onSelect(part.id);
           }}
-          className={`flex min-w-max items-center gap-2 rounded-full border px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] backdrop-blur-md transition-colors ${
+          className={`flex min-w-max items-center gap-2 rounded-full border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] backdrop-blur-md transition-colors ${
             selected
               ? "border-[#60a5fa]/70 bg-[#0a1220]/90 text-white"
               : "border-white/15 bg-black/70 text-white/55 hover:border-[#60a5fa]/50 hover:text-white"
@@ -1233,15 +1233,15 @@ export default function BlueprintSpatialViewer({
     >
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 bg-[#071015] px-5 py-5 md:px-7">
         <div>
-          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#60a5fa]/55">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#60a5fa]/55">
             3D construction review · {system.code}
           </p>
           <h2 className="mt-2 text-2xl font-semibold text-white">
             {system.title}
           </h2>
-          <p className="mt-1 text-xs text-white/40">{system.subtitle}</p>
+          <p className="mt-1 text-xs text-white/65">{system.subtitle}</p>
         </div>
-        <div className="text-right font-mono text-[9px] uppercase tracking-[0.13em] text-white/30">
+        <div className="text-right font-mono text-[10px] uppercase tracking-[0.13em] text-white/60">
           <p>{system.dimensions}</p>
           <p className="mt-1 text-[#60a5fa]/50">{system.discipline}</p>
         </div>
@@ -1290,7 +1290,7 @@ export default function BlueprintSpatialViewer({
           </div>
 
           <div className="absolute left-4 top-4 z-10 max-w-[270px] rounded-xl border border-[#60a5fa]/15 bg-[#0a1020]/75 p-3 backdrop-blur-md md:left-6 md:top-6">
-            <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-[#60a5fa]/60">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#60a5fa]/60">
               What you are looking at
             </p>
             <p className="mt-2 text-[11px] leading-5 text-white/55">
@@ -1299,7 +1299,7 @@ export default function BlueprintSpatialViewer({
           </div>
 
           <div className="absolute bottom-5 left-5 z-10 max-w-xs rounded-xl border border-white/10 bg-black/65 p-3 backdrop-blur-md md:bottom-6 md:left-6">
-            <p className="flex items-center gap-2 font-mono text-[8px] uppercase tracking-[0.14em] text-white/35">
+            <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-white/60">
               <MousePointer2 size={10} /> Drag to orbit · scroll to zoom
             </p>
           </div>
@@ -1312,10 +1312,10 @@ export default function BlueprintSpatialViewer({
                   type="button"
                   onClick={() => setView(cameraView)}
                   aria-pressed={view === cameraView}
-                  className={`rounded-lg px-2.5 py-2 font-mono text-[8px] uppercase tracking-[0.1em] ${
+                  className={`rounded-lg px-2.5 py-2 font-mono text-[10px] uppercase tracking-[0.1em] ${
                     view === cameraView
                       ? "bg-[#60a5fa]/12 text-[#60a5fa]"
-                      : "text-white/35 hover:text-white"
+                      : "text-white/60 hover:text-white"
                   }`}
                 >
                   {cameraView}
@@ -1329,10 +1329,10 @@ export default function BlueprintSpatialViewer({
           <div className="border-b border-white/10 p-5 md:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                   Assembly index
                 </p>
-                <p className="mt-1 text-xs text-white/45">
+                <p className="mt-1 text-xs text-white/65">
                   Numbers match the 3D callouts
                 </p>
               </div>
@@ -1364,7 +1364,7 @@ export default function BlueprintSpatialViewer({
                     <span className="block truncate text-xs font-medium text-white/70">
                       {part.name}
                     </span>
-                    <span className="mt-0.5 block truncate text-[10px] text-white/30">
+                    <span className="mt-0.5 block truncate text-[10px] text-white/60">
                       {part.check} · {part.value}
                     </span>
                   </span>
@@ -1373,7 +1373,7 @@ export default function BlueprintSpatialViewer({
                     className={
                       selectedId === part.id
                         ? "text-[#60a5fa]"
-                        : "text-white/15"
+                        : "text-white/55"
                     }
                   />
                 </button>
@@ -1384,7 +1384,7 @@ export default function BlueprintSpatialViewer({
           <div className="border-b border-white/10 p-5 md:p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.17em] text-[#60a5fa]/55">
+                <p className="font-mono text-[10px] uppercase tracking-[0.17em] text-[#60a5fa]/55">
                   Selected · {selected.number}
                 </p>
                 <h3 className="mt-2 text-xl font-semibold text-white">
@@ -1399,7 +1399,7 @@ export default function BlueprintSpatialViewer({
                 className={`rounded-lg border p-2 ${
                   isolated
                     ? "border-[#60a5fa]/40 bg-[#60a5fa]/10 text-[#60a5fa]"
-                    : "border-white/10 text-white/35 hover:text-white"
+                    : "border-white/10 text-white/60 hover:text-white"
                 }`}
               >
                 {isolated ? <Eye size={15} /> : <EyeOff size={15} />}
@@ -1407,13 +1407,13 @@ export default function BlueprintSpatialViewer({
             </div>
 
             {selected.holdToSize ? (
-              <span className="mt-3 inline-flex rounded bg-red-500/15 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.13em] text-red-300">
+              <span className="mt-3 inline-flex rounded bg-red-500/15 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.13em] text-red-300">
                 Hold-to-size · field verification required
               </span>
             ) : null}
 
             <div className="mt-4 rounded-xl border border-[#f87171]/15 bg-[#f87171]/[0.035] p-4">
-              <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-[#ffb23e]/60">
+              <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#ffb23e]/60">
                 In plain language
               </p>
               <p className="mt-2 text-xs leading-5 text-white/60">
@@ -1431,7 +1431,7 @@ export default function BlueprintSpatialViewer({
                 ["Release gate", selected.gate],
               ].map(([label, value]) => (
                 <div key={label}>
-                  <dt className="font-mono text-[8px] uppercase tracking-[0.13em] text-white/25">
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.13em] text-white/55">
                     {label}
                   </dt>
                   <dd className="mt-1 text-[11px] leading-4 text-white/55">
@@ -1442,7 +1442,7 @@ export default function BlueprintSpatialViewer({
             </dl>
 
             <div className="mt-4 flex items-center justify-between rounded-xl border border-white/[0.07] bg-black/20 px-4 py-3">
-              <span className="font-mono text-[8px] uppercase tracking-[0.13em] text-white/30">
+              <span className="font-mono text-[10px] uppercase tracking-[0.13em] text-white/60">
                 {selected.check}
               </span>
               <span className="font-mono text-sm text-[#60a5fa]">
@@ -1454,7 +1454,7 @@ export default function BlueprintSpatialViewer({
           <div className="p-5 md:p-6">
             <label className="block">
               <span className="flex items-center justify-between">
-                <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.15em] text-white/35">
+                <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-white/60">
                   <Layers3 size={12} /> Exploded assembly
                 </span>
                 <span className="font-mono text-[10px] text-[#60a5fa]">
@@ -1469,9 +1469,9 @@ export default function BlueprintSpatialViewer({
                 onChange={(event) =>
                   setExplode(Number(event.target.value) / 100)
                 }
-                className="mt-3 w-full accent-cyan-400"
+                className="mt-3 w-full accent-accent"
               />
-              <span className="mt-1 flex justify-between font-mono text-[8px] uppercase tracking-[0.1em] text-white/20">
+              <span className="mt-1 flex justify-between font-mono text-[10px] uppercase tracking-[0.1em] text-white/55">
                 <span>Assembled</span>
                 <span>Service spacing</span>
               </span>
@@ -1531,10 +1531,10 @@ export default function BlueprintSpatialViewer({
           ["04 · RELEASE", "Confirm tolerance and workflow gate."],
         ].map(([label, copy]) => (
           <div key={label} className="bg-[#050a0d] p-4">
-            <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-[#60a5fa]/55">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#60a5fa]/55">
               {label}
             </p>
-            <p className="mt-2 text-[10px] leading-4 text-white/35">{copy}</p>
+            <p className="mt-2 text-[10px] leading-4 text-white/60">{copy}</p>
           </div>
         ))}
       </div>

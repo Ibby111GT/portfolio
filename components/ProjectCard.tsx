@@ -104,7 +104,7 @@ export default function ProjectCard({
               {card.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[9px] md:text-xs uppercase tracking-widest text-white/60 bg-white/[0.09] rounded-md px-2.5 py-1"
+                  className="text-[10px] md:text-xs uppercase tracking-widest text-white/60 bg-white/[0.09] rounded-md px-2.5 py-1"
                 >
                   {tag}
                 </span>

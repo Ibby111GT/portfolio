@@ -160,7 +160,7 @@ export default function PrivateAiLab() {
     `rounded-lg border px-3 py-2 text-left text-xs transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 ${
       on
         ? "border-blue-300/50 bg-blue-300/10 text-blue-100"
-        : "border-white/12 text-white/45 hover:border-white/25 hover:text-white/70"
+        : "border-white/12 text-white/65 hover:border-white/25 hover:text-white/70"
     }`;
 
   return (
@@ -170,12 +170,12 @@ export default function PrivateAiLab() {
     >
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 px-5 py-4">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/65">
             Richardson Edge Tier
           </p>
           <p className="mt-0.5 text-sm font-medium">Feasibility explorer</p>
         </div>
-        <p className="font-mono text-[10px] uppercase tracking-wider text-white/35">
+        <p className="font-mono text-[10px] uppercase tracking-wider text-white/60">
           Figures from the study · simplified model
         </p>
       </div>
@@ -183,11 +183,11 @@ export default function PrivateAiLab() {
       <div className="grid lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 border-b border-white/10 p-5 lg:border-b-0 lg:border-r">
           <label htmlFor="load" className="block">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
               Facility load
             </span>
             <span className="mt-1 block text-3xl font-semibold tabular-nums">
-              {loadMw} <span className="text-lg text-white/45">MW</span>
+              {loadMw} <span className="text-lg text-white/65">MW</span>
             </span>
           </label>
           <input
@@ -201,13 +201,13 @@ export default function PrivateAiLab() {
             aria-describedby="load-help"
             className="mt-3 w-full accent-blue-400"
           />
-          <div className="mt-1 flex justify-between font-mono text-[10px] text-white/30">
+          <div className="mt-1 flex justify-between font-mono text-[10px] text-white/60">
             <span>1</span>
             <span className="text-blue-300">Phase 1: {PHASE1_MIN}-{PHASE1_MAX}</span>
             <span className="text-red-300">SB 6: {SB6_THRESHOLD_MW}</span>
             <span>100</span>
           </div>
-          <p id="load-help" className="mt-2 text-xs leading-5 text-white/45">
+          <p id="load-help" className="mt-2 text-xs leading-5 text-white/65">
             {model.phase}
           </p>
 
@@ -220,7 +220,7 @@ export default function PrivateAiLab() {
                 : "border-blue-300/30 bg-blue-300/[0.06]"
             }`}
           >
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
               Texas SB 6
             </p>
             <p className="mt-1.5 text-sm font-medium">
@@ -236,7 +236,7 @@ export default function PrivateAiLab() {
           </div>
 
           {/* Power sources -------------------------------------------------- */}
-          <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+          <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
             Behind-the-meter generation
           </p>
           <div className="mt-2 grid gap-2 sm:grid-cols-3">
@@ -263,7 +263,7 @@ export default function PrivateAiLab() {
           {/* Load coverage bar ---------------------------------------------- */}
           <div className="mt-5">
             <div className="flex items-baseline justify-between">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-white/45">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-white/65">
                 Load served on site
               </span>
               <span className="font-mono text-xs text-white/60">
@@ -299,7 +299,7 @@ export default function PrivateAiLab() {
                 : "Firm on-site capacity is short of the facility load, so the shortfall comes from the public grid — which is exactly the cost the city is trying not to absorb."}
             </p>
             {solar ? (
-              <p className="mt-2 text-[11px] leading-5 text-white/40">
+              <p className="mt-2 text-[11px] leading-5 text-white/65">
                 Solar counts as daytime energy, not capacity — it cuts fuel burn and
                 cost, but the sun is not dispatchable, so it does not change the grid
                 figure above.
@@ -314,7 +314,7 @@ export default function PrivateAiLab() {
               </p>
             ) : null}
             {bess && model.bridgedMw === 0 ? (
-              <p className="mt-1 text-[11px] leading-5 text-white/40">
+              <p className="mt-1 text-[11px] leading-5 text-white/65">
                 Storage holds {BESS_MWH} MWh in reserve, covering generator starts and
                 demand peaks rather than serving load continuously.
               </p>
@@ -325,7 +325,7 @@ export default function PrivateAiLab() {
         {/* Alternatives ------------------------------------------------------ */}
         <aside className="flex flex-col gap-5 bg-white/[0.02] p-5">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
               Three strategic alternatives
             </p>
             <div className="mt-3 flex flex-col gap-1.5" role="group" aria-label="Select an alternative">
@@ -343,10 +343,10 @@ export default function PrivateAiLab() {
                         : "border-white/10 hover:border-white/25"
                     }`}
                   >
-                    <span className="font-mono text-[10px] text-white/40">{alt.id}</span>
+                    <span className="font-mono text-[10px] text-white/65">{alt.id}</span>
                     <span className={on ? "text-white" : "text-white/60"}>{alt.name}</span>
                     {alt.recommended ? (
-                      <span className="ml-auto rounded border border-blue-300/30 bg-blue-300/10 px-1.5 py-0.5 font-mono text-[9px] uppercase text-blue-200">
+                      <span className="ml-auto rounded border border-blue-300/30 bg-blue-300/10 px-1.5 py-0.5 font-mono text-[10px] uppercase text-blue-200">
                         picked
                       </span>
                     ) : null}
@@ -358,7 +358,7 @@ export default function PrivateAiLab() {
           </div>
 
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
               Scored against seven criteria
             </p>
             <ul className="mt-3 space-y-1.5">
@@ -378,7 +378,7 @@ export default function PrivateAiLab() {
               })}
             </ul>
             {active.recommended ? (
-              <p className="mt-3 text-[11px] leading-5 text-white/45">
+              <p className="mt-3 text-[11px] leading-5 text-white/65">
                 The recommended option met every criterion except political
                 feasibility — which is precisely what the joint policy framework and
                 the 90-day plan were written to address.
@@ -387,7 +387,7 @@ export default function PrivateAiLab() {
           </div>
 
           <div className="mt-auto border-t border-white/10 pt-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/45">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
               Why we argued it was realistic
             </p>
             <ul className="mt-3 space-y-2.5">
@@ -397,7 +397,7 @@ export default function PrivateAiLab() {
                     <span className="font-mono text-sm text-blue-200">{p.figure}</span>
                     <span className="text-[11px] text-white/65">{p.label}</span>
                   </div>
-                  <p className="mt-0.5 text-[10px] leading-4 text-white/35">{p.note}</p>
+                  <p className="mt-0.5 text-[10px] leading-4 text-white/60">{p.note}</p>
                 </li>
               ))}
             </ul>

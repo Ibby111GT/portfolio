@@ -289,7 +289,7 @@ export default function AtlasImpossible({
               {Array.from({ length: 14 }, (_, index) => (
                 <span
                   key={index}
-                  className="absolute h-1 w-1 rounded-full bg-amber-200 shadow-[0_0_9px_3px_rgba(253,230,138,0.5)] animate-[fireflyDrift_4.5s_ease-in-out_infinite]"
+                  className="absolute h-1 w-1 rounded-full bg-white/90 shadow-[0_0_9px_3px_rgba(255,255,255,0.45)] animate-[fireflyDrift_4.5s_ease-in-out_infinite]"
                   style={{
                     left: `${8 + ((index * 17) % 84)}%`,
                     top: `${18 + ((index * 29) % 68)}%`,
@@ -323,7 +323,7 @@ export default function AtlasImpossible({
               <div className="mt-12 max-w-2xl rounded-2xl border border-white/10 bg-black/45 p-5 backdrop-blur-xl">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/45">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                       Ranger radio · channel 3
                     </p>
                     <p className="mt-2 text-sm text-white/75">
@@ -347,7 +347,7 @@ export default function AtlasImpossible({
                       className={`rounded-full border p-2 transition-colors ${
                         rangerAudio.enabled
                           ? "border-accent/50 bg-accent-soft text-white"
-                          : "border-white/10 text-white/45 hover:text-white"
+                          : "border-white/10 text-white/65 hover:text-white"
                       }`}
                     >
                       {rangerAudio.enabled ? (
@@ -381,7 +381,7 @@ export default function AtlasImpossible({
             </div>
 
             <aside className="border-t border-white/10 bg-black/55 p-6 backdrop-blur-xl md:p-8 lg:border-l lg:border-t-0">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                 Park operations
               </p>
 
@@ -402,7 +402,7 @@ export default function AtlasImpossible({
                     }`}
                   >
                     <span className="text-sm font-medium">{option.name}</span>
-                    <span className="mt-1 block text-xs text-white/45">
+                    <span className="mt-1 block text-xs text-white/65">
                       {option.distance} mi · {option.difficulty}
                     </span>
                   </button>
@@ -454,7 +454,7 @@ export default function AtlasImpossible({
                       className={`rounded-lg border px-2 py-2 text-[10px] transition-colors ${
                         hour === preset.value
                           ? "border-accent/60 bg-accent-soft text-white"
-                          : "border-white/10 text-white/40 hover:text-white"
+                          : "border-white/10 text-white/65 hover:text-white"
                       }`}
                     >
                       {preset.label}
@@ -494,7 +494,7 @@ export default function AtlasImpossible({
                     key={label}
                     className="rounded-xl border border-white/10 bg-white/[0.03] p-3"
                   >
-                    <dt className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+                    <dt className="text-[10px] uppercase tracking-[0.16em] text-white/60">
                       {label}
                     </dt>
                     <dd className="mt-1 text-sm text-white/75">{value}</dd>
@@ -503,7 +503,7 @@ export default function AtlasImpossible({
               </dl>
 
               <div className="mt-6 rounded-xl border border-white/10 p-4">
-                <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-white/60">
                   Likely sightings
                 </p>
                 <p className="mt-2 text-sm text-white/65">{trail.wildlife}</p>

@@ -87,7 +87,7 @@ function EvidencePanel({
       />
       <div className="relative flex h-full flex-col">
         <div className="flex items-center justify-between gap-4">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
             Evidence record · {code}
           </span>
           <span
@@ -100,7 +100,7 @@ function EvidencePanel({
         <p className="mt-2 text-4xl font-semibold tracking-tight md:text-5xl">
           {metric}
         </p>
-        <p className="mt-2 text-sm text-white/45">{detail}</p>
+        <p className="mt-2 text-sm text-white/65">{detail}</p>
 
         <ol className="mt-10 space-y-3">
           {steps.map((step, index) => (
@@ -108,7 +108,7 @@ function EvidencePanel({
               key={step}
               className="flex items-center gap-4 rounded-xl border border-white/[0.08] bg-white/[0.025] px-4 py-3"
             >
-              <span className="font-mono text-[9px] text-white/30">
+              <span className="font-mono text-[10px] text-white/60">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span className="text-sm text-white/65">{step}</span>

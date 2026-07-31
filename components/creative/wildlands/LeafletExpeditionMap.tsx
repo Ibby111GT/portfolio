@@ -308,8 +308,8 @@ export default function LeafletExpeditionMap({
       {!mapReady ? (
         <div className="absolute inset-0 grid place-items-center bg-[#101722]">
           <div className="text-center">
-            <span className="mx-auto block h-7 w-7 animate-spin rounded-full border-2 border-white/15 border-t-amber-400" />
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-white/45">
+            <span className="mx-auto block h-7 w-7 animate-spin rounded-full border-2 border-white/15 border-t-accent" />
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-white/65">
               Loading spatial layers
             </p>
           </div>
@@ -326,10 +326,10 @@ export default function LeafletExpeditionMap({
           aria-live="polite"
         >
           <p
-            className={`font-mono text-[9px] uppercase tracking-[0.16em] ${
+            className={`font-mono text-[10px] uppercase tracking-[0.16em] ${
               basemapState === "degraded"
                 ? "text-red-200"
-                : "text-white/45"
+                : "text-white/65"
             }`}
           >
             {basemapState === "loading"
@@ -346,7 +346,7 @@ export default function LeafletExpeditionMap({
         </div>
       ) : null}
       <div className="pointer-events-none absolute bottom-4 left-4 z-[500] max-w-[220px] rounded-lg border border-white/10 bg-[#071019]/85 px-3 py-2 backdrop-blur">
-        <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/45">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/65">
           {buildMode ? "Route build active" : "Spatial planning mode"}
         </p>
         <p className="mt-1 text-[11px] leading-4 text-white/70">

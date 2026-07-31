@@ -97,7 +97,7 @@ function elevationForPoint(
 function ElevationProfile({ elevations }: { elevations: number[] }) {
   if (elevations.length < 2) {
     return (
-      <div className="grid h-28 place-items-center rounded-xl border border-dashed border-white/15 text-center text-xs text-white/35">
+      <div className="grid h-28 place-items-center rounded-xl border border-dashed border-white/15 text-center text-xs text-white/60">
         Add two route points to calculate terrain.
       </div>
     );
@@ -121,10 +121,10 @@ function ElevationProfile({ elevations }: { elevations: number[] }) {
           title={`${elevation} m`}
         />
       ))}
-      <span className="absolute bottom-1.5 left-3 font-mono text-[8px] text-white/35">
+      <span className="absolute bottom-1.5 left-3 font-mono text-[10px] text-white/60">
         START · {minimum} M
       </span>
-      <span className="absolute bottom-1.5 right-3 font-mono text-[8px] text-white/35">
+      <span className="absolute bottom-1.5 right-3 font-mono text-[10px] text-white/60">
         PEAK · {maximum} M
       </span>
     </div>
@@ -220,7 +220,7 @@ function ExportModal({
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-blue-300">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-blue-300">
               Route export engine
             </p>
             <h3 id="export-title" className="mt-2 text-2xl font-semibold text-white">
@@ -257,7 +257,7 @@ function ExportModal({
             <span className="mt-3 flex items-center justify-between text-sm font-medium">
               Google Maps <ExternalLink size={14} />
             </span>
-            <span className="mt-1 block font-mono text-[9px] uppercase tracking-wide text-white/35">
+            <span className="mt-1 block font-mono text-[10px] uppercase tracking-wide text-white/60">
               First 8 waypoints
             </span>
           </a>
@@ -271,7 +271,7 @@ function ExportModal({
             <span className="mt-3 flex items-center justify-between text-sm font-medium">
               Apple Maps <ExternalLink size={14} />
             </span>
-            <span className="mt-1 block font-mono text-[9px] uppercase tracking-wide text-white/35">
+            <span className="mt-1 block font-mono text-[10px] uppercase tracking-wide text-white/60">
               Start &amp; end only
             </span>
           </a>
@@ -288,9 +288,9 @@ function ExportModal({
           >
             <Download size={20} />
             <span className="mt-3 flex items-center justify-between text-sm font-medium">
-              Download GPX <span className="font-mono text-[9px] text-white/35">GARMIN</span>
+              Download GPX <span className="font-mono text-[10px] text-white/60">GARMIN</span>
             </span>
-            <span className="mt-1 block font-mono text-[9px] uppercase tracking-wide text-white/35">
+            <span className="mt-1 block font-mono text-[10px] uppercase tracking-wide text-white/60">
               Every waypoint
             </span>
           </button>
@@ -307,14 +307,14 @@ function ExportModal({
           >
             <Download size={20} />
             <span className="mt-3 flex items-center justify-between text-sm font-medium">
-              Download KML <span className="font-mono text-[9px] text-white/35">EARTH</span>
+              Download KML <span className="font-mono text-[10px] text-white/60">EARTH</span>
             </span>
-            <span className="mt-1 block font-mono text-[9px] uppercase tracking-wide text-white/35">
+            <span className="mt-1 block font-mono text-[10px] uppercase tracking-wide text-white/60">
               Every waypoint
             </span>
           </button>
         </div>
-        <p className="mt-5 text-[11px] leading-5 text-white/35">
+        <p className="mt-5 text-[11px] leading-5 text-white/60">
           Portfolio demonstration data only. Confirm official trail conditions
           and closures before real-world travel. Kayak tracks retain their
           coordinates, while consumer map links fall back to walking mode.
@@ -433,7 +433,7 @@ export default function ExpeditionMapper() {
       <div className="border-b border-white/10 px-5 py-5 md:px-7">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-blue-300">
+            <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-blue-300">
               Spatial intelligence system · GIS-06
             </p>
             <h2 className="mt-2 text-3xl font-semibold tracking-[-0.035em] md:text-4xl">
@@ -445,7 +445,7 @@ export default function ExpeditionMapper() {
             </p>
           </div>
           <label className="block min-w-[250px]">
-            <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
               Active park
             </span>
             <select
@@ -516,7 +516,7 @@ export default function ExpeditionMapper() {
                   className={`flex items-center gap-2 rounded-full border px-3 py-2 text-[11px] font-medium backdrop-blur transition-colors ${
                     layers[kind]
                       ? "border-white/20 bg-[#071019]/90 text-white"
-                      : "border-white/10 bg-[#071019]/75 text-white/35"
+                      : "border-white/10 bg-[#071019]/75 text-white/60"
                   }`}
                 >
                   <Icon size={13} style={{ color: ROUTE_COLORS[kind] }} />
@@ -536,7 +536,7 @@ export default function ExpeditionMapper() {
               className={`flex items-center gap-2 rounded-full border px-3 py-2 text-[11px] font-medium backdrop-blur transition-colors ${
                 layers.stations
                   ? "border-white/20 bg-[#071019]/90 text-white"
-                  : "border-white/10 bg-[#071019]/75 text-white/35"
+                  : "border-white/10 bg-[#071019]/75 text-white/60"
               }`}
             >
               <RadioTower size={13} className="text-blue-300" />
@@ -549,7 +549,7 @@ export default function ExpeditionMapper() {
           <div className="border-b border-white/10 p-5 md:p-6">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                   Active route
                 </p>
                 <h3 className="mt-1 text-lg font-semibold">
@@ -557,7 +557,7 @@ export default function ExpeditionMapper() {
                 </h3>
               </div>
               <span
-                className="rounded-full border px-2.5 py-1 font-mono text-[9px] uppercase"
+                className="rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase"
                 style={{
                   borderColor: `${ROUTE_COLORS[selectedRoute.properties.kind]}70`,
                   color: ROUTE_COLORS[selectedRoute.properties.kind],
@@ -597,7 +597,7 @@ export default function ExpeditionMapper() {
                       <span className="block truncate text-xs font-medium">
                         {candidate.properties.name}
                       </span>
-                      <span className="mt-0.5 block text-[10px] text-white/35">
+                      <span className="mt-0.5 block text-[10px] text-white/60">
                         {candidate.properties.difficulty} ·{" "}
                         {candidate.geometry.coordinates.length} survey points
                       </span>
@@ -639,7 +639,7 @@ export default function ExpeditionMapper() {
 
           <div className="border-b border-white/10 p-5 md:p-6">
             <div className="flex items-center justify-between">
-              <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                 Expedition telemetry
               </p>
               <div className="flex rounded-lg border border-white/10 p-0.5">
@@ -655,7 +655,7 @@ export default function ExpeditionMapper() {
                       className={`rounded-md p-1.5 ${
                         movement === mode
                           ? "bg-white/10 text-white"
-                          : "text-white/30 hover:text-white/60"
+                          : "text-white/60 hover:text-white/60"
                       }`}
                     >
                       <Icon size={14} />
@@ -688,7 +688,7 @@ export default function ExpeditionMapper() {
                   key={label}
                   className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-3"
                 >
-                  <dt className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.12em] text-white/30">
+                  <dt className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.12em] text-white/60">
                     <Icon size={11} /> {label}
                   </dt>
                   <dd className="mt-2 text-sm font-medium text-white/80">{value}</dd>
@@ -704,7 +704,7 @@ export default function ExpeditionMapper() {
             <div className="flex items-center gap-2">
               <Trees size={15} className="text-blue-300" />
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
                   Ecosystem intelligence
                 </p>
                 <p className="mt-1 text-xs text-white/55">
@@ -724,7 +724,7 @@ export default function ExpeditionMapper() {
                   className={`rounded-full border px-2.5 py-1.5 text-[10px] transition-colors ${
                     speciesFilter === filter.id
                       ? "border-blue-400/40 bg-blue-400/10 text-blue-200"
-                      : "border-white/10 text-white/40 hover:text-white/70"
+                      : "border-white/10 text-white/65 hover:text-white/70"
                   }`}
                 >
                   {filter.label}
@@ -781,7 +781,7 @@ export default function ExpeditionMapper() {
                         <span className="flex flex-wrap items-center justify-between gap-2">
                           <span className="text-xs font-medium">{species.name}</span>
                           <span
-                            className={`rounded-full px-2 py-0.5 font-mono text-[8px] uppercase ${
+                            className={`rounded-full px-2 py-0.5 font-mono text-[10px] uppercase ${
                               species.risk === "Caution"
                                 ? "bg-red-400/10 text-red-300"
                                 : species.risk === "Seasonal"
@@ -792,7 +792,7 @@ export default function ExpeditionMapper() {
                             {species.risk}
                           </span>
                         </span>
-                        <span className="mt-1 block text-[10px] leading-4 text-white/35">
+                        <span className="mt-1 block text-[10px] leading-4 text-white/60">
                           {species.status} · {species.detail}
                         </span>
                       </span>
@@ -813,7 +813,7 @@ export default function ExpeditionMapper() {
               <Route size={16} />
               Export expedition
             </button>
-            <p className="mt-3 text-center font-mono text-[8px] uppercase tracking-[0.14em] text-white/25">
+            <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-white/55">
               {routePoints.length} route point{routePoints.length === 1 ? "" : "s"} ·
               GPX / KML / deep link
             </p>

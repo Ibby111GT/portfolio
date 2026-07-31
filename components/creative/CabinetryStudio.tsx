@@ -67,13 +67,13 @@ export default function CabinetryStudio({
 
         <section className="grid overflow-hidden rounded-3xl border border-white/10 bg-[#080808] lg:grid-cols-[1fr_360px]">
           <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/40">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
               Live cabinet specification
             </p>
             <h2 className="mt-3 text-3xl font-semibold">Configure the run</h2>
 
             <div className="mt-8">
-              <p className="text-xs text-white/45">Layout</p>
+              <p className="text-xs text-white/65">Layout</p>
               <div className="mt-3 grid gap-2 sm:grid-cols-3">
                 {LAYOUTS.map((option, index) => (
                   <button
@@ -88,7 +88,7 @@ export default function CabinetryStudio({
                     }`}
                   >
                     <span className="block text-sm font-semibold">{option.name}</span>
-                    <span className="mt-1 block font-mono text-[9px] text-white/35">
+                    <span className="mt-1 block font-mono text-[10px] text-white/60">
                       {option.run} ft · {option.modules} modules
                     </span>
                   </button>
@@ -97,7 +97,7 @@ export default function CabinetryStudio({
             </div>
 
             <div className="mt-8">
-              <p className="text-xs text-white/45">Face material</p>
+              <p className="text-xs text-white/65">Face material</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {MATERIALS.map((option, index) => (
                   <button
@@ -123,7 +123,7 @@ export default function CabinetryStudio({
 
             <div className="mt-8 grid gap-7 md:grid-cols-2">
               <div>
-                <p className="text-xs text-white/45">Hardware</p>
+                <p className="text-xs text-white/65">Hardware</p>
                 <div className="mt-3 space-y-2">
                   {HARDWARE.map((option) => (
                     <button
@@ -134,7 +134,7 @@ export default function CabinetryStudio({
                       className={`w-full rounded-lg border px-4 py-2.5 text-left text-xs ${
                         hardware === option
                           ? "border-alert/50 bg-alert-soft"
-                          : "border-white/10 text-white/45"
+                          : "border-white/10 text-white/65"
                       }`}
                     >
                       {option}
@@ -145,7 +145,7 @@ export default function CabinetryStudio({
 
               <div>
                 <label className="block">
-                  <span className="flex justify-between text-xs text-white/45">
+                  <span className="flex justify-between text-xs text-white/65">
                     <span>Glass display bays</span>
                     <span className="font-mono">{glassBays}</span>
                   </span>
@@ -165,7 +165,7 @@ export default function CabinetryStudio({
                   className={`mt-7 w-full rounded-full border px-4 py-3 text-xs font-semibold ${
                     lighting
                       ? "border-accent/55 bg-accent-soft"
-                      : "border-white/10 text-white/45"
+                      : "border-white/10 text-white/65"
                   }`}
                 >
                   Integrated lighting · {lighting ? "On" : "Off"}
@@ -175,7 +175,7 @@ export default function CabinetryStudio({
           </div>
 
           <aside className="p-7 md:p-9">
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
               Current issue
             </p>
             <h3 className="mt-3 text-2xl font-semibold">
@@ -193,19 +193,19 @@ export default function CabinetryStudio({
                   key={label}
                   className="flex items-center justify-between gap-4 bg-[#080808] px-4 py-3"
                 >
-                  <dt className="text-[10px] text-white/35">{label}</dt>
+                  <dt className="text-[10px] text-white/60">{label}</dt>
                   <dd className="text-xs font-medium">{value}</dd>
                 </div>
               ))}
             </dl>
             <div className="mt-6 rounded-2xl border border-accent/35 bg-accent-soft p-5">
-              <p className="text-[9px] uppercase tracking-[0.16em] text-white/40">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-white/65">
                 Concept allowance
               </p>
               <p className="mt-2 font-mono text-3xl">
                 ${estimate.toLocaleString()}
               </p>
-              <p className="mt-2 text-xs leading-5 text-white/40">
+              <p className="mt-2 text-xs leading-5 text-white/65">
                 Design-study estimate only; field dimensions and fabrication
                 drawings control the final scope.
               </p>

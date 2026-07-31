@@ -13,7 +13,7 @@ export function CommandList({
   return (
     <div className="overflow-hidden rounded-xl border border-white/10 bg-[#070a0f]">
       <div className="border-b border-white/10 px-4 py-2.5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
           {label}
         </p>
       </div>
@@ -22,7 +22,7 @@ export function CommandList({
           {lines.map((line) => (
             <span key={line.command} className="block">
               {line.comment ? (
-                <span className="block text-white/35"># {line.comment}</span>
+                <span className="block text-white/60"># {line.comment}</span>
               ) : null}
               <span className="text-blue-300">$ </span>
               {line.command}
@@ -45,7 +45,7 @@ export function OutputBlock({
   return (
     <div className="overflow-hidden rounded-xl border border-white/10 bg-[#070a0f]">
       <div className="border-b border-white/10 px-4 py-2.5">
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/65">
           {label}
         </p>
       </div>

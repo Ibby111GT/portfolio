@@ -322,7 +322,7 @@ export default function DataPipelineLab({
             }`}
           />
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
               {scenario.warehouse}
             </p>
             <p className="mt-0.5 text-sm font-medium">
@@ -391,11 +391,11 @@ export default function DataPipelineLab({
           <div key={source.name} className="bg-[#0b0e13] px-5 py-4">
             <div className="flex items-center justify-between gap-3">
               <p className="text-sm font-medium">{source.name}</p>
-              <span className="font-mono text-[9px] uppercase text-white/35">
+              <span className="font-mono text-[10px] uppercase text-white/60">
                 {source.cadence}
               </span>
             </div>
-            <p className="mt-1 font-mono text-[10px] text-white/40">
+            <p className="mt-1 font-mono text-[10px] text-white/65">
               {source.kind} · {source.volume.toLocaleString()} records
             </p>
           </div>
@@ -419,13 +419,13 @@ export default function DataPipelineLab({
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] text-white/30">
+                  <span className="font-mono text-[10px] text-white/60">
                     0{index + 1}
                   </span>
                   <StageIndicator state={state} accent={accent.dot} />
                 </div>
                 <p className="mt-5 text-sm font-medium">{layer.name}</p>
-                <p className="mt-1 text-[11px] text-white/40">{layer.label}</p>
+                <p className="mt-1 text-[11px] text-white/65">{layer.label}</p>
               </button>
             );
           })}
@@ -438,7 +438,7 @@ export default function DataPipelineLab({
             </span>
             {layerDetails[selectedLayer]}
           </p>
-          <span className="font-mono text-[10px] text-white/35">
+          <span className="font-mono text-[10px] text-white/60">
             {progress}% complete
           </span>
         </div>
@@ -447,12 +447,12 @@ export default function DataPipelineLab({
           <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
             <div className="flex items-end justify-between gap-4">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-wider text-white/60">
                   Published data products
                 </p>
                 <h2 className="mt-1 text-lg font-medium">{scenario.model}</h2>
               </div>
-              <p className="font-mono text-xs text-white/45">
+              <p className="font-mono text-xs text-white/65">
                 {processed.toLocaleString()} records
               </p>
             </div>
@@ -465,7 +465,7 @@ export default function DataPipelineLab({
                 ["Quarantine", zones.quarantine],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-lg border border-white/[0.07] px-3 py-2.5">
-                  <p className="font-mono text-[9px] uppercase tracking-wider text-white/30">
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-white/60">
                     {label}
                   </p>
                   <p className="mt-1 font-mono text-xs text-white/70">
@@ -478,11 +478,11 @@ export default function DataPipelineLab({
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               {scenario.metrics.map((metric) => (
                 <div key={metric.label} className="rounded-lg bg-white/[0.04] p-4">
-                  <p className="text-xs text-white/45">{metric.label}</p>
+                  <p className="text-xs text-white/65">{metric.label}</p>
                   <p className="mt-2 text-2xl font-semibold">
                     {complete ? metric.value : "--"}
                   </p>
-                  <p className="mt-1 text-[10px] text-white/30">
+                  <p className="mt-1 text-[10px] text-white/60">
                     {complete ? metric.context : "Available after run"}
                   </p>
                 </div>
@@ -491,7 +491,7 @@ export default function DataPipelineLab({
 
             <div className="mt-5 overflow-x-auto">
               <table className="w-full min-w-[520px] text-left text-xs">
-                <thead className="font-mono text-[9px] uppercase tracking-wider text-white/30">
+                <thead className="font-mono text-[10px] uppercase tracking-wider text-white/60">
                   <tr>
                     <th className="pb-2 font-normal">{scenario.previewLabels.entity}</th>
                     <th className="pb-2 font-normal">Source</th>
@@ -503,7 +503,7 @@ export default function DataPipelineLab({
                   {scenario.preview.map((row) => (
                     <tr key={row.entity} className="border-t border-white/[0.07]">
                       <td className="py-3 font-mono text-white/75">{row.entity}</td>
-                      <td className="py-3 text-white/45">{row.source}</td>
+                      <td className="py-3 text-white/65">{row.source}</td>
                       <td className="py-3 text-white/60">
                         {complete ? row.status : "Pending"}
                       </td>
@@ -520,7 +520,7 @@ export default function DataPipelineLab({
           <div className="space-y-4">
             <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
               <div className="flex items-center justify-between">
-                <p className="font-mono text-[10px] uppercase tracking-wider text-white/35">
+                <p className="font-mono text-[10px] uppercase tracking-wider text-white/60">
                   Quality and governance
                 </p>
                 <span
@@ -553,16 +553,16 @@ export default function DataPipelineLab({
                     <li key={check} className="flex items-center justify-between gap-3">
                       <span className="text-xs text-white/55">{check}</span>
                       <span
-                        className={`font-mono text-[9px] ${
+                        className={`font-mono text-[10px] ${
                           failed
                             ? "text-red-200"
                             : held
-                              ? "text-white/30"
+                              ? "text-white/60"
                               : recovered
                                 ? "text-blue-200"
                             : complete
                               ? accent.text
-                              : "text-white/25"
+                              : "text-white/55"
                         }`}
                       >
                         {failed
@@ -579,19 +579,19 @@ export default function DataPipelineLab({
                   );
                 })}
               </ul>
-              <p className="mt-5 border-t border-white/10 pt-4 text-[11px] leading-5 text-white/35">
+              <p className="mt-5 border-t border-white/10 pt-4 text-[11px] leading-5 text-white/60">
                 Policy: {scenario.policy}
               </p>
             </div>
 
             <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-white/35">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-white/60">
                 Run activity
               </p>
               <ol role="log" aria-live="polite" className="mt-4 space-y-3">
                 {activity.slice(0, 5).map((item, index) => (
-                  <li key={`${item}-${index}`} className="flex gap-3 text-[11px] leading-5 text-white/45">
-                    <span className="font-mono text-white/20">
+                  <li key={`${item}-${index}`} className="flex gap-3 text-[11px] leading-5 text-white/65">
+                    <span className="font-mono text-white/55">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     {item}

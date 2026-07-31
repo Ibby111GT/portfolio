@@ -59,14 +59,14 @@ export default function PanelStudio({
 
         <section className="grid overflow-hidden rounded-3xl border border-white/10 bg-[#080808] lg:grid-cols-[1fr_360px]">
           <div className="border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/40">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
               Coverage calculator
             </p>
             <h2 className="mt-3 text-3xl font-semibold">Shape the wall system</h2>
 
             <div className="mt-8 grid gap-7 md:grid-cols-2">
               <div>
-                <p className="text-xs text-white/45">Panel profile</p>
+                <p className="text-xs text-white/65">Panel profile</p>
                 <div className="mt-3 space-y-2">
                   {PROFILES.map((option, index) => (
                     <button
@@ -77,11 +77,11 @@ export default function PanelStudio({
                       className={`flex w-full items-center justify-between rounded-xl border p-4 text-left ${
                         profileIndex === index
                           ? "border-accent/55 bg-accent-soft"
-                          : "border-white/10 text-white/45"
+                          : "border-white/10 text-white/65"
                       }`}
                     >
                       <span className="text-sm font-semibold">{option.name}</span>
-                      <span className="font-mono text-[9px]">
+                      <span className="font-mono text-[10px]">
                         {option.module} in module
                       </span>
                     </button>
@@ -90,7 +90,7 @@ export default function PanelStudio({
               </div>
 
               <div>
-                <p className="text-xs text-white/45">Timber finish</p>
+                <p className="text-xs text-white/65">Timber finish</p>
                 <div className="mt-3 space-y-2">
                   {SPECIES.map((option, index) => (
                     <button
@@ -101,7 +101,7 @@ export default function PanelStudio({
                       className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left text-xs ${
                         speciesIndex === index
                           ? "border-alert/50 bg-alert-soft"
-                          : "border-white/10 text-white/45"
+                          : "border-white/10 text-white/65"
                       }`}
                     >
                       <span
@@ -117,7 +117,7 @@ export default function PanelStudio({
 
             <div className="mt-9 grid gap-6 sm:grid-cols-3">
               <label>
-                <span className="flex justify-between text-xs text-white/45">
+                <span className="flex justify-between text-xs text-white/65">
                   <span>Wall width</span>
                   <span className="font-mono">{wallWidth} ft</span>
                 </span>
@@ -131,7 +131,7 @@ export default function PanelStudio({
                 />
               </label>
               <label>
-                <span className="flex justify-between text-xs text-white/45">
+                <span className="flex justify-between text-xs text-white/65">
                   <span>Wall height</span>
                   <span className="font-mono">{wallHeight} ft</span>
                 </span>
@@ -145,7 +145,7 @@ export default function PanelStudio({
                 />
               </label>
               <label>
-                <span className="flex justify-between text-xs text-white/45">
+                <span className="flex justify-between text-xs text-white/65">
                   <span>LED channels</span>
                   <span className="font-mono">{ledChannels}</span>
                 </span>
@@ -162,7 +162,7 @@ export default function PanelStudio({
           </div>
 
           <aside className="p-7 md:p-9">
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">
               Generated takeoff
             </p>
             <h3 className="mt-3 text-2xl font-semibold">
@@ -179,7 +179,7 @@ export default function PanelStudio({
                   key={label}
                   className="rounded-xl border border-white/10 bg-white/[0.025] p-4"
                 >
-                  <p className="text-[9px] uppercase tracking-[0.14em] text-white/35">
+                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">
                     {label}
                   </p>
                   <p className="mt-2 font-mono text-xl">{value}</p>
@@ -187,7 +187,7 @@ export default function PanelStudio({
               ))}
             </div>
             <div className="mt-6 border-l-2 border-alert pl-4">
-              <p className="text-[9px] uppercase tracking-[0.16em] text-white/35">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-white/60">
                 Material allowance
               </p>
               <p className="mt-2 font-mono text-3xl">

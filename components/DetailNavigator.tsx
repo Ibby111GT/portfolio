@@ -62,7 +62,7 @@ export default function DetailNavigator({
             </p>
             <p
               className={`font-mono text-[10px] uppercase tracking-[0.14em] ${
-                tone === "dark" ? "text-white/45" : "text-fg-muted"
+                tone === "dark" ? "text-white/65" : "text-fg-muted"
               }`}
             >
               {readingTime}
@@ -85,8 +85,8 @@ export default function DetailNavigator({
               >
                 <span
                   aria-hidden="true"
-                  className={`font-mono text-[9px] ${
-                    tone === "dark" ? "text-white/35" : "text-fg-muted/70"
+                  className={`font-mono text-[10px] ${
+                    tone === "dark" ? "text-white/60" : "text-fg-muted/70"
                   }`}
                 >
                   {String(index + 1).padStart(2, "0")}

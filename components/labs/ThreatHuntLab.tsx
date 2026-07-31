@@ -114,7 +114,7 @@ export default function ThreatHuntLab() {
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-blue-300" />
           </span>
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">Case IR-2026-071</p>
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/65">Case IR-2026-071</p>
             <p className="mt-0.5 text-sm font-medium">Suspected identity compromise</p>
           </div>
         </div>
@@ -147,7 +147,7 @@ export default function ThreatHuntLab() {
                     aria-pressed={source === item}
                     onClick={() => setSource(item)}
                     className={`rounded-md px-3 py-1.5 font-mono text-[10px] uppercase transition ${
-                      source === item ? "bg-white text-black" : "text-white/45 hover:text-white"
+                      source === item ? "bg-white text-black" : "text-white/65 hover:text-white"
                     }`}
                   >
                     {item}
@@ -156,7 +156,7 @@ export default function ThreatHuntLab() {
               </div>
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              <span className="mr-1 font-mono text-[10px] uppercase tracking-wider text-white/30">Hunt pivots</span>
+              <span className="mr-1 font-mono text-[10px] uppercase tracking-wider text-white/60">Hunt pivots</span>
               {PRESETS.map((preset) => (
                 <button
                   key={preset.label}
@@ -175,7 +175,7 @@ export default function ThreatHuntLab() {
 
           <div className="max-h-[620px] overflow-y-auto">
             <table className="w-full min-w-[760px] border-collapse text-left">
-              <thead className="sticky top-0 z-10 bg-[#0b0e13] font-mono text-[10px] uppercase tracking-wider text-white/35">
+              <thead className="sticky top-0 z-10 bg-[#0b0e13] font-mono text-[10px] uppercase tracking-wider text-white/60">
                 <tr>
                   <th className="px-4 py-3 font-normal">Evidence</th>
                   <th className="px-3 py-3 font-normal">Time</th>
@@ -202,21 +202,21 @@ export default function ThreatHuntLab() {
                           className={`flex h-6 w-6 items-center justify-center rounded-md border font-mono text-xs transition ${
                             active
                               ? "border-blue-300 bg-blue-300 text-black"
-                              : "border-white/15 text-white/30 hover:border-blue-300/50 hover:text-blue-200"
+                              : "border-white/15 text-white/60 hover:border-blue-300/50 hover:text-blue-200"
                           }`}
                         >
                           {active ? "+" : ""}
                         </button>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-3 font-mono text-[11px] text-white/45">{event.time}</td>
+                      <td className="whitespace-nowrap px-3 py-3 font-mono text-[11px] text-white/65">{event.time}</td>
                       <td className="px-3 py-3">
-                        <span className={`rounded border px-2 py-1 font-mono text-[9px] uppercase ${SOURCE_STYLES[event.source]}`}>
+                        <span className={`rounded border px-2 py-1 font-mono text-[10px] uppercase ${SOURCE_STYLES[event.source]}`}>
                           {event.source}
                         </span>
                       </td>
                       <td className="px-3 py-3">
                         <p className="font-mono text-xs text-white/80">{event.actor}</p>
-                        <p className="mt-1 font-mono text-[10px] text-white/35">{event.asset} / {event.ip}</p>
+                        <p className="mt-1 font-mono text-[10px] text-white/60">{event.asset} / {event.ip}</p>
                       </td>
                       <td className="max-w-md px-3 py-3">
                         <div className="flex items-center gap-2">
@@ -225,21 +225,21 @@ export default function ThreatHuntLab() {
                         </div>
                         <p className="mt-1.5 text-xs leading-5 text-white/60">{event.summary}</p>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-3 text-[11px] text-white/45">{event.tactic}</td>
+                      <td className="whitespace-nowrap px-3 py-3 text-[11px] text-white/65">{event.tactic}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
             {visibleEvents.length === 0 ? (
-              <p className="px-5 py-16 text-center font-mono text-xs text-white/35">No telemetry matches this pivot.</p>
+              <p className="px-5 py-16 text-center font-mono text-xs text-white/60">No telemetry matches this pivot.</p>
             ) : null}
           </div>
         </div>
 
         <aside className="flex flex-col bg-white/[0.018] p-5">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">Mission</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/60">Mission</p>
             <h2 className="mt-2 text-lg font-medium">Prove the attack chain</h2>
             <p className="mt-2 text-xs leading-5 text-white/50">
               Select only the events that support initial access, execution,
@@ -258,7 +258,7 @@ export default function ThreatHuntLab() {
               return (
                 <div key={objective} className="flex items-center justify-between rounded-lg bg-white/[0.04] px-3 py-2.5">
                   <span className="text-xs text-white/60">{objective}</span>
-                  <span className={`font-mono text-[10px] ${complete ? "text-blue-200" : "text-white/25"}`}>
+                  <span className={`font-mono text-[10px] ${complete ? "text-blue-200" : "text-white/55"}`}>
                     {complete ? "LINKED" : "OPEN"}
                   </span>
                 </div>
@@ -269,12 +269,12 @@ export default function ThreatHuntLab() {
           <div className="mt-6 border-t border-white/10 pt-5">
             <div className="flex items-end justify-between">
               <div>
-                <p className="font-mono text-[10px] uppercase text-white/30">Evidence selected</p>
+                <p className="font-mono text-[10px] uppercase text-white/60">Evidence selected</p>
                 <p className="mt-1 text-3xl font-semibold">{selected.size}</p>
               </div>
               {submitted ? (
                 <div className="text-right">
-                  <p className="font-mono text-[10px] uppercase text-white/30">Confidence</p>
+                  <p className="font-mono text-[10px] uppercase text-white/60">Confidence</p>
                   <p className={`mt-1 text-3xl font-semibold ${score >= 80 ? "text-blue-200" : score >= 55 ? "text-red-200" : "text-red-300"}`}>
                     {score}%
                   </p>

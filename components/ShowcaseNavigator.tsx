@@ -236,7 +236,7 @@ export default function ShowcaseNavigator() {
               </p>
 
               <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                   What proves it
                 </p>
                 <p className="mt-2 text-sm leading-6 text-white/80">
@@ -263,7 +263,7 @@ export default function ShowcaseNavigator() {
             </div>
 
             <aside className="border-t border-white/10 bg-black/20 p-7 md:p-10 lg:border-l lg:border-t-0 lg:p-12">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                 Competency chain
               </p>
               <ol className="mt-6 space-y-3">
@@ -272,7 +272,7 @@ export default function ShowcaseNavigator() {
                     key={step}
                     className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3"
                   >
-                    <span className="font-mono text-[10px] text-white/35">
+                    <span className="font-mono text-[10px] text-white/60">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span className="text-sm text-white/75">{step}</span>
@@ -280,7 +280,7 @@ export default function ShowcaseNavigator() {
                 ))}
               </ol>
 
-              <p className="mt-9 font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+              <p className="mt-9 font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                 Skills demonstrated
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -295,7 +295,7 @@ export default function ShowcaseNavigator() {
               </div>
 
               <div className="mt-9 border-t border-white/10 pt-7">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/65">
                   Go deeper
                 </p>
                 <div className="mt-4 space-y-3">
