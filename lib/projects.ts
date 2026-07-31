@@ -30,7 +30,7 @@ export const PROJECTS: CatalogProject[] = [
     tagline:
       "Edit one maze and compare how A*, Dijkstra, breadth-first, and depth-first search explore it.",
     plain:
-      "A working graph-search laboratory. Add or remove walls, run four classic algorithms against the same start and goal, and compare explored nodes with final route length.",
+      "The algorithms behind GPS routing and game AI, made visible. Draw walls, then run A*, Dijkstra, breadth-first, and depth-first search against the same maze and watch how many cells each one has to explore to find the identical route.",
     href: "/labs/pathfinder-arena",
     stack: ["TypeScript", "Graph theory", "Canvas"],
     signal: "4 real search algorithms · editable maze",
@@ -45,10 +45,10 @@ export const PROJECTS: CatalogProject[] = [
     tagline:
       "Operate a factory fleet, create bottlenecks, and watch autonomous vehicles reroute material.",
     plain:
-      "An agent-based material-handling simulation with machine queues, AGV routing, arrival pressure, failures, throughput, and wait-time feedback.",
+      "A factory floor you can break on purpose. Lots queue at each station, autonomous vehicles carry them downstream, and failing a machine forces the line to reroute through its backup while throughput and bottlenecks respond live.",
     href: "/labs/flowline",
     stack: ["Agent simulation", "Queueing", "Operations"],
-    signal: "Live AGV routing · failure recovery",
+    signal: "Real queues · rerouting on failure",
     accent: "blue",
   },
   {
@@ -60,10 +60,10 @@ export const PROJECTS: CatalogProject[] = [
     tagline:
       "Select an evolving driver and watch its sensor, hidden, and steering layers activate live.",
     plain:
-      "A browser-native neuroevolution experiment. Simple neural controllers steer a population around a track, accumulate fitness, fail, reproduce, and mutate across generations.",
+      "Machine learning with the lid off. Two dozen tiny neural networks read five real sensors, learn to thread a track scattered with obstacles, and breed the next generation — click any driver to watch its layers light up with live activations.",
     href: "/labs/neuro-drivers",
     stack: ["Neural networks", "Evolution", "Simulation"],
-    signal: "5–6–2 live network · evolving population",
+    signal: "5–6–2 network · live layer inspector",
     accent: "blue",
   },
   {
