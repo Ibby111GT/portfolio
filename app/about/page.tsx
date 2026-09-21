@@ -7,6 +7,12 @@ import Reveal from "@/components/Reveal";
 // Reverse-chronological — the timeline renders in array order.
 const EXPERIENCE = [
   {
+    org: "Roomi Group Corp",
+    role: "Project Manager · AI & automation systems",
+    period: "2026–Present",
+    track: "OPS & AI",
+  },
+  {
     org: "DFW Technology — UT Dallas Capstone",
     role: "Project Lead & Systems Analyst",
     period: "2026",
@@ -56,8 +62,11 @@ const EDUCATION = [
   },
 ];
 
-const TRACKS = ["ALL", "SECURITY", "CLOUD & IT"] as const;
+const TRACKS = ["ALL", "SECURITY", "CLOUD & IT", "OPS & AI"] as const;
 type Track = (typeof TRACKS)[number];
+
+const RESUME_PATH = "/resume.pdf";
+const RESUME_FILENAME = "Ibrahim_Hussain_Resume.pdf";
 
 function EvidencePanel({
   code,
@@ -120,6 +129,61 @@ function EvidencePanel({
   );
 }
 
+function ResumeCard() {
+  return (
+    <div className="rounded-2xl border border-border bg-surface p-5 md:p-6">
+      <div className="flex items-start gap-4">
+        <div
+          aria-hidden="true"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-fg text-bg"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+            <path d="M14 3v5h5" />
+            <path d="M9 13h6" />
+            <path d="M9 17h6" />
+          </svg>
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-base font-semibold text-fg">Resume</p>
+          <p className="mt-0.5 text-sm text-fg-muted">
+            One page · PDF
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              href={RESUME_PATH}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-fg px-4 py-2 text-sm font-medium text-bg transition-all duration-200 hover:bg-fg/70"
+            >
+              View resume
+            </a>
+            <a
+              href={RESUME_PATH}
+              download={RESUME_FILENAME}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium text-fg transition-all duration-200 hover:bg-bg"
+            >
+              Download PDF
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const storyLink =
+  "text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted";
+
 export default function AboutPage() {
   const [track, setTrack] = useState<Track>("ALL");
 
@@ -141,9 +205,9 @@ export default function AboutPage() {
         <div className="relative max-w-5xl mx-auto px-6 md:px-8 pt-32 pb-20">
           <Reveal blur>
             <h1 className="text-4xl md:text-6xl font-bold text-fg leading-tight tracking-tight">
-              I secure with intention.
+              I learned IT on a shop floor.
               <br />
-              I build with care.
+              I learned security in a SOC.
             </h1>
           </Reveal>
         </div>
@@ -169,12 +233,24 @@ export default function AboutPage() {
               This is my story.
             </h2>
             <p className="text-base text-fg-muted leading-relaxed max-w-prose">
-              I&apos;m Ibrahim — a security, cloud, and systems engineer shaped
-              by operational work rather than theory alone. My work spans
-              identity administration, detection engineering, cloud
-              hardening, data systems, and the client-facing analysis needed
-              to turn a technical recommendation into a decision.
+              I&apos;m Ibrahim Hussain, a security and systems engineer from
+              Houston. My first IT job started in January 2020, while I was
+              still in high school, at Roomi Group Corp — a commercial millwork
+              manufacturer with 200+ employees and a shop floor that
+              doesn&apos;t stop for a broken login. It taught me the thing
+              every job since has confirmed: security isn&apos;t a department.
+              It&apos;s whether the right person has the right access at the
+              moment they need it, and nobody else does.
             </p>
+            <p className="text-base text-fg-muted leading-relaxed max-w-prose">
+              Since then I&apos;ve hardened client clouds, built detections in
+              a university SOC, led a capstone team advising a city on AI
+              infrastructure, and shipped six open-source security tools.
+              Today I manage construction projects for the company where I
+              started — and I&apos;m building the AI that will help it
+              estimate them.
+            </p>
+            <ResumeCard />
           </Reveal>
         </section>
 
@@ -187,16 +263,14 @@ export default function AboutPage() {
               It started with fixing things.
             </h2>
             <p className="text-base text-fg-muted leading-relaxed max-w-prose">
-              My first years in IT were at Roomi Group in Houston, managing
-              identity and access for 200+ employees through Azure Active
-              Directory. Enforcing RBAC policies and building secure
-              provisioning processes taught me that access control is where
-              security begins.
+              For three and a half years I was the IT desk for 200+ people
+              across offices and a production floor: Azure Active Directory,
+              role-based access, accounts provisioned on day one and closed on
+              the last. Most breaches don&apos;t start with an exploit — they
+              start with an account nobody closed. I learned that by being the
+              person who closed them.
             </p>
-            <Link
-              href="/work/roomi-group"
-              className="text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted"
-            >
+            <Link href="/work/roomi-group" className={storyLink}>
               Read the identity lifecycle case study →
             </Link>
           </Reveal>
@@ -227,16 +301,14 @@ export default function AboutPage() {
               Then I found the cloud.
             </h2>
             <p className="text-base text-fg-muted leading-relaxed max-w-prose">
-              At Chief Technology Group I hardened Azure Firewall policies,
-              resolved 200+ incidents across Azure and Citrix environments,
-              and supported migrations to Azure DevOps. Working with least
-              privilege in real client environments showed me how cloud
-              security holds up under pressure.
+              Summer 2024 at Chief Technology Group: enterprise clients on
+              Azure and Citrix, 200+ incidents resolved, Azure Firewall
+              policies hardened, IAM tightened toward least privilege, and a
+              legacy stack moved to Azure DevOps. Every rule I wrote landed on
+              someone&apos;s production environment, so I learned to make the
+              secure choice and the available one at the same time.
             </p>
-            <Link
-              href="/work/chief-technology-group"
-              className="text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted"
-            >
+            <Link href="/work/chief-technology-group" className={storyLink}>
               Read the cloud engineering case study →
             </Link>
           </Reveal>
@@ -251,23 +323,25 @@ export default function AboutPage() {
               Security brought the work together.
             </h2>
             <p className="text-base text-fg-muted leading-relaxed max-w-prose">
-              At the University of Texas System, I built SPL detection
-              dashboards, enforced Windows LAPS across 500+ endpoints, and
-              investigated abnormal authentication behavior. I also led a
-              five-person capstone team evaluating a sub-threshold private AI
-              facility for DFW Technology.
+              In 2025 I joined the University of Texas System&apos;s security
+              team. I built SPL dashboards that surface login trends and IP
+              anomalies, rolled out Windows LAPS across 500+ endpoints so local
+              admin passwords rotate themselves, helped deploy Intune policy to
+              managed devices, and hunted abnormal authentication in the logs.
+            </p>
+            <p className="text-base text-fg-muted leading-relaxed max-w-prose">
+              In my final semester I led a five-person capstone team advising
+              DFW Technology and the City of Richardson on private AI
+              infrastructure. We found the version of the project that
+              survives Texas grid politics — a 20 MW facility under the 75 MW
+              review threshold, powered behind the meter — and placed Top 15
+              of 6,000+ students at the UTDsolv Expo.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link
-                href="/work/ut-system-security"
-                className="text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted"
-              >
+              <Link href="/work/ut-system-security" className={storyLink}>
                 Security work →
               </Link>
-              <Link
-                href="/work/private-ai-feasibility"
-                className="text-sm font-medium text-fg underline decoration-border underline-offset-4 transition-colors hover:text-fg-muted"
-              >
+              <Link href="/work/private-ai-feasibility" className={storyLink}>
                 Feasibility study →
               </Link>
             </div>
@@ -283,6 +357,68 @@ export default function AboutPage() {
             />
           </Reveal>
         </section>
+
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <Reveal>
+            <EvidencePanel
+              code="AI-01"
+              title="Estimating intelligence, in development"
+              metric="Blueprint → takeoff"
+              detail="Roomi Group Corp · 2026"
+              steps={[
+                "Read the drawings",
+                "Propose the takeoff",
+                "Estimator approves",
+              ]}
+            />
+          </Reveal>
+          <Reveal delay={120} className="flex flex-col justify-center gap-5">
+            <h2 className="text-2xl md:text-3xl font-bold text-fg">
+              Now I build the systems.
+            </h2>
+            <p className="text-base text-fg-muted leading-relaxed max-w-prose">
+              I graduated in May 2026 and went back to Roomi Group as a
+              Project Manager, running commercial millwork projects from shop
+              drawings through installation, with schedules, submittals, and
+              subcontractors tracked in Wrike and Procore.
+            </p>
+            <p className="text-base text-fg-muted leading-relaxed max-w-prose">
+              Those projects are also my test bed. I&apos;m building RGC-AI,
+              an estimating assistant that reads blueprints with a YOLOv11
+              vision model trained on the company&apos;s historic drawings,
+              retrieves precedent through a Postgres + pgvector pipeline, and
+              hands a proposed takeoff to an estimator who approves or rejects
+              every line. Agents propose; people decide. Alongside it:
+              automated project-health monitoring on our Wrike workspace, and
+              six open-source security tools with 265 automated tests and CI
+              on every push.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link href="/projects" className={storyLink}>
+                Open-source tools →
+              </Link>
+              <Link href="/labs" className={storyLink}>
+                Browser labs →
+              </Link>
+            </div>
+          </Reveal>
+        </section>
+
+        <Reveal>
+          <section className="max-w-3xl">
+            <h2 className="text-2xl md:text-3xl font-bold text-fg">
+              Where this is going.
+            </h2>
+            <p className="mt-5 text-base text-fg-muted leading-relaxed max-w-prose">
+              The through-line is software meeting physical operations — shop
+              floors, endpoints, city grids, job sites. I want to keep working
+              at that seam: securing the infrastructure people depend on and
+              building the systems that run it. Security+ is next. Long term,
+              I&apos;m aiming at federal and regulated facilities, where
+              cybersecurity and construction are the same problem.
+            </p>
+          </section>
+        </Reveal>
 
         <section>
           <div className="mb-8 flex items-center justify-between gap-4 flex-wrap">
@@ -314,7 +450,7 @@ export default function AboutPage() {
           <div className="relative flex flex-col pl-5 border-l border-border">
             {visibleExperience.map((item) => (
               <div
-                key={item.org}
+                key={`${item.org}-${item.period}`}
                 className="flex items-start justify-between gap-6 py-5 last:pb-0"
               >
                 <div>
@@ -358,12 +494,21 @@ export default function AboutPage() {
                 opportunities.
               </p>
             </div>
-            <a
-              href="mailto:Ibrahim.Hussain@UTDallas.edu"
-              className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-fg text-bg text-sm font-medium hover:bg-fg/70 transition-all duration-200"
-            >
-              Get in touch →
-            </a>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="mailto:Ibrahim.Hussain@UTDallas.edu"
+                className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-fg text-bg text-sm font-medium hover:bg-fg/70 transition-all duration-200"
+              >
+                Get in touch →
+              </a>
+              <a
+                href={RESUME_PATH}
+                download={RESUME_FILENAME}
+                className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-fg text-sm font-medium hover:bg-bg transition-all duration-200"
+              >
+                Download resume
+              </a>
+            </div>
           </div>
         </Reveal>
       </div>

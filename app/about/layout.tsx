@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const DESCRIPTION =
-  "A security, cloud, identity, and systems engineering career built through operational work, open-source tools, and client-facing delivery.";
+  "From IT support on a Houston millwork shop floor to cloud engineering, a university SOC, a Top 15 capstone on private AI infrastructure, and the AI systems I build for construction today — plus my resume.";
 
 export const metadata: Metadata = {
   title: "About — Ibrahim Hussain",
