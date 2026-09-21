@@ -32,7 +32,9 @@ Everything interactive is deterministic (seeded PRNGs, fixed physics steps) and 
 - `/projects/{threatlens,netrecon,logsentry,passaudit,webrecon}` — documented Python security tools (source on GitHub)
 - `/projects/peptides` — a synthetic healthcare data-governance explorer
 
-**Work** — professional case studies (`/work/[slug]`): UT System security, a private-AI feasibility capstone, cloud engineering, and identity/access management.
+**Work** — professional case studies (`/work/[slug]`): a private-AI feasibility capstone, the RGC-AI estimating assistant (in development), UT System security, cloud engineering, and identity/access management.
+
+**About** — the story behind the work, with a downloadable resume (`/about`).
 
 **Creative** — an expanding collection of interactive studies (`/creative` and `/creative/[slug]`) organized into design and fabrication, playable worlds, interactive simulations, and generative systems. The collection includes a block-built neighborhood simulation, an arcade circuit, a compact RPG quest, a procedural character-animation lab, a security threat globe, a clean-energy grid, WebGL product studies, an expedition mapper, and living algorithm experiments.
 

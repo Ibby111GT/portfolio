@@ -1,7 +1,7 @@
 {
   "full_name": "Ibrahim Hussain",
-  "headline": "Security Engineering | Cloud & Identity Systems",
-  "location": "Dallas, TX",
+  "headline": "Security Engineering | Cloud, Identity & AI Systems",
+  "location": "Houston, TX",
   "email": "Ibrahim.Hussain@UTDallas.edu",
   "skills": {
     "splunk": "Designed and deployed SPL-based detection dashboards monitoring login trends, IP anomalies, and event volume across enterprise systems, improving threat visibility and accelerating incident triage.",

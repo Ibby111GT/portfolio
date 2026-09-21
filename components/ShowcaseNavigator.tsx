@@ -103,6 +103,10 @@ const TRACKS: ShowcaseTrack[] = [
         href: "/work/roomi-group",
         label: "Walk the identity lifecycle design",
       },
+      {
+        href: "/work/rgc-ai",
+        label: "See the estimating assistant I'm building",
+      },
     ],
     skills: [
       "Systems analysis",

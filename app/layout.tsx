@@ -8,28 +8,28 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Ibrahim Hussain — Interactive Systems & Software",
+  title: "Ibrahim Hussain — Security & Systems Engineer",
   description:
-    "Playable simulations, generative systems, software projects, and engineering case studies built to be explored directly in the browser.",
+    "Security, cloud, identity, and AI systems engineer in Houston. Professional case studies, tested open-source security tools, and browser labs built to be operated, not just read.",
   openGraph: {
-    title: "Ibrahim Hussain — Interactive Systems & Software",
+    title: "Ibrahim Hussain — Security & Systems Engineer",
     description:
-      "Play small indie worlds, inspect living algorithms, operate software labs, and explore the engineering decisions behind them.",
+      "Case studies from a university SOC, client clouds, and a private-AI feasibility study — plus open-source security tools and browser labs you can run yourself.",
     type: "website",
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Interactive software, playful simulations, and generative systems",
+        alt: "Ibrahim Hussain — security and systems engineering portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ibrahim Hussain — Interactive Systems & Software",
+    title: "Ibrahim Hussain — Security & Systems Engineer",
     description:
-      "Playable worlds, generative systems, interactive labs, and engineering case studies.",
+      "Security case studies, open-source tools, and browser labs from a security and systems engineer.",
     images: ["/og.png"],
   },
 };

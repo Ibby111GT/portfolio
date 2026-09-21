@@ -311,6 +311,21 @@ export const WORK_PROJECTS: CatalogProject[] = [
     accent: "blue",
   },
   {
+    slug: "rgc-ai",
+    name: "RGC-AI Estimating Assistant",
+    kind: "case",
+    category: "Applied AI · construction",
+    filter: "work",
+    tagline:
+      "Building a vision-plus-retrieval estimating assistant with an estimator approving every line.",
+    plain:
+      "A system that reads marked-up construction drawings, finds the items in scope, pulls the closest past bids, and drafts a takeoff for a human estimator to approve line by line.",
+    href: "/work/rgc-ai",
+    stack: ["YOLOv11", "Postgres + pgvector", "Agent pipeline"],
+    signal: "In development · human-approved output",
+    accent: "blue",
+  },
+  {
     slug: "ut-system-security",
     name: "University of Texas System",
     kind: "case",

@@ -156,6 +156,96 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
   },
   {
+    slug: "rgc-ai",
+    tags: ["Applied AI", "Construction", "2026 · In development"],
+    title: "RGC-AI Estimating Assistant",
+    subtitle:
+      "An estimating assistant for commercial millwork — computer vision over marked-up drawings, retrieval over past bids, and an estimator approving every proposed line.",
+    tagline: "Agents propose the takeoff. An estimator decides.",
+    description:
+      "At Roomi Group Corp I manage commercial millwork projects and am building the system that will help estimate them: a YOLOv11 vision model trained on the company's color-marked historic drawings, a Postgres + pgvector retrieval layer over prior bids and scope documents, and an agent pipeline that drafts a takeoff for an estimator to approve, edit, or reject line by line.",
+    evidenceBoundary:
+      "This is an internal system under active development at a private company. Drawings, pricing data, model weights, and bid outcomes are confidential and are not published. The architecture and workflow are described as designed and built so far; no accuracy or time-savings claims are made until they have been measured.",
+    stats: [
+      { value: 3, label: "Scope colors the vision model is trained to read" },
+      { value: 100, suffix: "%", label: "Of proposed lines reviewed by an estimator" },
+    ],
+    glow: "blue",
+    diagram: {
+      caption: "From drawing set to approved takeoff",
+      stages: [
+        {
+          label: "Drawing set",
+          detail:
+            "Architectural sheets with scope marked in color — yellow for plastic laminate, blue for solid surface, pink for upholstery",
+          tone: "neutral",
+        },
+        {
+          label: "Vision model",
+          detail:
+            "YOLOv11, trained on the company's historic marked-up blueprints, detects each item in scope",
+          tone: "accent",
+        },
+        {
+          label: "Retrieval",
+          detail:
+            "Postgres + pgvector surfaces the closest past bids, scope letters, and unit costs",
+          tone: "accent",
+        },
+        {
+          label: "Estimator approval",
+          detail:
+            "Every proposed line is approved, edited, or rejected by a person before it becomes part of a bid",
+          tone: "alert",
+        },
+      ],
+      callout: {
+        label: "The rule that shapes everything",
+        body: "Agents propose; people decide. The system exists to make an experienced estimator faster, not to replace the judgment a bid depends on.",
+      },
+    },
+    plainLanguage:
+      "Before a millwork company can bid a job, someone has to read hundreds of drawing pages and count every cabinet, panel, and countertop in scope — the takeoff. It is slow, it is where expensive mistakes hide, and it depends on a few people's memory of what similar work cost last time. I'm building a system that does the first pass: it reads the marked-up drawings, finds the items, pulls up the closest past jobs, and drafts a takeoff. An estimator then goes through it line by line and approves what is right.",
+    whatToLookFor: [
+      "The color convention is the key insight: estimators already mark scope in color, so the labeled training data already exists in the company's archive.",
+      "Retrieval answers the question estimators answer from memory today — what did this cost the last time we built it?",
+      "The approval gate is a design decision, not a limitation. A takeoff is a financial commitment, so nothing reaches a bid without a person signing off.",
+    ],
+    practicalUse:
+      "Any trade contractor that bids from drawings runs some version of this workflow by hand. Making the first pass automatic — and keeping the decision human — is the difference between an estimating team that can bid more work and one that is bottlenecked on its most experienced person.",
+    problem: {
+      title: "The takeoff is the bottleneck.",
+      body: "Bidding commercial millwork starts with a manual takeoff from the drawing set. It ties up the most experienced estimators, it is hard to check, and institutional pricing knowledge lives in people's heads instead of in a system anyone can query.",
+    },
+    goals: ["Faster first pass", "Precedent on demand", "Human-approved output"],
+    actions: [
+      {
+        title: "Trained a vision model on marked-up drawings",
+        body: "Built a YOLOv11 detector on the company's historic blueprints, where scope is already highlighted by color — yellow for plastic laminate, blue for solid surface, pink for upholstery.",
+      },
+      {
+        title: "Built the retrieval layer",
+        body: "Indexed past bids, scope letters, and pricing history in Postgres with pgvector so the pipeline can surface the closest precedent for each detected item.",
+      },
+      {
+        title: "Designed the agent pipeline",
+        body: "Separated the work into agents for orchestration, takeoff, scope, knowledge retrieval, pricing, and QA — each one producing a proposal, never a decision.",
+      },
+      {
+        title: "Put an estimator in the loop",
+        body: "Every proposed line is approved, edited, or rejected by a person before it becomes part of a bid — the same rule I apply to every automation I build.",
+      },
+    ],
+    outcomes: [
+      { value: 3, label: "Scope colors detected from the archive" },
+      { value: 100, suffix: "%", label: "Of proposed lines reviewed by an estimator" },
+    ],
+    learnings: [
+      "The best training data is the artifact people already produce — an estimator's highlighter is a labeled dataset.",
+      "In a system that spends money, the approval gate is the product; automation earns trust one accepted line at a time.",
+    ],
+  },
+  {
     slug: "ut-system-security",
     tags: ["Information Security", "Internship", "2025"],
     title: "University of Texas System",

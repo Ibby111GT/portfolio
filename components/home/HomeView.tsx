@@ -62,9 +62,9 @@ export default function HomeView({ profile }: { profile: BaseProfile }) {
             </h1>
             <Reveal delay={360}>
               <p className="mx-auto mb-7 max-w-2xl text-sm leading-6 text-fg-muted md:text-lg md:leading-8">
-                I build security, data, and infrastructure systems that turn
-                messy signals into decisions — with working demos that show
-                exactly how they hold up.
+                I build security, data, and AI systems that turn messy signals
+                into decisions — with working demos that show exactly how
+                they hold up.
               </p>
             </Reveal>
             <Reveal delay={500}>

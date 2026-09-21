@@ -394,6 +394,9 @@ export default function AboutPage() {
               on every push.
             </p>
             <div className="flex flex-wrap gap-4">
+              <Link href="/work/rgc-ai" className={storyLink}>
+                RGC-AI case study →
+              </Link>
               <Link href="/projects" className={storyLink}>
                 Open-source tools →
               </Link>
