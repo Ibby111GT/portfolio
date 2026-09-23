@@ -30,7 +30,7 @@ Everything interactive is deterministic (seeded PRNGs, fixed physics steps) and 
 - `/labs/threat-hunt` — SignalTrace, an identity-intrusion hunt scored on precision
 - `/labs/data-systems/{cybersecurity,finance,healthcare}` — runnable five-stage data pipelines you can break and repair
 - `/projects/{threatlens,netrecon,logsentry,passaudit,webrecon}` — documented Python security tools (source on GitHub)
-- `/projects/peptides` — a synthetic healthcare data-governance explorer
+- `/projects/peptides` — a data-governance demonstration app on a fictional research dataset (a demo, not one of the security tools)
 
 **Work** — professional case studies (`/work/[slug]`): a private-AI feasibility capstone, the RGC-AI estimating assistant (in development), UT System security, cloud engineering, and identity/access management.
 

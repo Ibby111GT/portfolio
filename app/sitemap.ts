@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { CASE_STUDIES } from "@/lib/caseStudies";
 import { CREATIVE_PROJECTS } from "@/lib/creativeProjects";
-import { TOOL_SLUGS } from "@/lib/toolProjects";
+import { DOC_SLUGS } from "@/lib/toolProjects";
 import { SITE_URL } from "@/lib/siteUrl";
 
 export const STATIC_ROUTES = [
@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     ...STATIC_ROUTES,
     ...CASE_STUDIES.map((study) => `/work/${study.slug}`),
-    ...TOOL_SLUGS.map((slug) => `/projects/${slug}`),
+    ...DOC_SLUGS.map((slug) => `/projects/${slug}`),
     ...CREATIVE_PROJECTS.map((project) => `/creative/${project.slug}`),
   ];
 

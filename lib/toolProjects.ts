@@ -564,12 +564,12 @@ g***************(16)             VERY STRONG   88/100  PASS`,
   peptides: {
     slug: "peptides",
     name: "Peptide Evidence Explorer",
-    eyebrow: "Healthcare data operations",
+    eyebrow: "Demonstration · fictional data",
     intro:
-      "Turn scattered synthetic research records into one searchable, quality-checked registry with provenance, comparison, and export.",
+      "A demonstration of research-data governance on a fictional dataset: scattered records become one searchable, quality-checked registry with provenance, comparison, and export. Not a security tool, and not counted with them.",
     repo: "https://github.com/Ibby111GT/Peptides",
     liveHref: "/projects/peptides/demo",
-    liveLabel: "Open the live explorer",
+    liveLabel: "Open the demo",
     language: "HTML, CSS, JavaScript + Python tests",
     plain: [
       "Research teams rarely receive clean, consistent information. One group sends a spreadsheet, another sends an API export, and a third attaches documents. Before anybody compares the records, a data team has to make sure the IDs match, required fields are present, and every number can be traced back to its source.",
@@ -680,5 +680,11 @@ export const TOOL_SLUGS = [
   "logsentry",
   "passaudit",
   "webrecon",
-  "peptides",
 ];
+
+/** Documented demonstrations: same detail-page format, but built on fictional
+ *  data and kept out of the open-source security-tool collection and totals. */
+export const DEMO_SLUGS = ["peptides"];
+
+/** Every slug that has a detail page under /projects/[slug]. */
+export const DOC_SLUGS = [...TOOL_SLUGS, ...DEMO_SLUGS];

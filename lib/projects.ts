@@ -272,17 +272,17 @@ export const PROJECTS: CatalogProject[] = [
   {
     slug: "peptides",
     name: "Peptide Evidence Explorer",
-    kind: "tool",
-    category: "Healthcare data operations",
+    kind: "lab",
+    category: "Data application demo",
     filter: "data",
     tagline:
-      "Trace, filter, compare, and export synthetic healthcare research records.",
+      "A demonstration data-governance app built on a fictional research dataset.",
     plain:
-      "A working healthcare data application that turns scattered fictional study records into one governed registry. Filter the data, inspect its source history, compare programs, and export the exact view on screen.",
+      "A demonstration, not a production tool. It takes scattered fictional study records and turns them into one governed registry you can filter, trace back to source, compare, and export. Every record is invented; the data-quality and provenance checks are real.",
     href: "/projects/peptides",
     repo: "https://github.com/Ibby111GT/Peptides",
     stack: ["JavaScript", "Data quality", "Provenance"],
-    signal: "Live demo · 17 integrity tests",
+    signal: "Demonstration · fictional data · 17 integrity tests",
     testCount: 17,
     accent: "blue",
   },

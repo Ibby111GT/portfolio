@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import DetailFooterNavigation from "@/components/DetailFooterNavigation";
 import DetailNavigator from "@/components/DetailNavigator";
 import { CommandList, OutputBlock } from "@/components/TerminalBlock";
-import { TOOL_DOCS, TOOL_SLUGS } from "@/lib/toolProjects";
+import { DEMO_SLUGS, DOC_SLUGS, TOOL_DOCS } from "@/lib/toolProjects";
 import { TOOL_PROJECTS } from "@/lib/projects";
 
 interface ToolPageProps {
@@ -12,7 +12,7 @@ interface ToolPageProps {
 }
 
 export function generateStaticParams() {
-  return TOOL_SLUGS.map((slug) => ({ slug }));
+  return DOC_SLUGS.map((slug) => ({ slug }));
 }
 
 // Unknown slugs get a real HTTP 404 instead of a 200 with a client-rendered
@@ -46,12 +46,19 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
   const { slug } = await params;
   const doc = TOOL_DOCS[slug];
   if (!doc) notFound();
+  const isDemo = DEMO_SLUGS.includes(slug);
+  const collectionHref = isDemo
+    ? "/projects#interactive-labs"
+    : "/projects#open-source";
+  const collectionLabel = isDemo
+    ? "All interactive labs"
+    : "All open-source projects";
 
   return (
     <main className="min-h-screen px-4 pb-28 pt-28 sm:px-6 md:pt-32">
       <div className="mx-auto max-w-5xl">
         <Link
-          href="/projects#open-source"
+          href={collectionHref}
           className="font-mono text-xs uppercase tracking-[0.18em] text-fg-muted transition-colors hover:text-fg"
         >
           &lt;- All projects
@@ -259,8 +266,8 @@ export default async function ToolProjectPage({ params }: ToolPageProps) {
         </section>
         <DetailFooterNavigation
           currentSlug={slug}
-          collectionHref="/projects#open-source"
-          collectionLabel="All open-source projects"
+          collectionHref={collectionHref}
+          collectionLabel={collectionLabel}
           className="mt-24"
         />
       </div>

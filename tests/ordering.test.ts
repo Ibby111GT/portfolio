@@ -7,7 +7,7 @@ import {
   TOTAL_TOOL_TESTS,
   WORK_PROJECTS,
 } from "../lib/projects";
-import { TOOL_DOCS, TOOL_SLUGS } from "../lib/toolProjects";
+import { DOC_SLUGS, TOOL_DOCS, TOOL_SLUGS } from "../lib/toolProjects";
 
 describe("cross-surface ordering", () => {
   it("catalog case studies walk the same sequence as the homepage grid", () => {
@@ -20,8 +20,8 @@ describe("cross-surface ordering", () => {
     expect(TOOL_PROJECTS.map((p) => p.slug)).toEqual(TOOL_SLUGS);
   });
 
-  it("the ordered tool slug list covers exactly the documented tools", () => {
-    expect([...TOOL_SLUGS].sort()).toEqual(Object.keys(TOOL_DOCS).sort());
+  it("the documented slug list covers exactly the detail-page docs", () => {
+    expect([...DOC_SLUGS].sort()).toEqual(Object.keys(TOOL_DOCS).sort());
   });
 });
 

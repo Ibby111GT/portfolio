@@ -3,14 +3,14 @@ import { STATIC_ROUTES } from "../app/sitemap";
 import { CASE_STUDIES } from "../lib/caseStudies";
 import { CREATIVE_PROJECTS } from "../lib/creativeProjects";
 import { ALL_CATALOG_ENTRIES } from "../lib/projects";
-import { TOOL_SLUGS } from "../lib/toolProjects";
+import { DOC_SLUGS } from "../lib/toolProjects";
 
 // The full set of page routes the app can actually build, derived from the
 // same data generateStaticParams and sitemap.ts use.
 const REAL_ROUTES = new Set<string>([
   ...STATIC_ROUTES,
   ...CASE_STUDIES.map((study) => `/work/${study.slug}`),
-  ...TOOL_SLUGS.map((slug) => `/projects/${slug}`),
+  ...DOC_SLUGS.map((slug) => `/projects/${slug}`),
   ...CREATIVE_PROJECTS.map((project) => `/creative/${project.slug}`),
 ]);
 

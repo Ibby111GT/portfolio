@@ -56,6 +56,11 @@ const EDUCATION = [
     period: "In Progress",
   },
   {
+    org: "SQL analytics coursework — UT Dallas Global Career Accelerator",
+    detail: "YouTube, Crunchbase, NBA, and Instacart datasets",
+    period: "2026",
+  },
+  {
     org: "Microsoft",
     detail: "Azure Fundamentals (AZ-900)",
     period: "Certified",
@@ -225,6 +230,7 @@ export default function AboutPage() {
                 "Information security",
                 "Cloud and identity",
                 "Systems analysis",
+                "SQL and data analysis",
               ]}
             />
           </Reveal>
@@ -245,7 +251,7 @@ export default function AboutPage() {
             <p className="text-base text-fg-muted leading-relaxed max-w-prose">
               Since then I&apos;ve hardened client clouds, built detections in
               a university SOC, led a capstone team advising a city on AI
-              infrastructure, and shipped six open-source security tools.
+              infrastructure, and shipped five open-source security tools.
               Today I manage construction projects for the company where I
               started — and I&apos;m building the AI that will help it
               estimate them.
@@ -390,8 +396,8 @@ export default function AboutPage() {
               hands a proposed takeoff to an estimator who approves or rejects
               every line. Agents propose; people decide. Alongside it:
               automated project-health monitoring on our Wrike workspace, and
-              six open-source security tools with 265 automated tests and CI
-              on every push.
+              five open-source security tools with 248 automated tests and
+              CI on every push.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/work/rgc-ai" className={storyLink}>
